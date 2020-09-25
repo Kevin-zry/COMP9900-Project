@@ -1,0 +1,13 @@
+Week 1
+
+The group was formed. I did some research on the topics and chose the film finder topic.
+Then I did some study on which framework to use, and learned some basic knowledge about Vue, React, Flask and SQLite.
+Finally I looked into the websites related to the topic like Netflix, RottenTomatos etc. and found some drawbacks.
+
+Week 2
+
+This week I worked mainly on the proposal.
+I wrote part of the user stories about user: film critics.
+I wrote the background part of the proposal.
+I also learned some details about Flask so that I can have a better understanding of the software architecture.
+Next week the proposal should be finished and we need to start working on the website now.
