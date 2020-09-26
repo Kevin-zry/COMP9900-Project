@@ -6,5 +6,7 @@ I attend the Jira group, GitHub group, and exchange our communication methods.
 Week 2
 
 The project proposal is the most important topic this week.
-After the lecture, I tried some command about GitHub in the lecture and know more about the version control. We plan to divide the proposal into different parts to finish it. However, there is still some issue about choose which technology. I do not choose a website course before, so I search for more information online to make the decision.
-I write some user stories and start writing the work diary. More things should be down this weekend because the deadline for the project proposal is next week.
+After the lecture, I tried some command about GitHub in the lecture and know more about the version control. 
+We plan to divide the proposal into different parts to finish it. However, there is still some issue about choose which technology. I do not choose a website course before, so I search for more information online to make the decision.
+I write some user stories, correct some mistakes in other group members' text, then start writing the work diary. 
+More things should be down this weekend because the deadline for the project proposal is next week.
