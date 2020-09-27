@@ -9,4 +9,5 @@ The project proposal is the most important topic this week.
 After the lecture, I tried some command about GitHub in the lecture and know more about the version control. 
 We plan to divide the proposal into different parts to finish it. However, there is still some issue about choose which technology. I do not choose a website course before, so I search for more information online to make the decision.
 I write some user stories, correct some mistakes in other group members' text, then start writing the work diary. 
-More things should be done this weekend because the deadline for the project proposal is next week.
+Then, I create the draft of Project Proposal depend on the structure of  Assessment Guidelines and put those text which have already been written in it. We can fill it step by step in next group meeting.
+The deadline for the project proposal is next week, we need to decide the technical details.
