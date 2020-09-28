@@ -9,4 +9,4 @@ Proposal phrase.
 2. Review the proposal requirements and give them some tech support.
 3. Write some of the user stories and set the Latex basic format for the prosal, summarize pro and drawbacks of exist movie website
 and think about what could be improved and innovated in our prokect.
-4. continue to learn relevant knowledge about frountend end and backend tools in order to process next steps.
+4. continue to learn relevant knowledge about frountend end and backend tools in order to process next steps and complete project.
