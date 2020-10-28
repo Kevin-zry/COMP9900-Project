@@ -1,0 +1,23 @@
+
+.movie {
+	width: 100%;
+}
+.movie-title {
+	border: 1px solid green;
+	font-size: x-large;
+}
+.movie-list-first {
+	display: flex;
+	flex: row;
+	border: 2px solid black;
+}
+.movie-detail {
+	text-align: center;
+	width: 25%;
+	height: auto;
+	border: 1px solid green;
+}
+.movie-img img{
+	height: 300px;
+	width: 250px;
+}
