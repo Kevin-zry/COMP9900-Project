@@ -33,3 +33,16 @@ First sprint phrase and first demo.
 2. Using bootstrap to Beautify the basic pages in first demo.
 3. 
 
+Week 6
+Mid-term week, retrospective
+1. Joint the retrospective meeting and submit problems of frontend in the process of first sprint
+2. dicussed and set methods to improve the communication and efficiency for the frontend work.
+3. Building search result pages, dealing with interfaces between backend and frontend
+4. Applying bootsrap to beauity UI.
+
+Week 7
+Sencond sprint and sencond demo phrase.
+1. Organized internal meetings and determined the respective division of each frondend members
+to be continue...
+
+Week 7
