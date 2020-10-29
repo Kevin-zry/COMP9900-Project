@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>temp film details page</title>
+</head>
+
+<body>
+        <label>userid:</label> {{current_user.id}}<br>
+        <label>id:</label> {{movie_details.id}}<br>
+        <label>title:</label> {{movie_details.title}}<br>
+        <label>director:</label> {{movie_details.crew}}<br>
+        <label>genres:</label> {{movie_details.genres}}<br>
+        <label>belongs_to_collection:</label> {{movie_details.belongs_to_collection}}<br>
+        <label>production_countries:</label> {{movie_details.production_countries}}<br>
+        <label>release_date:</label> {{movie_details.release_date}}<br>
+        <label>overview:</label> {{movie_details.overview}}<br>
+        <label>poster_path:</label> <img src="../static/poster_downloads/{{movie_details.poster_path}}.jpg"<br>
+        <label>vote_average:</label> {{movie_details.vote_average}}<br>
+        <label>vote_count:</label> {{movie_details.vote_count}}<br>
+
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+Week 1
+
+1. Project Group formed. 
+2. I created the Jira & GitHub accounts and add my teammates to both platforms.
+3. Read through the specs of all provided projects and decided the "FilmFinder" project during the lab session.
+4. Discussed with other group members about the big picture of the project and possible design and technical tool to be used.
+5. I Started writing a few user stories based on the project description and objectives.
+
+Week 2
+
+1. With the lecture content and other resources, I learned the basics of Jira backlog, sprints and git version control commands.
+2. I briefly went over the proposal structure and marking criteria for my teammates in group chat and we had discussion about work breakdown.
+3. I wrote 5-6 user stories and went through all others written by my teammates and we finalised our product backlog (with 1-2 things uncertain).
+4. Discussed overall design and new features (outside the spec) for our movie website.
+5. We basically decided the front-end and back-end development labor division.
+6. Went over project proposal draft and interface diagram and added some comments. 
+
+Week 3
+
+1. More disccusion with team members about the design and features of our application.
+2. Distributed work of writing the project proposal among our team.
+3. Proofread the project proposal and made some slight changes before submission. 
+4. We determined the scope of the first sprint, and I decide the first two tasks to do and mark them as "in progress" in Jira.
+5. Assign each teammember a subtask to be compeleted before the first demo.
+
+Week 4
+
+1. Built the basics of our filmFinder website, i.e. Flask application setup, routes and their associated html files.
+2. Used bootstrap classes and some CSS stylesheet to make the application interface looks better.
+3. Used Flask-wtf to achieve the data travel between the form and backend logics.
+4. Worked on the User register/login system and set up a site user database with Flask-SQLAlchemy.
+5. Set up user authentification methods with user email and password encryption.
+
+Week 5
+
+1. Continue coding out the flask application left from week 4.
+2. Prepare for this week's demo.

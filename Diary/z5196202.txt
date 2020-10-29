@@ -1,0 +1,18 @@
+Week 1
+
+1. Form project group
+2. Join Jira and GitHub group
+3. choose project subject with group members
+4. analyse spec and sum up the key point 
+
+Week 2
+
+1. start the work of proposal
+2. discuss the details about user strories
+3. finish user stroeies
+
+Week 3
+
+1. try to set up software architecture
+2. finish the proposal
+3. discuss details about front end 

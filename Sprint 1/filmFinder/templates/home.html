@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+	{% for movie in movies %}
+    	<article class="media content-section">
+    		<div class="media-body">
+    			<div class="article-metadata">
+    				<a class="mr-2" href="film/{{movie.id}}">{{ movie.title }}</a>
+    				<small class="text-muted">{{ movie.release_date }}</small>
+    			</div>
+    			<p class="article-content">Genres: {{ movie.genres }}</p>
+				<p class="article-content">{{ movie.poster }}</p>
+				<img src="./poster_downloads/tt0004972.jpg">
+    		</div>
+    	</article>
+    {% endfor %}
+{% endblock content %}

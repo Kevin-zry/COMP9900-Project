@@ -1,0 +1,35 @@
+Week 1 
+1. Group formed. Create the team named "HDpp".
+2. Join in the Jira team and discuss about the project spec and we finally vote for the project "FilmFinder".
+3. search for some basic knowledge and function about Flask, React, Vue and build the corresponding environment on my machine.
+
+Week 2
+Proposal phrase.
+1. Join in the Github classroom of my group and learn some basic command of Github by the lecture and lab. 
+2. Review the proposal requirements and give them some tech support.
+3. Write some of the user stories and set the Latex basic format for the proposal, summarize pro and drawbacks of exist movie website
+and think about what could be improved and innovated in our project.
+4. continue to learn relevant knowledge about frontend end and backend tools in order to process next steps and complete project.
+
+Wee3
+Proposal phrase and first sprint.
+1. Distribute all of user stories to three sprints.
+2. Complete proposal report, write the second part: users and sprints.
+3. Integrate all the proposal part to a latex file, typesetting.
+4. Search corresponding basic knowledge of Vue and React, building environment on my own machine.
+5. Prepaid to Build website, interface and relevant frontend works.
+
+week4
+First sprint phrase.
+1. Using React to build login/register pages.
+2. Configure web routers.
+3. Complete several html films.
+4. First contact with front-end knowledge， continue to study knowledge relating to bootstrap, react, html and jQuery.
+Current issue: API connection between frontend and backend.
+
+Week 5
+First sprint phrase and first demo.
+1. Using html to build Multiple filtering, search pages, login/register.
+2. Using bootstrap to Beautify the basic pages in first demo.
+3. 
+

@@ -1,0 +1,40 @@
+Week 1
+
+The group was formed. I did some research on the topics and chose the film finder topic.
+Then I did some study on which framework to use, and learned some basic knowledge about Vue, React, Flask and SQLite.
+Finally I looked into the websites related to the topic like Netflix, RottenTomatos etc. and found some drawbacks.
+
+Week 2
+
+This week I worked mainly on the proposal.
+I wrote part of the user stories about user: film critics.
+I wrote the background part of the proposal.
+I also learned some details about Flask so that I can have a better understanding of the software architecture.
+Next week the proposal should be finished and we need to start working on the website now.
+
+Week 3
+This week our group confirmed the software architecture of the web application.
+We will be using React as the front end, Flask as the back end and SQLite as the database.
+I will mainly focus on the back end, using Flask and SQLite.
+This week I fininshed drawing the software architecture diagram and the interface flow diagram.
+I also provided several diagrams for the storyboards.
+I learned some extra knowledge about how to connect Flask app to a database.
+I am currently writing a program about inserting all the .csv data into the database.
+Next week I will finish the program mentioned above, and finish writing the part where the Flask app can connect to the database.
+
+Week 4
+This week I did data cleanse on the dataset.
+Then I imported the .csv file into the database, aka .db.
+I am currently working on the searching part, which is mainly about SQL query.
+I will also link the database to Flask app.
+I will add the Sign Up/Log In function my group member wrote to Flask app.
+This week and the following week I will mainly working on the demo.
+
+Week 5
+This week the group finished the demo.
+I finished the search part, which contains two sub tasks: general search and advanced search.
+General search is where you can type film name or director name and get results.
+Advanced searcch is general search with more filter options.
+I also combined the user database with my movie metadata database.
+Next week I will be working on the film details page, and also studying on the recommendation system.
+The recommendation system contains two parts, user-based and item-based filtering. Two members including me will focus on these tasks.

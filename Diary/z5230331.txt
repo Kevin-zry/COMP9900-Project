@@ -1,0 +1,23 @@
+Week 1
+
+The group was formed. We voted for the choice of project topics and finally choose film finder. I search for some information about Vue, Flask,... and ask some friends who are already working in a company which is the best choice for our project.
+I attend the Jira group, GitHub group, and exchange our communication methods.
+
+Week 2
+
+The project proposal is the most important topic this week.
+After the lecture, I tried some command about GitHub in the lecture and know more about the version control. 
+We plan to divide the proposal into different parts to finish it. However, there is still some issue about choose which technology. I do not choose a website course before, so I search for more information online to make the decision.
+I write some user stories, correct some mistakes in other group members' text, then start writing the work diary. 
+Then, I create the draft of Project Proposal depend on the structure of  Assessment Guidelines and put those text which have already been written in it. We can fill it step by step in next group meeting.
+The deadline for the project proposal is next week, we need to decide the technical details.
+
+Week 3
+I rewrite some part of user stories and write the description text part in "Technical depth, scale, report formatting".
+We finish the project proposal. I build the coding environment on my PC and start to test some coding about Flask.
+
+Week 4
+I write some code about film search, filter and order by flask. To test these code, I write an simple page serach.html. It use 'GET' to communicate with flask.
+
+Week 5
+Write codes about recommended algorithm, the code works good on small test data. However, it use too much time in large database. It needs to be optimized.

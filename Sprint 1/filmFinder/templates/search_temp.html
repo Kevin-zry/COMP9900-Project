@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1 class = 'center'>General Search Page</h1>
+    <br>
+    <h5 class = 'center'>----------------------General Search----------------------</h5>
+    <form action="" method="POST">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-default">General Search</span>
+            </div>
+            <input type="text" name = 'search' class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+          </div>
+          <div style="text-align:center; vertical-align:middel;">
+            <input style="width:120px;" class="btn btn-outline-success" type="submit" value="search" />
+        </div>
+   </form> 
+
+   <div class = 'border-bottom'>
+       <br>
+   </div>
+
+   <br>
+
+
+   <form method="GET" class ='center'>
+    <!-- <div align="center"></div> -->
+    <h5 class = 'center'>----------------------Search Results----------------------</h5>
+    {{condition_results}}<br><br>
+    {% for result in search_results %}
+    {{result}}
+    <br>
+    {% endfor %}
+    </form>     
+    <br>
+    <br> 
+{% endblock content %}
