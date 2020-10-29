@@ -38,3 +38,13 @@ Advanced searcch is general search with more filter options.
 I also combined the user database with my movie metadata database.
 Next week I will be working on the film details page, and also studying on the recommendation system.
 The recommendation system contains two parts, user-based and item-based filtering. Two members including me will focus on these tasks.
+
+Week 6
+We found out some severe problems in our database. The movie id column in ratings table does not match with the id in films table.
+I rewrote a python script on intersecting the ids in both tables. Also I did some regex transform on poster path, so that frontend can easily get poster paths.
+I also tried to write a item-based CF but the outcome was not very satisfying.
+I will try to imporve the itemCF performance next week.
+
+Week 7
+This week I wrote the routes and backend functions about the film detailed page and user profile page.
+I also wrote some simple view models for frontend to connect.
