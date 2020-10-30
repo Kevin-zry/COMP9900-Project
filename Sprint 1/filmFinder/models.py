@@ -47,8 +47,7 @@ class RATINGS(db.Model):
     userId = db.Column(db.Integer, db.ForeignKey('USERPROFILES.id'))
     movieId = db.Column(db.Integer, db.ForeignKey('FILMS.id'))
     rating = db.Column(db.Float)
-    reviews = db.Column(db.Text(collation='NOCASE'))
-    timestamp = db.Column(db.Integer)
+    review = db.Column(db.Text(collation='NOCASE'))
 
 
 class FOLLOWING(db.Model):
