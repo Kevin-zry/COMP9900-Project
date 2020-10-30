@@ -21,3 +21,9 @@ I write some code about film search, filter and order by flask. To test these co
 
 Week 5
 Write codes about recommended algorithm, the code works good on small test data. However, it use too much time in large database. It needs to be optimized.
+
+Week 6
+Fix some bug in recommend algorithm based on users, use 2 different filter to improve the time cost.
+
+Week 7
+Write the recommend algorithm based on items, also write random recommend algorithm, if the collaborative filtering cannot continue by no enough data, skip to the random algorithm.
