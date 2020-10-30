@@ -1,83 +1,25 @@
 #from filmFinder import db
 #from filmFinder.models import BLOCKING, RATINGS, Films
 
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+#from flask import Flask
+#from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_
 import numpy as np
-import random
+import math
+from filmFinder.models import *
+from sqlalchemy.sql.expression import func
 
-
-
-# -------------------------------------------------------------------------------------------------------------for test
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database_files/filmfinder.db'
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
-db = SQLAlchemy(app)
-
-class USERPROFILES(db.Model):
-    __tablename__ = 'USERPROFILES'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.String(20), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(60), nullable=False)
-    profile_image = db.Column(db.String(100), nullable=False, default='default.jpg')
-    # reviews = db.relationship('Review', backref='author', lazy=True)
-
-    def __repr__(self):
-        return f'USERPROFILES_{self.id}({self.username}, {self.email}, {self.profile_image})'
-
-
-class Films(db.Model):
-    __tablename__ = 'FILMS'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    title = db.Column(db.String(collation='NOCASE'))
-    genres = db.Column(db.String(collation='NOCASE'))
-    belongs_to_collection = db.Column(db.String(collation='NOCASE'))
-    production_countries = db.Column(db.String(collation='NOCASE'))
-    release_date = db.Column(db.Date)
-    overview = db.Column(db.Text(collation='NOCASE'))
-    poster_path = db.Column(db.Text(collation='NOCASE'))
-    vote_average = db.Column(db.Float)
-    vote_count = db.Column(db.Integer)
-
-class Credits(db.Model):
-    __tablename__ = 'CREDITS'
-    id = db.Column(db.Integer, db.ForeignKey('FILMS.id'), primary_key=True)
-    cast = db.Column(db.Text(collation='NOCASE'))
-    crew = db.Column(db.Text(collation='NOCASE'))
-
-class RATINGS(db.Model):
-    __tablename__ = 'RATINGS'
-    index = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    userId = db.Column(db.Integer, db.ForeignKey('USERPROFILES.id'))
-    movieId = db.Column(db.Integer, db.ForeignKey('FILMS.id'))
-    rating = db.Column(db.Float)
-    reviews = db.Column(db.Text(collation='NOCASE'))
-    timestamp = db.Column(db.Integer)
-
-class FOLLOWING(db.Model):
-    __tablename__ = 'FOLLOWING'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    idx = db.Column(db.Integer)
-    idy = db.Column(db.Integer)
-
-
-class BLOCKING(db.Model):
-    __tablename__ = 'BLOCKING'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    idx = db.Column(db.Integer)
-    idy = db.Column(db.Integer)
-
-
-# --------------------------------下面为推荐算法的部分，上面的部分都可以无视---------------------------------------------
-# 无法协同过滤时的应急推荐机制，随机推荐高评分电影，未完成
+# 无法协同过滤时的应急推荐机制，随机推荐电影
+'''
+    当协同过滤算法无法正常计算时跳转到这里
+    1. 该电影或者用户没有任何评分
+    2. 该电影或者用户的相似电影/用户为空
+    此时，随机返回电影
+'''
 def spare_recommend_method():
-    return "error"
-
-
-
+    # how many result to return
+    result_num = 10
+    return list(map(lambda x: x.movieId, RATINGS.query.order_by(func.random()).limit(result_num).all()))
 
 
 # 基于用户的协同过滤算法
@@ -86,33 +28,24 @@ def spare_recommend_method():
     2、获取所有评论过这些电影的用户
     3、去除在blocking列表中的用户
     4、提取这些用户的评分数据
-    5、第一层过滤器，使用Jaccard系数快速过滤出（first_choose_times*top_user_num）个用户
-    6、第二层过滤器，使用皮尔逊相关系数在第一次的结果中得到top_user_num个相关性最高的用户
-       将得到的皮尔逊相关系数从[-1,1]的取值范围转换到[0,1]的取值范围中
-    7、按照（相似度*评分）求和的方式对该用户所有还没评分，但是相似用户评分的电影点评
+    5、第一层过滤器，使用Jaccard系数（交集数/并集数）快速过滤出（first_choose_times*top_user_num）个用户, 双方评分过的所有电影，交集数量/并集数量
+    6、第二层过滤器，使用修正余弦相似度（将每个用户减去自身的平均分后求余弦相似度）在第一次的结果中得到top_user_num个相关性最高的用户
+    7、按照（相似度*评分）求和的方式对该用户所有还没评分，但是相似用户评分的电影点评进行加权平均
     8、返回top_movie_num个模拟评分最高的电影
 '''
-
 # collaborative filtering based on user
 def collaborative_filtering_user(userid):
-    '''
-        Here is config.
-    '''
     # only choose these top users
     top_user_num = 10
     # first choose times, means the first filter will choose (first_choose_times * top_user_num) users
-    first_choose_times = 2
+    first_choose_times = 3
     # only recommend these top movies from top users
     top_movie_num = 10
-    '''
-        Config end.
-    '''
-
 
     # get all the film id this user has rated, return map type
     #reviewed_films = np.array(RATINGS.query.filter(RATINGS.userId == userid).with_entities(RATINGS.movieId).all()).flatten()
-    rated_films = set(map(lambda x:x.movieId, RATINGS.query.filter(RATINGS.userId == userid).all()))
-    print("movies has been rated:",rated_films)
+    rated_films = set(map(lambda x: x.movieId, RATINGS.query.filter(RATINGS.userId == userid).all()))
+    #print("movies has been rated:",rated_films)
     print()
 
     #reviewed_films = [result.movieId for result in RATINGS.query.filter(RATINGS.userId == userid).all()]
@@ -120,25 +53,25 @@ def collaborative_filtering_user(userid):
         return spare_recommend_method()
 
     # get all other users who has rated these films
-    similar_users = set(map(lambda x:x.userId, RATINGS.query.filter(or_(*[RATINGS.movieId == film_id for film_id in rated_films])).all()))
+    similar_users = set(map(lambda x: x.userId, RATINGS.query.filter(or_(*[RATINGS.movieId == film_id for film_id in rated_films])).all()))
     #similar_users = set([result.userId for result in RATINGS.query.filter(or_(*[RATINGS.movieId == film_id for film_id in reviewed_films])).all()])
+    #print(similar_users)
     similar_users.remove(userid)
-    print("length of similar users with block users:", len(similar_users))
+    #print(similar_users)
+    # print("length of similar users with block users:", len(similar_users))
+
 
     # get all other users who has been  blocked then remove them from similar_users
-    block_users = set(map(lambda x:x.idy, BLOCKING.query.filter(BLOCKING.idx == userid).all()))
-    print("block users:",block_users)
-    similar_users = similar_users - block_users
+    block_users = set(map(lambda x: x.idy, BLOCKING.query.filter(BLOCKING.idx == userid).all()))
 
-    print("length of similar users without block users:", len(similar_users))
+    # print("block users:",block_users)
+
+    similar_users = list(similar_users - block_users)
+
+    # print("length of similar users without block users:", len(similar_users))
 
     if len(similar_users) == 0:
         return spare_recommend_method()
-
-    # for fast test-----------------------------------------------------------------------------------------------
-    similar_users = random.sample(similar_users, 30)
-    print("for fast debug, random decrease user number to:",len(similar_users))
-
 
     # input is "userid", output is "movieid1:rate1, movieid2:rate2,...}"
     def get_rate_data(userid):
@@ -148,7 +81,7 @@ def collaborative_filtering_user(userid):
         return rate_data
 
     current_rate_data = get_rate_data(userid)
-    print("the rate of user:", current_rate_data)
+    # print("the rate of user:", current_rate_data)
     # rate_data is look like [userid, {movieid1: rate1, movieid2:rate2...}]
 
     # first filter
@@ -163,58 +96,61 @@ def collaborative_filtering_user(userid):
 
     # store (userid, Jaccard_value, rata_data)
     first_filter_result = []
-    min_Jaccard_value = 1
     current_key = set(current_rate_data.keys())
-    # here use most time in progress
-    for compare_id in similar_users:
-        #print(len(first_filter_result), min_Jaccard_value)
-        rata_data = get_rate_data(compare_id)
-        Jaccard_value = get_Jaccard(current_key, set(rata_data.keys()))
-        if len(first_filter_result) < first_choose_num:
-            first_filter_result.append((compare_id, Jaccard_value, rata_data))
-            if Jaccard_value < min_Jaccard_value:
-                min_Jaccard_value = Jaccard_value
-        else:
-            if Jaccard_value > min_Jaccard_value:
-                already_remove = False
-                still_exist_the_min_value = False
-                for record in first_filter_result:
-                    if record[1] == min_Jaccard_value:
-                        if already_remove == False:
-                            first_filter_result.remove(record)
-                            already_remove = True
-                        elif still_exist_the_min_value == False:
-                            still_exist_the_min_value = True
-                            break
-                if still_exist_the_min_value == False:
-                    min_Jaccard_value = Jaccard_value
-                first_filter_result.append((compare_id, Jaccard_value, rata_data))
 
-    print("after first filter:", len(first_filter_result), first_filter_result[:5])
+    if len(similar_users) < first_choose_num:
+        for compare_id in similar_users:
+            rata_data = get_rate_data(compare_id)
+            first_filter_result.append((compare_id, get_Jaccard(current_key, set(rata_data.keys())), rata_data))
+    else:
+        Jaccard_value_record = np.zeros(len(similar_users))
+        # record all Jaccard_value
+        for i in range(len(similar_users)):
+            compare_id = similar_users[i]
+            # print(len(first_filter_result), min_Jaccard_value)
+            rata_data = get_rate_data(compare_id)
+            Jaccard_value_record[i] = get_Jaccard(current_key, set(rata_data.keys()))
+        #print("Jaccard_value_record",Jaccard_value_record)
+        # find index of whose Jaccard_value is largest
+        index_record = []
+        while len(index_record) < first_choose_num:
+            index = np.argmax(Jaccard_value_record)
+            index_record.append(similar_users[index])
+            Jaccard_value_record[index] = 0
+        #print("index_record",index_record )
+        for index in index_record:
+            rata_data = get_rate_data(index)
+            first_filter_result.append((index, get_Jaccard(current_key, set(rata_data.keys())), rata_data))
+
+    #print("after first filter:", len(first_filter_result), first_filter_result[:5])
+
 
     # second filter
-    # use Pearson Correlation Coefficient, but return in range[0,1]
-    def CPC(rate_data1, rate_data2):
-        keys1 = rate_data1.keys()
-        keys2 = rate_data2.keys()
-        index = list(keys1 | keys2)
+    minus_value = sum(current_rate_data.values())/len(current_rate_data.values())
+    for key in current_rate_data.keys():
+        current_rate_data[key] = current_rate_data[key] - minus_value
+    #print(current_rate_data)
+    # use fixed cosine similarity
+    def FCS(current_data, compare_data):
+        keys1 = current_data.keys()
+        keys2 = compare_data.keys()
+        index = list(keys1 & keys2)
         length = len(index)
         matrix1 = np.zeros(length)
         matrix2 = np.zeros(length)
         for i in range(length):
-            if index[i] not in keys1:
-                matrix1[i] = 0
-            else:
-                matrix1[i] = rate_data1[index[i]]
-            if index[i] not in keys2:
-                matrix2[i] = 0
-            else:
-                matrix2[i] = rate_data2[index[i]]
-        # because Pearson Correlation Coefficient is in range[-1,1], so +1 and /2 here for generate movie sium_rates
-        return (np.corrcoef(matrix1, matrix2)[0][1]+1)/2
+            matrix1[i] = current_data[index[i]]
+            matrix2[i] = compare_data[index[i]]
+        #return np.corrcoef(matrix1, matrix2)[0][1]
+        #matrix1 = matrix1 - 2.5
+        matrix2 = matrix2 - sum(compare_data.values())/len(compare_data.values())
+        sim_value = np.dot(matrix1, matrix2) / (math.sqrt(np.dot(matrix1, matrix1)) * math.sqrt(np.dot(matrix2, matrix2)))
+        #print(sim_value, matrix1, matrix2)
+        return sim_value
 
-    # get (userid, CPC_value, rata_data) as element
-    second_filter_result = list(map(lambda x:(x[0], CPC(current_rate_data, x[2]), x[2]), first_filter_result))
+    # get (userid, FCS_value, rata_data) as element
+    second_filter_result = list(map(lambda x:(x[0], FCS(current_rate_data, x[2]), x[2]), first_filter_result))
+    #print("similar users after first filter:",list(map(lambda x: x[0], second_filter_result)))
 
     # used for sort
     def get_second_element(element):
@@ -224,7 +160,7 @@ def collaborative_filtering_user(userid):
     if len(second_filter_result) > top_user_num:
         second_filter_result = second_filter_result[:top_user_num]
 
-    print("after second filter:", len(second_filter_result), second_filter_result[:5])
+    #print("after second filter:", len(second_filter_result), list(map(lambda x:(x[0],x[1]),second_filter_result)))
 
     # generate recommend movies
     # rated_films is the films rated by the current user
@@ -235,31 +171,91 @@ def collaborative_filtering_user(userid):
             # if the current user has not rated the film
             if movie not in rated_films:
                 if movie not in recommend_movies:
+                    #print(record[1],type(record[1]))
+                    #print(record[2][movie], type(record[2][movie]))
                     recommend_movies[movie] = (record[1] * record[2][movie], 1)
+                    #print(record[1], record[2][movie], record[1] * record[2][movie], 1)
                 else:
                     recommend_movies[movie] = (recommend_movies[movie][0] + record[1] * record[2][movie], recommend_movies[movie][1]+1)
-    '''
-    print()
-    for key in recommend_movies.keys():
-        print(key, "  ", recommend_movies[key])
-    print()
-    '''
+                    #print(record[1], record[2][movie], record[1] * record[2][movie], 1)
+
+    #print("recommend_movies",recommend_movies)
     # the final result is a list contain elements like (movie_id, simu_rate)
     result = []
     for key in recommend_movies.keys():
-        result.append((key, recommend_movies[key][0]/recommend_movies[key][1]))
+        # those films only rated by 1 user is not enough
+        if recommend_movies[key][1] != 1:
+            result.append((key, recommend_movies[key][0]/recommend_movies[key][1]))
 
     # now the final result is a sorted list contain elements like (movie_id, simu_rate)
     result.sort(key=get_second_element, reverse=True)
     if len(result) > top_movie_num:
         result = result[:top_movie_num]
-    print("the sorted result is:", result)
 
+    print("the sorted result is:", result)
+    recommend_ids = list(map(lambda x: x[0], result))
+    #print(type(recommend_ids[0]))
+    return recommend_ids
+
+
+# 基于物品的协同过滤算法
+'''
+    1、将所有评分大于阈值的用户设置为偏好该物品的用户，得到每部电影对应的喜好用户集合
+    2、用交集长度/sqrt(双方长度之积)得到物品的相似度
+    3、筛选出想要的相似度靠前的电影
+'''
+# collaborative filtering based on item
+def collaborative_filtering_item(movieId):
+    # rate more than threshold will be thought as interested user
+    threshold = 3
+    # filter 'result_num' films to return
+    result_num = 10
+
+    def get_interested_users(movieId):
+        search_result = RATINGS.query.filter(RATINGS.movieId == movieId).filter(RATINGS.rating >= threshold).all()
+        return set(map(lambda x: x.userId, search_result))
+
+    current_interested_users = get_interested_users(movieId)
+    if len(current_interested_users) == 0:
+        return spare_recommend_method()
+
+    # get all other movies those users are interested in
+    similar_movies = set(map(lambda x: x.movieId, RATINGS.query.filter(RATINGS.rating >= threshold).filter(
+        or_(*[RATINGS.userId == user_id for user_id in current_interested_users])).all()))
+
+    similar_movies.remove(movieId)
+    if len(similar_movies) == 0:
+        return spare_recommend_method()
+
+    # calculate similar weight
+    similar_movies = list(similar_movies)
+    record = np.zeros(len(similar_movies))
+    for i in range(len(similar_movies)):
+        compare_movie_id = similar_movies[i]
+        compare_users = get_interested_users(compare_movie_id)
+        w = len(current_interested_users & compare_users)/ math.sqrt(len(current_interested_users)*len(compare_users))
+        record[i] = w
+
+    result = []
+    # if there is no enough films to satisfied result_num
+    if result_num >= len(record):
+        stop_num = len(record)
+    else:
+        stop_num = result_num
+
+    while len(result) < stop_num:
+        index = np.argmax(record)
+        result.append(similar_movies[index])
+        record[index] = 0
 
     return result
 
 
 
-
-
-collaborative_filtering_user(1)
+# 根据电影id获取电影名，用于测试
+def get_movie_name(id):
+    result = Films.query.filter(Films.id == id).first()
+    if result != None:
+        return result.title
+    else:
+        return None
