@@ -3,9 +3,11 @@ import re
 
 
 def re_process(string):
-    l = re.findall("'name': '[a-zA-Z ]{1,}'", string)
-    l = [i[9:-1] for i in l]
-    return l
+    print(string)
+    if string:
+        l = re.findall("'name': '[a-zA-Z ]{1,}'", string)
+        l = [i[9:-1] for i in l]
+        return l
 
 
 def get_movie_details(filmid):
@@ -24,3 +26,4 @@ def get_movie_details(filmid):
 
 def add_to_wishlist(userid):
     
+    pass
