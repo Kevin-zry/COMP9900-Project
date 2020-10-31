@@ -72,6 +72,10 @@ def general_search():
         # c = conn.cursor()
         search_results = genenal_search(conditions, mode, offset)
 
+        res=[]
+        for i in search_results:
+            res.append(get_movie_details(int(i[0])))
+
         # return jsonify(search_results)
         condition_results = []
         for con in conditions:
@@ -84,7 +88,7 @@ def general_search():
         else:
             condition_results = 'Your search results for ' + \
                 ', '.join(condition_results) + ' are:'
-        return render_template('search_temp.html', title='Search', condition_results=condition_results, search_results=search_results)
+        return render_template('search_temp.html', title='Search', condition_results=condition_results, search_results=res)
     return render_template('search_temp.html', title='Search')
 
 
@@ -103,6 +107,9 @@ def advanced_search():
         # rating = request.form.get('rating')
         rating = 0
         mode = request.form.get('mode')
+
+        output = [title,director,casts,genre,country,year1,year2,mode]
+
 
         offset = (page - 1) * 10
 
@@ -140,6 +147,10 @@ def advanced_search():
         #     'filmFinder/database_files/filmfinder.db', check_same_thread=False)
         # c = conn.cursor()
         search_results = advanced_search1(conditions, mode, offset)
+        res=[]
+        for i in search_results:
+            res.append(get_movie_details(int(i[0])))
+    
 
         # return jsonify(search_results)
         condition_results = []
@@ -153,7 +164,7 @@ def advanced_search():
         else:
             condition_results = 'Your search results for ' + \
                 ', '.join(condition_results) + ' are:'
-        return render_template('advanced.html', title='Search', condition_results=condition_results, search_results=search_results)
+        return render_template('advanced.html', title='Search', condition_results=condition_results, search_results=res, name = output[0], director =output[1],casts = output[2],genre=output[3],country = output[4],year1=output[5],year2 = output[6],mode = output[7])
     return render_template('advanced.html', title='Search')
 
 
@@ -213,3 +224,4 @@ def film(filmid):
     movie_details = get_movie_details(filmid)
     # print(movie_details)
     return render_template('film.html', movie_details=movie_details)
+
