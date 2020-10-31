@@ -1,200 +1,273 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h1 class = 'center'>Advanced Search Page</h1>
-    <form action="" method="POST">
-          <h5 class = 'center'>----------------------Advanced Search----------------------</h5>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
-            </div>
-            <input type="text" name  ='title' class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+<div class = "bootstrapiso">
+  <h1 class = 'center'>Search Results:</h1>
+  <form action="" method="POST">
+        <h5 class = 'center'>----------------------Advanced Search----------------------</h5>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
           </div>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="inputGroup-sizing-default">Director</span>
-            </div>
-            <input type="text" name = "director" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+          <input type="text"  name ='title' value="{{name}}" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Director</span>
           </div>
-
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="inputGroup-sizing-default">Casts</span>
-            </div>
-            <input type="text" name = "casts" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-          </div>
-
-          <div class="row">
-              
-
-          <div class="input-group-prepend col-md-2">
-            <span class="input-group-text" id="inputGroup-sizing-default">Genre:</span>
-          </div>
-          <div class ="col-md-10">
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="Action" name = "genre">
-            <label class="form-check-label" for="inlineCheckbox1">Action</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="Adventure" name = "genre">
-            <label class="form-check-label" for="inlineCheckbox2">Adventure</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="Animation" name = "genre">
-            <label class="form-check-label" for="inlineCheckbox3">Animation</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="Comedy" name = "genre">
-            <label class="form-check-label" for="inlineCheckbox4">Comedy</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="Crime" name = "genre">
-            <label class="form-check-label" for="inlineCheckbox5">Crime</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox6" value="Documentary" name = "genre">
-            <label class="form-check-label" for="inlineCheckbox6">Documentary</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="Drama" name = "genre">
-            <label class="form-check-label" for="inlineCheckbox7">Drama</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="Family" name = "genre">
-            <label class="form-check-label" for="inlineCheckbox8">Family</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="Fantasy" name = "genre">
-            <label class="form-check-label" for="inlineCheckbox9">Fantasy</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="History" name = "genre">
-            <label class="form-check-label" for="inlineCheckbox10">History</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="Horror" name = "genre">
-            <label class="form-check-label" for="inlineCheckbox11">Horror</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="Music" name = "genre">
-            <label class="form-check-label" for="inlineCheckbox12">Music</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="Mystery" name = "genre">
-            <label class="form-check-label" for="inlineCheckbox13">Mystery</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="Romance" name = "genre">
-            <label class="form-check-label" for="inlineCheckbox14">Romance</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="Science Fiction" name = "genre">
-            <label class="form-check-label" for="inlineCheckbox15">Science Fiction</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="Thriller" name = "genre">
-            <label class="form-check-label" for="inlineCheckbox15">Thriller</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="TV Movie" name = "genre">
-            <label class="form-check-label" for="inlineCheckbox16">TV Movie</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="War" name = "genre">
-            <label class="form-check-label" for="inlineCheckbox17">War</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="Western" name = "genre">
-            <label class="form-check-label" for="inlineCheckbox18">Western</label>
-          </div>
-          
+          <input type="text" name = "director" value="{{director}}" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
         </div>
 
-
-        </div>
-        <br>
-
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <label class="input-group-text" for="inputGroupSelect01">Country:</label>
-            </div>
-            <select class="custom-select" name="country" id="select1">
-                <option selected value = ''>---Country or District---</option>
-                <option value="Australia">Australia</option>
-                <option value="China">China</option>
-                <option value="Germany">Germany</option>
-                <option value="Spain">Spain</option>
-                <option value="France">France</option>
-                <option value="United Kingdom">United Kingdom</option>
-                <option value="Italy">Italy</option>
-                <option value="United States">United States</option>
-                <option value="South Africa">South Africa</option>
-            </select>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Casts</span>
           </div>
-          <div style="line-height:50%;">
-            <br>
+          <input type="text" name = "casts" value="{{casts}}" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
         </div>
-          <div class="row">
-          <div class="input-group-prepend col-3">
-            <span class="input-group-text" id="inputGroup-sizing-default">Realease Date:</span>
-          </div >
 
+        <div class="row">
+            
+
+        <div class="input-group-prepend col-md-2">
+          <span class="input-group-text" id="inputGroup-sizing-default">Genre:</span>
+        </div>
+        <div class ="col-md-10">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="Action" name = "genre" value="Action" >
+          <label class="form-check-label" for="ck1">Action</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="Adventure" value="Adventure" name = "genre">
+          <label class="form-check-label" for="inlineCheckbox2">Adventure</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="Animation" value="Animation" name = "genre">
+          <label class="form-check-label" for="inlineCheckbox3">Animation</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="Comedy" value="Comedy" name = "genre">
+          <label class="form-check-label" for="inlineCheckbox4">Comedy</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="Crime" value="Crime" name = "genre">
+          <label class="form-check-label" for="inlineCheckbox5">Crime</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="Documentary" value="Documentary" name = "genre">
+          <label class="form-check-label" for="inlineCheckbox6">Documentary</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="Drama" value="Drama" name = "genre">
+          <label class="form-check-label" for="inlineCheckbox7">Drama</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="Family" value="Family" name = "genre">
+          <label class="form-check-label" for="inlineCheckbox8">Family</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="Fantasy" value="Fantasy" name = "genre">
+          <label class="form-check-label" for="inlineCheckbox9">Fantasy</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="History" value="History" name = "genre">
+          <label class="form-check-label" for="inlineCheckbox10">History</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="Horror" value="Horror" name = "genre">
+          <label class="form-check-label" for="inlineCheckbox11">Horror</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="Music" value="Music" name = "genre">
+          <label class="form-check-label" for="inlineCheckbox12">Music</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="Mystery" value="Mystery" name = "genre">
+          <label class="form-check-label" for="inlineCheckbox13">Mystery</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="Romance" value="Romance" name = "genre">
+          <label class="form-check-label" for="inlineCheckbox14">Romance</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="Science Fiction" value="Science Fiction" name = "genre">
+          <label class="form-check-label" for="inlineCheckbox15">Science Fiction</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="Thriller" value="Thriller" name = "genre">
+          <label class="form-check-label" for="inlineCheckbox15">Thriller</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="TV Movie" value="TV Movie" name = "genre">
+          <label class="form-check-label" for="inlineCheckbox16">TV Movie</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="War" value="War" name = "genre">
+          <label class="form-check-label" for="inlineCheckbox17">War</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="Western" value="Western" name = "genre">
+          <label class="form-check-label" for="inlineCheckbox18">Western</label>
+        </div>
         
-        <div class="input-group mb-3 col-4">
-            <div class="input-group-prepend">
-              <label class="input-group-text" style = "background-color:#fafafa ;" for="inputGroupSelect01">From</label>
-            </div>
-            <input type="number" name="year1" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-          </div>
+      </div>
 
-          <div class="input-group mb-3 col-4">
-            <div class="input-group-prepend">
-              <label class="input-group-text" style = "background-color:#fafafa ;" for="inputGroupSelect01">To</label>
-            </div>
-            <input type="number" name="year2" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-          </div>
-        
-    </div>  
-    <br>
-        
-          <div class="input-group mb-3">
-            <div class = 'row'>
-              
-            <div class="input-group-prepend col-4">
-              <label class="input-group-text" for="inputGroupSelect03">SORT BY:</label>
-            </div>
-            <div class = "col-8">
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio"value = "0" name='mode' id="sort1">
-                    <label class="form-check-label" for="sort1">Most popular</label>
-                </div>
-              <div class="form-check form-check-inline ">
-                <input class="form-check-input" type="radio"value = "1" name='mode' id="sort2">
-                <label class="form-check-label" for="iort2">Highest rating</label>
-              </div>
-            </div>
-        </div>
-        </div>
+      <div id="dataid" d="{{genre}}" style="display:none"></div>
 
-        <div style="text-align:center; vertical-align:middel;">
-        <input style="width:120px;" class="btn btn-outline-success" type="submit" value="search" />
-    </div>
-    </form>
-    <div class = 'border-bottom'>
+
+      </div>
+      <script src="../static/jquery-3.2.1.min.js"></script>
+
+      <script>
+        var names = document.getElementById('dataid').getAttribute('d').split(",");
+        if(names.length != 0){
+          for(let i =0, len = names.length;i<len;i++){ 
+            $("#"+names[i].match(/[A-Z][a-z]+/)[0]).prop("checked",true);
+       
+          }
+        }
+      </script>
       <br>
-  </div>
 
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <label class="input-group-text" for="inputGroupSelect01">Country:</label>
+          </div>
+          <select class="custom-select" name="country" id="select1">
+              <option value = '{{country}}'>{{country}}</option>
+              <option value="Australia">Australia</option>
+              <option value="China">China</option>
+              <option value="Germany">Germany</option>
+              <option value="Spain">Spain</option>
+              <option value="France">France</option>
+              <option value="United Kingdom">United Kingdom</option>
+              <option value="Italy">Italy</option>
+              <option value="United States">United States</option>
+              <option value="South Africa">South Africa</option>
+          </select>
+        </div>
+        <div style="line-height:50%;">
+          <br>
+      </div>
+        <div class="row">
+        <div class="input-group-prepend col-3">
+          <span class="input-group-text" id="inputGroup-sizing-default">Release Date:</span>
+        </div >
+
+      
+      <div class="input-group mb-3 col-4">
+          <div class="input-group-prepend">
+            <label class="input-group-text" style = "background-color:#fafafa ;" for="inputGroupSelect01">From</label>
+          </div>
+          <input type="number" name="year1" value = "{{year1}}" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+        </div>
+
+        <div class="input-group mb-3 col-4">
+          <div class="input-group-prepend">
+            <label class="input-group-text" style = "background-color:#fafafa ;" for="inputGroupSelect01">To</label>
+          </div>
+          <input type="number" name="year2" value = "{{year2}}" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+        </div>
+      
+  </div>  
   <br>
-    
+      
+        <div class="input-group mb-3">
+          <div class = 'row'>
+            
+          <div class="input-group-prepend col-4">
+            <label class="input-group-text" for="inputGroupSelect03">SORT BY:</label>
+          </div>
+          <div class = "col-8">
+              <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio"value = "0" name='mode' id="sort1" checked>
+                  <label class="form-check-label" for="sort1">Most popular</label>
+              </div>
+            <div class="form-check form-check-inline ">
+              <input class="form-check-input" type="radio"value = "1" name='mode' id="sort2">
+              <label class="form-check-label" for="iort2">Highest rating</label>
+            </div>
+          </div>
+      </div>
+      </div>
 
-    <form method="POST" class ='center'>
-        <!-- <div align="center"></div> -->
-        <h5 class ='center'>----------------------Search Results----------------------</h5>
-        {{condition_results}}<br><br>
-        {% for result in search_results %}
-        {{result}}
-        <br>
-        {% endfor %}
-        </form>    
-        <br>
-        <br>
+      <div id="modeid" d="{{mode}}" style="display:none"></div>
+      <script>
+        var mode = document.getElementById('modeid').getAttribute('d');
+        if(mode == '1'){
+            $("#sort2").prop("checked",true);
+       
+          
+        }
+      </script>
+
+      <div style="text-align:center; vertical-align:middel;">
+      <input style="width:120px;" class="btn btn-outline-success" type="submit" value="search" />
+  </div>
+  </form>
+  <div class = 'border-bottom'>
+    <br>
+</div>
+
+<br>
+  <form method="POST">
+      <!-- <div align="center"></div> -->
+      <h5 class ='center'>----------------------Search Results----------------------</h5>
+      {{condition_results}}<br><br>
+      {% for result in search_results %}
+      <div class="so-result-info search-movie clearfix">
+        <div class="result_ugc result-content">
+        
+        <div class="tele_box">
+        <div class="vari_pho">
+        <a class="vari_p report-click report-action" href="#" target="_blank">
+        <img src="../static/poster_downloads/{{result.poster_path}}.jpg">
+        </a>
+        </div>
+        <div class="tele_intro">
+        <div class="tele_hd">
+        
+        <a href="#" target="_blank" class="report-click report-action"><b>{{result.title}}</b></a>
+        <a class="year">{{result.release_date}}</a>
+        
+        
+        </div>
+        <div class="tele_line">
+        <div class="info_item">
+        <span class="label">Casts:</span>
+        <span class="cont">
+        <a href="#" target="_blank">xxx</a> <a href="#" target="_blank">yyy</a> <a href="#" target="_blank">zzz</a> <a href="#" target="_blank">ttt</a> 
+        </div>
+        <div class="info_item">
+        <span class="label">Director:</span>
+        <span class="cont">
+        <a href="#" target="_blank">{{result.crew}}</a></span>
+        </div>
+        </div>
+        <div class="tele_line">
+        <div class="info_item">
+        <span class="label">Genre:</span>
+        <span class="cont">
+        {{result.genres}}</span>
+        </div>
+        <div class="info_item">
+        <span class="label">Country:</span>
+        <span class="cont">
+        {{result.production_countries}}</span>
+        </div>
+        </div>
+        <div class="tele_item_des">
+        <span class="label">Details:</span>
+        <span class="desc_text">
+          {{result.overview}}
+            <a class="desc_detail report-click report-action" style="float:right" target="_blank" href="film/{{result.id}}">details:
+        </a>
+        </span>
+        <a style="margin-top:45px;" class="so-result-btn center play report-click report-action" target="_blank" href="film/{{result.id}}"><span><em></em>More details</span></a>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+      {% endfor %}
+      </form> 
+    </div>
 {% endblock content %}

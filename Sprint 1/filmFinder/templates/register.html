@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
+<div class = "bootstrapiso">
 	<div class="content-section">
 		<form method="POSt" action="">
 			{{ form.hidden_tag() }}
@@ -68,4 +69,5 @@
 			Alreday Have An Account? <a class="ml-2" href="{{ url_for('login') }}">Sign In</a>
 		</small>
 	</div>
+</div>
 {% endblock content %}

@@ -1,25 +1,207 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layout.html" %}
+{% block content %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>temp film details page</title>
-</head>
+<div class="detail-top"></div>
+			<div class="detail-middle">
+				<div class="middle-background">
+					<div class="detail-col-1">
+						<div class="detail-img center"><img src="../static/poster_downloads/{{movie_details.poster_path}}.jpg"></div>
+						<div class="detail-rating-wishlist">
+							<div class="detail-raing">
+								<div class="rating-title">FilmFinder Rating:</div>
+								<div class="rating-value">{{movie_details.vote_average}}</div>
+							</div>
+							<div class="wishlist">
+								<form action="#" method="get">
+									<input type="submit" value="Add to wishlist" />
+								</form>
 
-<body>
-        <label>userid:</label> {{current_user.id}}<br>
-        <label>id:</label> {{movie_details.id}}<br>
-        <label>title:</label> {{movie_details.title}}<br>
-        <label>director:</label> {{movie_details.crew}}<br>
-        <label>genres:</label> {{movie_details.genres}}<br>
-        <label>belongs_to_collection:</label> {{movie_details.belongs_to_collection}}<br>
-        <label>production_countries:</label> {{movie_details.production_countries}}<br>
-        <label>release_date:</label> {{movie_details.release_date}}<br>
-        <label>overview:</label> {{movie_details.overview}}<br>
-        <label>poster_path:</label> <img src="../static/poster_downloads/{{movie_details.poster_path}}.jpg"<br>
-        <label>vote_average:</label> {{movie_details.vote_average}}<br>
-        <label>vote_count:</label> {{movie_details.vote_count}}<br>
+							</div>
+						</div>
+					</div>
+					<div class="detail-col-2">
+						<div class="detail-col-2-1">
+							<div class="detail-name">{{movie_details.title}}</div>
+							<div class="detail-year">
+								<a href="#">{{movie_details.release_date}}</a>
+							</div>
+						</div>
+						<div class="detail-director">Directed by
+							<a href="#">{{movie_details.crew}}</a>
+						</div>
+						<div class="detail-word">
+							<div class="detail-word-content">
+								<div class="detail-title">{{movie_details.overview}}</div>
+							</div>
+						</div>
+						<div class="detail-cast">
+							<div class="detail-subtitle">Cast</div>
+							<div class="detail-cast-content">
+								<p>
+									<a>{{movie_details.crew}}</a>
+									<a>Robert De Niro</a>
+								</p>
+							</div>
+						</div>
+						<div class="detail-genre">
+							<div class="detail-subtitle">GENRES</div>
+							<div class="detail-genre-content">
+								<p>
+									<a>{{movie_details.genres}}</a>
+									<a>Drama</a>
+								</p>
+							</div>
+						</div>
+						<div class="detail-detail">
+							<div class="detail-subtitle">DETAIL</div>
+							<div class="detail-detail-content">
+								<div class="detail-content-left">
+									<div class="content-title">Collection:</div>
+									<div class="content-word">{{movie_details.belongs_to_collection}}</div>
+								</div>
+								<div class="detail-content-left">
+									<div class="content-title">Countries:</div>
+									<div class="content-word">{{movie_details.production_countries}}</div>
 
-</body>
+								</div>
+							</div>
+						</div>
+						<div class="detail-review">
+							<div class="detail-subtitle">REVIEW</div>
+							<div class="detail-review-content">
+								<div class="detail-review-icon">
+									<div class="review-icon"></div>
+								</div>
+								<div class="detail-review-word">
+									<div class="review-name">Review by
+										<a href=""> Tom</a>
+									</div>
+									<div class="review-content">
+										<p>
+											I'll have to watch the original to see how bad or good this version is. I'm sure the Hitchcock version is better. I know this is a revisit of that movie but I really don't have anything to judge it against. I think the acting was fine
+										</p>
+									</div>
+								</div>
+							</div>
+							<hr />
+							<div class="detail-review-content">
+								<div class="detail-review-icon">
+									<div class="review-icon"></div>
+								</div>
+								<div class="detail-review-word">
+									<div class="review-name">Review by
+										<a href=""> Tom</a>
+									</div>
+									<div class="review-content">
+										<p>
+											I'll have to watch the original to see how bad or good this version is. I'm sure the Hitchcock version is better. I know this is a revisit of that movie but I really don't have anything to judge it against. I think the acting was fine
+										</p>
+									</div>
+								</div>
+							</div>
+							<hr />
+						</div>
+					</div>
+					<div class="detail-col-3">
+						<div class="detail-recom-title">
+							Recommend for you
+						</div>
+						<div class="detail-recom-content">
+							<div class="recom-content">
+								<div class="recom-movie-img"></div>
+								<div class="recom-movie-detail">
+									<div class="recom-movie-title">
+										<a href="#">Borat Subsequent Moviefilm</a>
+									</div>
+									<div class="recom-movie-year">2020</div>
+									<div class="recom-movie-year">Directed by Aaron Sorkin</div>
+									<div class="recom-movie-genre">
+										<a>Comedy</a>
+										<a>History</a>
+										<a>Drama</a>
+										<a>Romance</a>
+										<a>Mystery</a>
+									</div>
+								</div>
+							</div>
+							<div class="recom-content">
+								<div class="recom-movie-img"></div>
+								<div class="recom-movie-detail">
+									<div class="recom-movie-title">
+										<a href="#">Borat Subsequent Moviefilm</a>
+									</div>
+									<div class="recom-movie-year">2020</div>
+									<div class="recom-movie-year">Directed by Aaron Sorkin</div>
+									<div class="recom-movie-genre">
+										<a>Comedy</a>
+										<a>History</a>
+										<a>Drama</a>
+										<a>Romance</a>
+										<a>Mystery</a>
+									</div>
+								</div>
+							</div>
+							<div class="recom-content">
+								<div class="recom-movie-img"></div>
+								<div class="recom-movie-detail">
+									<div class="recom-movie-title">
+										<a href="#">Borat Subsequent Moviefilm</a>
+									</div>
+									<div class="recom-movie-year">2020</div>
+									<div class="recom-movie-year">Directed by Aaron Sorkin</div>
+									<div class="recom-movie-genre">
+										<a>Comedy</a>
+										<a>History</a>
+										<a>Drama</a>
+										<a>Romance</a>
+										<a>Mystery</a>
+									</div>
+								</div>
+							</div>
+							<div class="recom-content">
+								<div class="recom-movie-img"></div>
+								<div class="recom-movie-detail">
+									<div class="recom-movie-title">
+										<a href="#">Borat Subsequent Moviefilm</a>
+									</div>
+									<div class="recom-movie-year">2020</div>
+									<div class="recom-movie-year">Directed by Aaron Sorkin</div>
+									<div class="recom-movie-genre">
+										<a>Comedy</a>
+										<a>History</a>
+										<a>Drama</a>
+										<a>Romance</a>
+										<a>Mystery</a>
+									</div>
+								</div>
+							</div>
+							<div class="recom-content">
+								<div class="recom-movie-img"></div>
+								<div class="recom-movie-detail">
+									<div class="recom-movie-title">
+										<a href="#">Borat Subsequent Moviefilm</a>
+									</div>
+									<div class="recom-movie-year">2020</div>
+									<div class="recom-movie-year">Directed by Aaron Sorkin</div>
+									<div class="recom-movie-genre">
+										<a>Comedy</a>
+										<a>History</a>
+										<a>Drama</a>
+										<a>Romance</a>
+										<a>Mystery</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-</html>
+
+
+
+
+
+{% endblock content %}
+
+
