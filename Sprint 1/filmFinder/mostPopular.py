@@ -4,6 +4,7 @@ import sqlite3
 import re
 
 
+
 def genre_process(string):
     l = re.findall("'name': '[a-zA-Z ]{1,}'", string)
     l = [i[9:-1] for i in l]
@@ -27,9 +28,9 @@ def most_popular_movies(num):
     conn = sqlite3.connect('filmFinder/database_files/filmfinder.db')
     c = conn.cursor()
     c.execute(
-        'SELECT id, title, release_date, genres, poster_path FROM FILMS ORDER BY vote_count DESC LIMIT ?', (num,))
+        'SELECT id, title, release_date, genres, poster_path, vote_average FROM FILMS ORDER BY vote_count DESC LIMIT ?', (num,))
     rows = c.fetchall()
-    rows_dict = [{'id':x[0],'title':x[1], 'release_date':x[2], 'genres':genre_process(x[3]), 'poster':x[4]} for x in rows]
+    rows_dict = [{'id':x[0],'title':x[1], 'release_date':x[2], 'genres':genre_process(x[3]), 'poster':x[4], 'vote_average':x[5]} for x in rows]
     return rows_dict
 
 
@@ -207,7 +208,7 @@ def advanced_search1(conditions, mode, offset):
         else:
             order_str = f' AND VOTE_COUNT >= 50 ORDER BY VOTE_AVERAGE DESC LIMIT 10 OFFSET {offset} '
     general_search_sql = ' SELECT id, title, poster_path FROM FILMS ' + filter_list + order_str
-    print(general_search_sql)
+    #print(general_search_sql)
     c.execute(general_search_sql)
     results = c.fetchall()
     return results
