@@ -47,8 +47,9 @@
 							<div class="detail-subtitle">GENRES</div>
 							<div class="detail-genre-content">
 								<p>
-									<a>{{movie_details.genres}}</a>
-									<a>Drama</a>
+									{%for genre in movie_details.genres%}
+									<a>{{genre}}</a>
+									{%endfor%}
 								</p>
 							</div>
 						</div>
@@ -57,12 +58,15 @@
 							<div class="detail-detail-content">
 								<div class="detail-content-left">
 									<div class="content-title">Collection:</div>
-									<div class="content-word">{{movie_details.belongs_to_collection}}</div>
+									{%for co in movie_details.belongs_to_collection%}
+									<div class="content-word">{{co}}</div>
+									{%endfor%}
 								</div>
 								<div class="detail-content-left">
 									<div class="content-title">Countries:</div>
-									<div class="content-word">{{movie_details.production_countries}}</div>
-
+									{%for con in movie_details.production_countries%}
+									<div class="content-word">{{con}}</div>
+									{%endfor%}
 								</div>
 							</div>
 						</div>
