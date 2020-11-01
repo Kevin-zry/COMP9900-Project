@@ -1,23 +1,163 @@
+/*中间总层*/
+.index-movive {
+	margin: 40px 0px 30px 0px;
+	width: 100%;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-around;
+	/*border: 1px solid red;*/
+}
+/*左边层*/
+.movie-col-1{
+	display: flex;
+	flex-flow: column nowrap;
+	width: 65%;
+	/*border: 2px solid palevioletred;*/
+}
+/*右边层*/
+.movie-col-2{
+	display: flex;
+	flex-flow: column nowrap;
+	width: 27%;
+	/*border: 2px solid palevioletred;*/
+}
 
-.movie {
+.movie-recom{
+	
+}
+.movie-recom-title{
+	width: 100%;
+	background: #424242;
+	color: white;
+	font-family: TiemposHeadlineWeb-Bold,Georgia,serif;
+	font-size: xx-large;
+	margin: 0px 0px 20px 0px;
+}
+.movie-recom-content{
+	display: flex;
+	flex-flow: column nowrap;
+	border: 2px solid palevioletred;
+}
+.moive-recom {
+	width:100%;
+	display: flex;
+	flex-flow: column nowrap;
+	margin: 0px 0px 30px 0px;
+	/*border: 2px solid palevioletred;*/
+	
+}
+.moive-recom-row {
+	display: flex;
+	flex-flow: row;
+	margin: 0px 0px 30px 0px;
+}
+.movie-img {
+	height: 255px;
+	background-size: contain ;
+	background-position: center;
+}
+.movie-name{
+	text-align: center;
+	margin: 15px 0px 5px 0px;		
+}
+.movie-name a{
+	font-family: 'Poppins', sans-serif;
+	font-size: large;
+	font-weight: 600;
+	color: #1565C0;
+}
+.movie-time {
+	font-weight: 100;
+	text-align: center;
+}
+.movie-genre {
+	text-align: center;
+	margin: 10px 0px 10px 0px;
+	
+	
+}
+.movie-genre a{
+	background: #f5f5f5;
+	color: #37A;
+	padding: 3px;
+	line-height: 20px;
+}
+
+
+
+
+
+
+/*右侧popular栏*/
+.detail-recom-title{
+	background: #424242;
+	color: white;
+	font-family: TiemposHeadlineWeb-Bold,Georgia,serif;
+	font-size: xx-large;
+	margin: 0px 0px 20px 0px;
+	text-align: center;
+}
+.detail-recom-content {
+	display: flex;
+	flex-flow: column nowrap;
 	width: 100%;
 }
-.movie-title {
-	border: 1px solid green;
-	font-size: x-large;
-}
-.movie-list-first {
+.recom-content{
 	display: flex;
-	flex: row;
-	border: 2px solid black;
+	flex-flow: row nowrap;
+	margin: 30px 0px 0px 0px;
 }
-.movie-detail {
-	text-align: center;
-	width: 25%;
-	height: auto;
-	border: 1px solid green;
+.recom-movie-img {
+	width: 40%;
+	height: 175px;
+	background-size: contain ;
+	background-position: center;
+
 }
-.movie-img img{
-	height: 300px;
-	width: 250px;
+.recom-movie-detail {
+	display: flex;
+	flex-flow: column nowrap;
+	margin: 0 auto;
+	width: 60%;
+	/*border: 2px solid red;*/
+}
+.recom-movie-title{
+	font-size:  medium;
+	font-weight: 600;
+}
+.recom-movie-title a{
+	color: #37A;
+}
+.recom-movie-year {
+	margin: 5px 0px 15px 0px;
+	font-weight: 100;
+}
+.recom-movie-genre {
+	margin: 15px 0px 0px 0px;
+	line-height: 30px;
+}
+.recom-movie-genre a{
+	background: #f5f5f5;
+	color: #37A;
+	padding: 3px 6px;
+	margin: 10px 10px 10px 10px;
+}
+.movie-rating {
+	display: flex;
+	flex-flow: row nowrap;
+	margin: 0 auto;
+	/*border: 2px solid palevioletred;*/
+}
+.rating-star {
+	/*border: 2px solid palevioletred;*/
+	background: url(../static/images/star.png) no-repeat;
+	height: 20px;
+	width: 20px;
+	background-size: cover ;
+	background-position: center;
+	margin: 0px 7px 0px 0px;
+}
+.rating-content{
+	font-weight: 600;
+	font-size: large;
 }
