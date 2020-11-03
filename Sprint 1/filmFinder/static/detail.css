@@ -27,17 +27,17 @@
 .detail-col-1 {
 	margin: 20px 20px 0px 0px;
 	width: 20%;
-	border: 2px solid blue;
+	/* border: 2px solid blue; */
 }
 .detail-col-2 {
 	margin: 20px 25px 0px 0px;
 	width: 45%;
-	border: 2px solid red;
+	/* border: 2px solid red; */
 }
 .detail-col-3 {
 	margin: 0px 0px 0px 20px;
 	width: 25%;
-	border: 2px solid red;
+	/* border: 2px solid red; */
 	display: flex;
 	flex-flow: column nowrap;
 	margin: 20px 0px 0px 0px;
@@ -54,7 +54,7 @@
 .detail-rating-wishlist {
 	width: 250px;
 	height: 200px;
-	border: 2px solid brown;
+	/* border: 2px solid brown; */
 	margin: 0 auto;
 }
 .detail-raing {
@@ -227,7 +227,7 @@
 	
 }
 .detail-review-word {
-	width: 65%%;
+	width: 65%;
 	display: flex;
 	flex-flow: column nowrap;
 	/*border: 2px solid blue;*/
@@ -258,6 +258,7 @@
 	display: flex;
 	flex-flow: row nowrap;
 	margin: 30px 0px 0px 0px;
+	/* border: 2px solid palevioletred; */
 }
 .recom-movie-img {
 	width: 40%;
@@ -265,13 +266,15 @@
 	height: 175px;
 	background-size: contain ;
 	background-position: center;
+	
 
 }
 .recom-movie-detail {
 	display: flex;
 	flex-flow: column nowrap;
-	margin: 0 auto;
-	width: 60%;
+	margin: 10 auto;
+	position:right;
+	width: 50%;
 	/*border: 2px solid red;*/
 }
 .recom-movie-title{

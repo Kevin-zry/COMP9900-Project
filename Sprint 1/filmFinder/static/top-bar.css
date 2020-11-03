@@ -74,12 +74,14 @@
 }
 
 .menu-end {
-	/*border: 1px solid red;*/
-	width: 41%;
+	/* border: 1px solid red; */
+	width: 30%;
 	height: 50px;
 	display: flex;
 	flex-flow: row nowrap;
 	font-size: x-large;
+	position: right;
+	margin-left:10%;
 	/*background: transparent;
     color: #333;
     border: medium none;

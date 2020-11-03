@@ -36,7 +36,6 @@
 .movie-recom-content{
 	display: flex;
 	flex-flow: column nowrap;
-	border: 2px solid palevioletred;
 }
 .moive-recom {
 	width:100%;
@@ -53,9 +52,17 @@
 }
 .movie-img {
 	height: 255px;
-	background-size: contain ;
+	width: 170px;
+	background-size: cover ;
 	background-position: center;
+	margin: 0 auto;
+	/* border: 2px solid palevioletred; */
 }
+
+.movie-img img{
+	height: 255px;
+	width: 170px;
+   }
 .movie-name{
 	text-align: center;
 	margin: 15px 0px 5px 0px;		
