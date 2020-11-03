@@ -38,8 +38,9 @@
 							<div class="detail-subtitle">Cast</div>
 							<div class="detail-cast-content">
 								<p>
-									<a>{{movie_details.crew}}</a>
-									<a>Robert De Niro</a>
+									{%for cast in movie_details.casts%}
+									<a>{{cast}}</a>
+									{%endfor%}
 								</p>
 							</div>
 						</div>
@@ -110,92 +111,24 @@
 						<div class="detail-recom-title">
 							Recommend for you
 						</div>
+						{%for movie in recommend_list%}
 						<div class="detail-recom-content">
 							<div class="recom-content">
-								<div class="recom-movie-img"></div>
+								<div class="recom-movie-img"><img src="../static/poster_downloads/{{movie.poster_path}}.jpg"></div></div>
 								<div class="recom-movie-detail">
 									<div class="recom-movie-title">
-										<a href="#">Borat Subsequent Moviefilm</a>
+										<a href="#">{{movie.title}}</a>
 									</div>
-									<div class="recom-movie-year">2020</div>
-									<div class="recom-movie-year">Directed by Aaron Sorkin</div>
+									<div class="recom-movie-year">{{movie.release_date}}</div>
+									<div class="recom-movie-year">Directed by {{movie.crew}}</div>
 									<div class="recom-movie-genre">
-										<a>Comedy</a>
-										<a>History</a>
-										<a>Drama</a>
-										<a>Romance</a>
-										<a>Mystery</a>
+										{%for genre in movie.genres%}
+										<a>{{genre}}</a>
+										{%endfor%}
 									</div>
 								</div>
 							</div>
-							<div class="recom-content">
-								<div class="recom-movie-img"></div>
-								<div class="recom-movie-detail">
-									<div class="recom-movie-title">
-										<a href="#">Borat Subsequent Moviefilm</a>
-									</div>
-									<div class="recom-movie-year">2020</div>
-									<div class="recom-movie-year">Directed by Aaron Sorkin</div>
-									<div class="recom-movie-genre">
-										<a>Comedy</a>
-										<a>History</a>
-										<a>Drama</a>
-										<a>Romance</a>
-										<a>Mystery</a>
-									</div>
-								</div>
-							</div>
-							<div class="recom-content">
-								<div class="recom-movie-img"></div>
-								<div class="recom-movie-detail">
-									<div class="recom-movie-title">
-										<a href="#">Borat Subsequent Moviefilm</a>
-									</div>
-									<div class="recom-movie-year">2020</div>
-									<div class="recom-movie-year">Directed by Aaron Sorkin</div>
-									<div class="recom-movie-genre">
-										<a>Comedy</a>
-										<a>History</a>
-										<a>Drama</a>
-										<a>Romance</a>
-										<a>Mystery</a>
-									</div>
-								</div>
-							</div>
-							<div class="recom-content">
-								<div class="recom-movie-img"></div>
-								<div class="recom-movie-detail">
-									<div class="recom-movie-title">
-										<a href="#">Borat Subsequent Moviefilm</a>
-									</div>
-									<div class="recom-movie-year">2020</div>
-									<div class="recom-movie-year">Directed by Aaron Sorkin</div>
-									<div class="recom-movie-genre">
-										<a>Comedy</a>
-										<a>History</a>
-										<a>Drama</a>
-										<a>Romance</a>
-										<a>Mystery</a>
-									</div>
-								</div>
-							</div>
-							<div class="recom-content">
-								<div class="recom-movie-img"></div>
-								<div class="recom-movie-detail">
-									<div class="recom-movie-title">
-										<a href="#">Borat Subsequent Moviefilm</a>
-									</div>
-									<div class="recom-movie-year">2020</div>
-									<div class="recom-movie-year">Directed by Aaron Sorkin</div>
-									<div class="recom-movie-genre">
-										<a>Comedy</a>
-										<a>History</a>
-										<a>Drama</a>
-										<a>Romance</a>
-										<a>Mystery</a>
-									</div>
-								</div>
-							</div>
+						{%endfor%}
 						</div>
 					</div>
 				</div>

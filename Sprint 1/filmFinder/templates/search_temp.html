@@ -3,7 +3,6 @@
     <h1 class = 'center'>Search Results:</h1>
     <form method="POST">
       <!-- <div align="center"></div> -->
-      <h5 class ='center'>----------------------Search Results----------------------</h5>
       {{condition_results}}<br><br>
       {% for result in search_results %}
       <div class="so-result-info search-movie clearfix">
@@ -27,7 +26,11 @@
         <div class="info_item">
         <span class="label">Casts:</span>
         <span class="cont">
-        <a href="#" target="_blank">xxx</a> <a href="#" target="_blank">yyy</a> <a href="#" target="_blank">zzz</a> <a href="#" target="_blank">ttt</a> 
+        <!-- <a href="#" target="_blank">xxx</a> <a href="#" target="_blank">yyy</a> <a href="#" target="_blank">zzz</a> <a href="#" target="_blank">ttt</a>  -->
+        {%for cast in result.casts%}
+        <a>{{"|"+cast}}</a>
+        {%endfor%}{{"|"}}
+        <!-- {{result.casts}}</span> -->
         </div>
         <div class="info_item">
         <span class="label">Director:</span>
@@ -39,12 +42,16 @@
         <div class="info_item">
         <span class="label">Genre:</span>
         <span class="cont">
-        {{result.genres}}</span>
+        {%for genre in result.genres%}
+        <a>{{"|"+genre}}</a>
+        {%endfor%}{{"|"}}
         </div>
         <div class="info_item">
         <span class="label">Country:</span>
         <span class="cont">
-        {{result.production_countries}}</span>
+        {%for pc in result.production_countries%}
+        <a>{{"|"+pc}}</a>
+        {%endfor%}{{"|"}}
         </div>
         </div>
         <div class="tele_item_des">
