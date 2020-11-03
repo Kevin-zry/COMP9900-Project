@@ -1,85 +1,120 @@
 {% extends "layout.html" %}
 {% block content %}
+<div class = "bootstrapiso">
+	<div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
+		<div class="carousel-inner">
+		  <div class="carousel-item active">
+			<img src="../static/images/1.jpg" class="d-block w-100" alt="...">
+		  </div>
+		  <div class="carousel-item">
+			<img src="../static/images/2.jpg" class="d-block w-100" alt="...">
+		  </div>
+		  <div class="carousel-item">
+			<img src="../static/images/3.jpg" class="d-block w-100" alt="...">
+		  </div>
+		  <div class="carousel-item">
+			<img src="../static/images/4.jpg" class="d-block w-100" alt="...">
+		  </div>
+		  <div class="carousel-item">
+			<img src="../static/images/5.jpg" class="d-block w-100" alt="...">
+		  </div>
+		</div>
+		<a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-slide="prev">
+		  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		  <span class="sr-only">Previous</span>
+		</a>
+		<a class="carousel-control-next" href="#carouselExampleFade" role="button" data-slide="next">
+		  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+		  <span class="sr-only">Next</span>
+		</a>
+	  </div>
+</div>
 <div class="index-movive">
 	
 	<div class="movie-col-1">
-		<div class="movie-recom">
+		{% if current_user.is_authenticated %}
+		<div class="movie-recom" 
+		style="border: 2px solid rgb(5, 5, 5);
+				border-radius: 30px;
+				padding:25px 10px;
+				background-color:rgba(240, 255, 255, 0.5);
+				" >
 			<div class="movie-recom-title">Recommend For You</div>
 			<div class="movie-recom-content">
 				<div class="moive-recom">
 					<div class="moive-recom-row">
 						<div class="moive-recom">
 							<div>
-								<a href="film/{{movies.0.id}}">
+								<a href="film/{{recommend_list.0.id}}">
 									<div class="movie-img">
-										<img src="../static/poster_downloads/{{movies.0.poster}}.jpg">
+										<img src="../static/poster_downloads/{{recommend_list.0.poster_path}}.jpg">
 									</div>
 								</a>
 							</div>
 
 							<div class="movie-name">
-								<a href="film/{{movies.0.id}}">{{movies.0.title}}</a>
+								<a href="film/{{recommend_list.0.id}}">{{recommend_list.0.title}}</a>
 							</div>
-							<div class="movie-time">{{movies.0.release_date}}</div>
+							<div class="movie-time">{{recommend_list.0.release_date}}</div>
 							<div class="movie-genre">
-								{% for genre in movies.0.genres%}
+								{% for genre in recommend_list.0.genres%}
 								<a>{{genre}}</a>
 								{%endfor%}
 							</div>
 						</div>
 						<div class="movie-recom">
 							<div>
-								<a href="film/{{movies.1.id}}">
+								<a href="film/{{recommend_list.1.id}}">
 									<div class="movie-img">
-										<img src="../static/poster_downloads/{{movies.1.poster}}.jpg">
+										<img src="../static/poster_downloads/{{recommend_list.1.poster_path}}.jpg">
 									</div>
 								</a>
 							</div>
 
 							<div class="movie-name">
-								<a href="film/{{movies.1.id}}">{{movies.1.title}}</a>
+								<a href="film/{{recommend_list.1.id}}">{{recommend_list.1.title}}</a>
 							</div>
-							<div class="movie-time">{{movies.1.release_date}}</div>
+							<div class="movie-time">{{recommend_list.1.release_date}}</div>
 							<div class="movie-genre">
-								{% for genre in movies.1.genres%}
+								{% for genre in recommend_list.1.genres%}
 								<a>{{genre}}</a>
 								{%endfor%}
 							</div>
 						</div>
 						<div class="moive-recom">
 							<div>
-								<a href="film/{{movies.2.id}}">
+								<a href="film/{{recommend_list.2.id}}">
 									<div class="movie-img">
-										<img src="../static/poster_downloads/{{movies.2.poster}}.jpg">
+										<img src="../static/poster_downloads/{{recommend_list.2.poster_path}}.jpg">
 									</div>
 								</a>
 							</div>
 
 							<div class="movie-name">
-								<a href="film/{{movies.2.id}}">{{movies.2.title}}</a>
+								<a href="film/{{recommend_list.2.id}}">{{recommend_list.2.title}}</a>
 							</div>
-							<div class="movie-time">{{movies.2.release_date}}</div>
+							<div class="movie-time">{{recommend_list.2.release_date}}</div>
 							<div class="movie-genre">
-								{% for genre in movies.2.genres%}
+								{% for genre in recommend_list.2.genres%}
 								<a>{{genre}}</a>
 								{%endfor%}
 							</div>
 						</div>
 						<div class="moive-recom">
 							<div>
-								<a href="film/{{movies.3.id}}">
+								<a href="film/{{recommend_list.3.id}}">
 									<div class="movie-img">
-										<img src="../static/poster_downloads/{{movies.3.poster}}.jpg">
+										<img src="../static/poster_downloads/{{recommend_list.3.poster_path}}.jpg">
 									</div>
 								</a>
 							</div>
 
 							<div class="movie-name">
-								<a href="film/{{movies.3.id}}">{{movies.3.title}}</a>
+								<a href="film/{{recommend_list.3.id}}">{{recommend_list.3.title}}</a>
 							</div>
-							<div class="movie-time">{{movies.3.release_date}}</div>
+							<div class="movie-time">{{recommend_list.3.release_date}}</div>
 							<div class="movie-genre">
-								{% for genre in movies.3.genres%}
+								{% for genre in recommend_list.3.genres%}
 								<a>{{genre}}</a>
 								{%endfor%}
 							</div>
@@ -88,75 +123,75 @@
 					<div class="moive-recom-row">
 						<div class="moive-recom">
 							<div>
-								<a href="film/{{movies.4.id}}">
+								<a href="film/{{recommend_list.4.id}}">
 									<div class="movie-img">
-										<img src="../static/poster_downloads/{{movies.4.poster}}.jpg">
+										<img src="../static/poster_downloads/{{recommend_list.4.poster_path}}.jpg">
 									</div>
 								</a>
 							</div>
 
 							<div class="movie-name">
-								<a href="film/{{movies.4.id}}">{{movies.4.title}}</a>
+								<a href="film/{{recommend_list.4.id}}">{{recommend_list.4.title}}</a>
 							</div>
-							<div class="movie-time">{{movies.4.release_date}}</div>
+							<div class="movie-time">{{recommend_list.4.release_date}}</div>
 							<div class="movie-genre">
-								{% for genre in movies.4.genres%}
+								{% for genre in recommend_list.4.genres%}
 								<a>{{genre}}</a>
 								{%endfor%}
 							</div>
 						</div>
 						<div class="moive-recom">
 							<div>
-								<a href="film/{{movies.5.id}}">
+								<a href="film/{{recommend_list.5.id}}">
 									<div class="movie-img">
-										<img src="../static/poster_downloads/{{movies.5.poster}}.jpg">
+										<img src="../static/poster_downloads/{{recommend_list.5.poster_path}}.jpg">
 									</div>
 								</a>
 							</div>
 
 							<div class="movie-name">
-								<a href="film/{{movies.5.id}}">{{movies.5.title}}</a>
+								<a href="film/{{recommend_list.5.id}}">{{recommend_list.5.title}}</a>
 							</div>
-							<div class="movie-time">{{movies.5.release_date}}</div>
+							<div class="movie-time">{{recommend_list.5.release_date}}</div>
 							<div class="movie-genre">
-								{% for genre in movies.5.genres%}
+								{% for genre in recommend_list.5.genres%}
 								<a>{{genre}}</a>
 								{%endfor%}
 							</div>
 						</div>
 						<div class="moive-recom">
 							<div>
-								<a href="film/{{movies.6.id}}">
+								<a href="film/{{recommend_list.6.id}}">
 									<div class="movie-img">
-										<img src="../static/poster_downloads/{{movies.6.poster}}.jpg"></div>
+										<img src="../static/poster_downloads/{{recommend_list.6.poster_path}}.jpg"></div>
 								</a>
 							</div>
 
 							<div class="movie-name">
-								<a href="film/{{movies.6.id}}">{{movies.6.title}}</a>
+								<a href="film/{{recommend_list.6.id}}">{{recommend_list.6.title}}</a>
 							</div>
-							<div class="movie-time">{{movies.6.release_date}}</div>
+							<div class="movie-time">{{recommend_list.6.release_date}}</div>
 							<div class="movie-genre">
-								{% for genre in movies.6.genres%}
+								{% for genre in recommend_list.6.genres%}
 								<a>{{genre}}</a>
 								{%endfor%}
 							</div>
 						</div>
 						<div class="moive-recom">
 							<div>
-								<a href="film/{{movies.7.id}}">
+								<a href="film/{{recommend_list.7.id}}">
 									<div class="movie-img">
-										<img src="../static/poster_downloads/{{movies.7.poster}}.jpg">
+										<img src="../static/poster_downloads/{{recommend_list.7.poster_path}}.jpg">
 									</div>
 								</a>
 							</div>
 
 							<div class="movie-name">
-								<a href="film/{{movies.7.id}}">{{movies.7.title}}</a>
+								<a href="film/{{recommend_list.7.id}}">{{recommend_list.7.title}}</a>
 							</div>
-							<div class="movie-time">{{movies.7.release_date}}</div>
+							<div class="movie-time">{{recommend_list.7.release_date}}</div>
 							<div class="movie-genre">
-								{% for genre in movies.7.genres%}
+								{% for genre in recommend_list.7.genres%}
 								<a>{{genre}}</a>
 								{%endfor%}
 							</div>
@@ -165,7 +200,14 @@
 				</div>
 			</div>
 		</div>
-		<div class="movie-highest">
+		{%endif%}
+		<hr>
+		<div class="movie-highest"
+		style="border: 2px solid rgb(5, 5, 5);
+				border-radius: 30px;
+				padding:25px 10px;
+				background-color:rgba(240, 255, 255, 0.5);
+				" >
 			<div class="movie-recom-title">Highest rating film</div>
 			<div class="movie-recom-content">
 
@@ -173,91 +215,91 @@
 					<div class="moive-recom-row">
 						<div class="moive-recom">
 							<div>
-								<a href="film/{{movies.0.id}}">
+								<a href="film/{{highest_rating_movies.0.id}}">
 									<div class="movie-img">
-										<img src="../static/poster_downloads/{{movies.0.poster}}.jpg">
+										<img src="../static/poster_downloads/{{highest_rating_movies.0.poster}}.jpg">
 									</div>
 								</a>
 							</div>
 							<div class="movie-name">
-								<a href="film/{{movies.0.id}}">{{movies.0.title}}</a>
+								<a href="film/{{highest_rating_movies.0.id}}">{{movies.0.title}}</a>
 							</div>
 							<div class="movie-rating">
 								<div class="rating-star"></div>
-								<div class="rating-content">{{movies.0.vote_average}}</div>
+								<div class="rating-content">{{highest_rating_movies.0.vote_average}}</div>
 							</div>
-							<div class="movie-time">{{movies.0.release_date}}</div>
+							<div class="movie-time">{{highest_rating_movies.0.release_date}}</div>
 							<div class="movie-genre">
-								{% for genre in movies.0.genres%}
+								{% for genre in highest_rating_movies.0.genres%}
 								<a>{{genre}}</a>
 								{%endfor%}
 							</div>
 						</div>
 						<div class="moive-recom">
 							<div>
-								<a href="film/{{movies.1.id}}">
+								<a href="film/{{highest_rating_movies.1.id}}">
 									<div class="movie-img">
-										<img src="../static/poster_downloads/{{movies.1.poster}}.jpg">
+										<img src="../static/poster_downloads/{{highest_rating_movies.1.poster}}.jpg">
 									</div>
 								</a>
 							</div>
 
 							<div class="movie-name">
-								<a href="film/{{movies.0.id}}">{{movies.1.title}}</a>
+								<a href="film/{{movies.0.id}}">{{highest_rating_movies.1.title}}</a>
 							</div>
 							<div class="movie-rating">
 								<div class="rating-star"></div>
-								<div class="rating-content">{{movies.1.vote_average}}</div>
+								<div class="rating-content">{{highest_rating_movies.1.vote_average}}</div>
 							</div>
-							<div class="movie-time">{{movies.1.release_date}}</div>
+							<div class="movie-time">{{highest_rating_movies.1.release_date}}</div>
 							<div class="movie-genre">
-								{% for genre in movies.1.genres%}
+								{% for genre in highest_rating_movies.1.genres%}
 								<a>{{genre}}</a>
 								{%endfor%}
 							</div>
 						</div>
 						<div class="moive-recom">
 							<div>
-								<a href="film/{{movies.2.id}}">
+								<a href="film/{{highest_rating_movies.2.id}}">
 									<div class="movie-img">
-										<img src="../static/poster_downloads/{{movies.2.poster}}.jpg">
+										<img src="../static/poster_downloads/{{highest_rating_movies.2.poster}}.jpg">
 									</div>
 								</a>
 							</div>
 
 							<div class="movie-name">
-								<a href="film/{{movies.2.id}}">The trial of chicago 7</a>
+								<a href="film/{{highest_rating_movies.2.id}}">{{highest_rating_movies.2.title}}</a>
 							</div>
 							<div class="movie-rating">
 								<div class="rating-star"></div>
-								<div class="rating-content">{{movies.2.vote_average}}</div>
+								<div class="rating-content">{{highest_rating_movies.2.vote_average}}</div>
 							</div>
-							<div class="movie-time">{{movies.2.release_date}}</div>
+							<div class="movie-time">{{highest_rating_movies.2.release_date}}</div>
 							<div class="movie-genre">
-								{% for genre in movies.2.genres%}
+								{% for genre in highest_rating_movies.2.genres%}
 								<a>{{genre}}</a>
 								{%endfor%}
 							</div>
 						</div>
 						<div class="moive-recom">
 							<div>
-								<a href="film/{{movies.3.id}}">
+								<a href="film/{{highest_rating_movies.3.id}}">
 									<div class="movie-img">
-										<img src="../static/poster_downloads/{{movies.3.poster}}.jpg">
+										<img src="../static/poster_downloads/{{highest_rating_movies.3.poster}}.jpg">
 									</div>
 								</a>
 							</div>
 
 							<div class="movie-name">
-								<a href="film/{{movies.3.id}}">The trial of chicago 7</a>
+								<a href="film/{{highest_rating_movies.3.id}}">{{highest_rating_movies.3.title}}</a>
 							</div>
 							<div class="movie-rating">
 								<div class="rating-star"></div>
-								<div class="rating-content">{{movies.3.vote_average}}</div>
+								<div class="rating-content">{{highest_rating_movies.3.vote_average}}</div>
 							</div>
-							<div class="movie-time">{{movies.3.release_date}}</div>
+							<div class="movie-time">{{highest_rating_movies.3.release_date}}</div>
 							<div class="movie-genre">
-								{% for genre in movies.3.genres%}
+								{% for genre in highest_rating_movies.3.genres%}
 								<a>{{genre}}</a>
 								{%endfor%}
 							</div>
@@ -266,92 +308,92 @@
 					<div class="moive-recom-row">
 						<div class="moive-recom">
 							<div>
-								<a href="film/{{movies.4.id}}">
+								<a href="film/{{highest_rating_movies.4.id}}">
 									<div class="movie-img">
-										<img src="../static/poster_downloads/{{movies.4.poster}}.jpg">
+										<img src="../static/poster_downloads/{{highest_rating_movies.4.poster}}.jpg">
 									</div>
 								</a>
 							</div>
 
 							<div class="movie-name">
-								<a href="film/{{movies.4.id}}">The trial of chicago 7</a>
+								<a href="film/{{highest_rating_movies.4.id}}">{{highest_rating_movies.4.title}}</a>
 							</div>
 							<div class="movie-rating">
 								<div class="rating-star"></div>
-								<div class="rating-content">{{movies.4.vote_average}}</div>
+								<div class="rating-content">{{highest_rating_movies.4.vote_average}}</div>
 							</div>
-							<div class="movie-time">{{movies.4.release_date}}</div>
+							<div class="movie-time">{{highest_rating_movies.4.release_date}}</div>
 							<div class="movie-genre">
-								{% for genre in movies.4.genres%}
+								{% for genre in highest_rating_movies.4.genres%}
 								<a>{{genre}}</a>
 								{%endfor%}
 							</div>
 						</div>
 						<div class="moive-recom">
 							<div>
-								<a href="film/{{movies.5.id}}">
+								<a href="film/{{highest_rating_movies.5.id}}">
 									<div class="movie-img">
-										<img src="../static/poster_downloads/{{movies.5.poster}}.jpg">
+										<img src="../static/poster_downloads/{{highest_rating_movies.5.poster}}.jpg">
 									</div>
 								</a>
 							</div>
 
 							<div class="movie-name">
-								<a href="film/{{movies.5.id}}">The trial of chicago 7</a>
+								<a href="film/{{highest_rating_movies.5.id}}">{{highest_rating_movies.5.title}}</a>
 							</div>
 							<div class="movie-rating">
 								<div class="rating-star"></div>
-								<div class="rating-content">{{movies.5.vote_average}}</div>
+								<div class="rating-content">{{highest_rating_movies.5.vote_average}}</div>
 							</div>
-							<div class="movie-time">{{movies.5.release_date}}</div>
+							<div class="movie-time">{{highest_rating_movies.5.release_date}}</div>
 							<div class="movie-genre">
-								{% for genre in movies.5.genres%}
+								{% for genre in highest_rating_movies.5.genres%}
 								<a>{{genre}}</a>
 								{%endfor%}
 							</div>
 						</div>
 						<div class="moive-recom">
 							<div>
-								<a href="film/{{movies.6.id}}">
+								<a href="film/{highest_rating_movies.6.id}}">
 									<div class="movie-img">
-										<img src="../static/poster_downloads/{{movies.6.poster}}.jpg">
+										<img src="../static/poster_downloads/{{highest_rating_movies.6.poster}}.jpg">
 									</div>
 								</a>
 							</div>
 
 							<div class="movie-name">
-								<a href="film/{{movies.6.id}}">The trial of chicago 7</a>
+								<a href="film/{{highest_rating_movies.6.id}}">{{highest_rating_movies.6.title}}</a>
 							</div>
 							<div class="movie-rating">
 								<div class="rating-star"></div>
-								<div class="rating-content">{{movies.6.vote_average}}</div>
+								<div class="rating-content">{{highest_rating_movies.6.vote_average}}</div>
 							</div>
-							<div class="movie-time">{{movies.6.release_date}}</div>
+							<div class="movie-time">{{highest_rating_movies.6.release_date}}</div>
 							<div class="movie-genre">
-								{% for genre in movies.6.genres%}
+								{% for genre in highest_rating_movies.6.genres%}
 								<a>{{genre}}</a>
 								{%endfor%}
 							</div>
 						</div>
 						<div class="moive-recom">
 							<div>
-								<a href="film/{{movies.7.id}}">
+								<a href="film/{{highest_rating_movies.7.id}}">
 									<div class="movie-img">
-										<img src="../static/poster_downloads/{{movies.7.poster}}.jpg">
+										<img src="../static/poster_downloads/{{highest_rating_movies.7.poster}}.jpg">
 									</div>
 								</a>
 							</div>
 
 							<div class="movie-name">
-								<a href="film/{{movies.7.id}}">The trial of chicago 7</a>
+								<a href="film/{{highest_rating_movies.7.id}}">{{highest_rating_movies.7.title}}</a>
 							</div>
 							<div class="movie-rating">
 								<div class="rating-star"></div>
-								<div class="rating-content">{{movies.7.vote_average}}</div>
+								<div class="rating-content">{{highest_rating_movies.7.vote_average}}</div>
 							</div>
-							<div class="movie-time">{{movies.7.release_date}}</div>
+							<div class="movie-time">{{highest_rating_movies.7.release_date}}</div>
 							<div class="movie-genre">
-								{% for genre in movies.7.genres%}
+								{% for genre in highest_rating_movies.7.genres%}
 								<a>{{genre}}</a>
 								{%endfor%}
 							</div>
@@ -362,130 +404,149 @@
 			</div>
 		</div>
 	</div>
-	<div class="movie-col-2">
+	<div style="border: 2px solid rgb(5, 5, 5);
+				border-radius: 30px;
+				padding:25px 10px;
+				background-color:rgba(240, 255, 255, 0.5);
+				" 
+	class="movie-col-2">
 		<div class="detail-recom-title">
 			Popular this week
 		</div>
 		<div class="detail-recom-content">
 			<div class="recom-content">
 				<div class="recom-movie-img">
-					<img src="../static/poster_downloads/{{movies.0.poster}}.jpg">
+					<img style="height:175px; width:118px;" src="../static/poster_downloads/{{movies.0.poster}}.jpg">
 
 				</div>
 				<div class="recom-movie-detail">
 					<div class="recom-movie-title">
-						<a href="#">Borat Subsequent Moviefilm</a>
+						<a href="/film/{{movies.0.id}}">{{movies.0.title}}</a>
 					</div>
-					<div class="recom-movie-year">2020</div>
-					<div class="recom-movie-year">Directed by Aaron Sorkin</div>
+					<div class="recom-movie-year">{{movies.0.release_date}}</div>
 					<div class="recom-movie-genre">
-						<a>Comedy</a>
-						<a>History</a>
-						<a>Drama</a>
-						<a>Romance</a>
-						<a>Mystery</a>
+						{%for genre in movies.0.genres%}
+						<a>{{genre}}</a><br>
+						{%endfor%}
 					</div>
 				</div>
 			</div>
 			<div class="recom-content">
-				<div class="recom-movie-img"></div>
+				<div class="recom-movie-img">
+					<img style="height:175px; width:118px;" src="../static/poster_downloads/{{movies.1.poster}}.jpg">
+
+				</div>
 				<div class="recom-movie-detail">
 					<div class="recom-movie-title">
-						<a href="#">Borat Subsequent Moviefilm</a>
+						<a href="/film/{{movies.1.id}}">{{movies.1.title}}</a>
 					</div>
-					<div class="recom-movie-year">2020</div>
-					<div class="recom-movie-year">Directed by Aaron Sorkin</div>
+					<div class="recom-movie-year">{{movies.1.release_date}}</div>
 					<div class="recom-movie-genre">
-						<a>Comedy</a>
-						<a>History</a>
-						<a>Drama</a>
-						<a>Romance</a>
-						<a>Mystery</a>
+						{%for genre in movies.1.genres%}
+						<a>{{genre}}</a><br>
+						{%endfor%}
 					</div>
 				</div>
 			</div>
 			<div class="recom-content">
-				<div class="recom-movie-img"></div>
+				<div class="recom-movie-img">
+					<img style="height:175px; width:118px;" src="../static/poster_downloads/{{movies.2.poster}}.jpg">
+
+				</div>
 				<div class="recom-movie-detail">
 					<div class="recom-movie-title">
-						<a href="#">Borat Subsequent Moviefilm</a>
+						<a href="/film/{{movies.2.id}}">{{movies.2.title}}</a>
 					</div>
-					<div class="recom-movie-year">2020</div>
-					<div class="recom-movie-year">Directed by Aaron Sorkin</div>
+					<div class="recom-movie-year">{{movies.2.release_date}}</div>
 					<div class="recom-movie-genre">
-						<a>Comedy</a>
-						<a>History</a>
-						<a>Drama</a>
-						<a>Romance</a>
-						<a>Mystery</a>
+						{%for genre in movies.2.genres%}
+						<a>{{genre}}</a><br>
+						{%endfor%}
 					</div>
 				</div>
 			</div>
 			<div class="recom-content">
-				<div class="recom-movie-img"></div>
+				<div class="recom-movie-img">
+					<img style="height:175px; width:118px;" src="../static/poster_downloads/{{movies.3.poster}}.jpg">
+
+				</div>
 				<div class="recom-movie-detail">
 					<div class="recom-movie-title">
-						<a href="#">Borat Subsequent Moviefilm</a>
+						<a href="/film/{{movies.3.id}}">{{movies.3.title}}</a>
 					</div>
-					<div class="recom-movie-year">2020</div>
-					<div class="recom-movie-year">Directed by Aaron Sorkin</div>
+					<div class="recom-movie-year">{{movies.3.release_date}}</div>
 					<div class="recom-movie-genre">
-						<a>Comedy</a>
-						<a>History</a>
-						<a>Drama</a>
-						<a>Romance</a>
-						<a>Mystery</a>
+						{%for genre in movies.3.genres%}
+						<a>{{genre}}</a><br>
+						{%endfor%}
 					</div>
 				</div>
 			</div>
 			<div class="recom-content">
-				<div class="recom-movie-img"></div>
+				<div class="recom-movie-img">
+					<img style="height:175px; width:118px;" src="../static/poster_downloads/{{movies.4.poster}}.jpg">
+
+				</div>
 				<div class="recom-movie-detail">
 					<div class="recom-movie-title">
-						<a href="#">Borat Subsequent Moviefilm</a>
+						<a href="/film/{{movies.4.id}}">{{movies.4.title}}</a>
 					</div>
-					<div class="recom-movie-year">2020</div>
-					<div class="recom-movie-year">Directed by Aaron Sorkin</div>
+					<div class="recom-movie-year">{{movies.4.release_date}}</div>
 					<div class="recom-movie-genre">
-						<a>Comedy</a>
-						<a>History</a>
-						<a>Drama</a>
-						<a>Romance</a>
-						<a>Mystery</a>
+						{%for genre in movies.4.genres%}
+						<a>{{genre}}</a><br>
+						{%endfor%}
 					</div>
 				</div>
 			</div>
 			<div class="recom-content">
-				<div class="recom-movie-img"></div>
+				<div class="recom-movie-img">
+					<img style="height:175px; width:118px;" src="../static/poster_downloads/{{movies.5.poster}}.jpg">
+
+				</div>
 				<div class="recom-movie-detail">
 					<div class="recom-movie-title">
-						<a href="#">Borat Subsequent Moviefilm</a>
+						<a href="/film/{{movies.5.id}}">{{movies.5.title}}</a>
 					</div>
-					<div class="recom-movie-year">2020</div>
-					<div class="recom-movie-year">Directed by Aaron Sorkin</div>
+					<div class="recom-movie-year">{{movies.5.release_date}}</div>
 					<div class="recom-movie-genre">
-						<a>Comedy</a>
-						<a>History</a>
-						<a>Drama</a>
-						<a>Romance</a>
-						<a>Mystery</a>
+						{%for genre in movies.5.genres%}
+						<a>{{genre}}</a><br>
+						{%endfor%}
 					</div>
 				</div>
 			</div>
 			<div class="recom-content">
-				<div class="recom-movie-img"></div>
+				<div class="recom-movie-img">
+					<img style="height:175px; width:118px;" src="../static/poster_downloads/{{movies.6.poster}}.jpg">
+
+				</div>
 				<div class="recom-movie-detail">
 					<div class="recom-movie-title">
-						<a href="#">Borat Subsequent Moviefilm</a>
+						<a href="/film/{{movies.6.id}}">{{movies.6.title}}</a>
 					</div>
-					<div class="recom-movie-year">2020</div>
-					<div class="recom-movie-year">Directed by Aaron Sorkin</div>
+					<div class="recom-movie-year">{{movies.6.release_date}}</div>
 					<div class="recom-movie-genre">
-						<a>Comedy</a>
-						<a>History</a>
-						<a>Drama</a>
-						<a>Romance</a>
-						<a>Mystery</a>
+						{%for genre in movies.6.genres%}
+						<a>{{genre}}</a><br>
+						{%endfor%}
+					</div>
+				</div>
+			</div>
+			<div class="recom-content">
+				<div class="recom-movie-img">
+					<img style="height:175px; width:118px;" src="../static/poster_downloads/{{movies.7.poster}}.jpg">
+
+				</div>
+				<div class="recom-movie-detail">
+					<div class="recom-movie-title">
+						<a href="/film/{{movies.7.id}}">{{movies.7.title}}</a>
+					</div>
+					<div class="recom-movie-year">{{movies.7.release_date}}</div>
+					<div class="recom-movie-genre">
+						{%for genre in movies.7.genres%}
+						<a>{{genre}}</a><br>
+						{%endfor%}
 					</div>
 				</div>
 			</div>

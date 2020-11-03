@@ -66,7 +66,7 @@
 								<div class="detail-content-left">
 									<div class="content-title">Countries:</div>
 									{%for con in movie_details.production_countries%}
-									<div class="content-word">{{con}}</div>
+									<div>{{con}}</div>&nbsp;&nbsp;&nbsp;
 									{%endfor%}
 								</div>
 							</div>
@@ -105,16 +105,29 @@
 								</div>
 							</div>
 							<hr />
+							<div class="bootstrapiso">
+								<form>
+									<div class="form-group">
+										<label for="exampleFormControlTextarea1">Add yor review:</label>
+										<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+									</div>
+								</form>
+							</div>
 						</div>
 					</div>
-					<div class="detail-col-3">
+					<div class="detail-col-3"
+					style="border: 2px solid rgb(5, 5, 5);
+							border-radius: 30px;
+							padding:25px 10px;
+							background-color:rgba(240, 255, 255, 0.5);
+							">
 						<div class="detail-recom-title">
 							Recommend for you
 						</div>
 						{%for movie in recommend_list%}
 						<div class="detail-recom-content">
 							<div class="recom-content">
-								<div class="recom-movie-img"><img src="../static/poster_downloads/{{movie.poster_path}}.jpg"></div></div>
+								<div class="recom-movie-img"><img style="height:175px;width:118px;" src="../static/poster_downloads/{{movie.poster_path}}.jpg"></div>
 								<div class="recom-movie-detail">
 									<div class="recom-movie-title">
 										<a href="#">{{movie.title}}</a>
@@ -128,6 +141,7 @@
 									</div>
 								</div>
 							</div>
+						</div>
 						{%endfor%}
 						</div>
 					</div>
