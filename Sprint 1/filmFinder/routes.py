@@ -1,9 +1,13 @@
+import os
+from filmFinder import recommend
 from flask import Flask, render_template, url_for, flash, redirect, request
 from filmFinder import app, db, bcrypt
-from filmFinder.forms import RegistrationForm, LoginForm
+from filmFinder.forms import RegistrationForm, LoginForm, UpdateAccountForm
 from filmFinder.models import USERPROFILES
 from flask_login import login_user, logout_user, current_user, login_required
 from sqlalchemy.sql import func
+import secrets
+from PIL import Image
 # from flask.globals import request
 # from flask import g
 import sqlite3
@@ -11,13 +15,21 @@ from filmFinder.mostPopular import *
 from filmFinder.filmDetail import *
 # from flask import jsonify
 
-movies = most_popular_movies(10)
-
+most_popular_movies = most_popular_movies(10)
+highest_rating_movies = highest_rating_movies(10)
 
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html', movies=movies)
+    if current_user.is_authenticated:
+        userid = current_user.get_id()
+        recommend_list = ubcf(userid)
+    else:
+        recommend_list = []
+    return render_template('home.html', 
+        movies=most_popular_movies, # 改成前后一致
+        recommend_list=recommend_list, 
+        highest_rating_movies=highest_rating_movies)
 
 
 @app.route("/about")
@@ -72,7 +84,7 @@ def general_search():
         # c = conn.cursor()
         search_results = genenal_search(conditions, mode, offset)
 
-        res=[]
+        res = []
         for i in search_results:
             res.append(get_movie_details(int(i[0])))
 
@@ -84,7 +96,7 @@ def general_search():
             else:
                 condition_results.append(str(con))
         if condition_results == []:
-             condition_results = 'You did not enter any value.\n There are 10 most popular movies below:'
+            condition_results = 'You did not enter any value.\n There are 10 most popular movies below:'
         else:
             condition_results = 'Your search results for ' + \
                 ', '.join(condition_results) + ' are:'
@@ -108,8 +120,7 @@ def advanced_search():
         rating = 0
         mode = request.form.get('mode')
 
-        output = [title,director,casts,genre,country,year1,year2,mode]
-
+        output = [title, director, casts, genre, country, year1, year2, mode]
 
         offset = (page - 1) * 10
 
@@ -137,7 +148,8 @@ def advanced_search():
             rating = None
         else:
             rating = float(rating)
-        conditions = [title, director, casts, genre, country, year1, year2, rating]
+        conditions = [title, director, casts,
+                      genre, country, year1, year2, rating]
         if mode == None:
             mode = 0
         else:
@@ -147,10 +159,9 @@ def advanced_search():
         #     'filmFinder/database_files/filmfinder.db', check_same_thread=False)
         # c = conn.cursor()
         search_results = advanced_search1(conditions, mode, offset)
-        res=[]
+        res = []
         for i in search_results:
             res.append(get_movie_details(int(i[0])))
-    
 
         # return jsonify(search_results)
         condition_results = []
@@ -160,11 +171,11 @@ def advanced_search():
             else:
                 condition_results.append(str(con))
         if condition_results == []:
-             condition_results = 'You did not enter any value. There are 10 most popular movies below: '
+            condition_results = 'You did not enter any value. There are 10 most popular movies below: '
         else:
             condition_results = 'Your search results for ' + \
                 ', '.join(condition_results) + ' are:'
-        return render_template('advanced.html', title='Search', condition_results=condition_results, search_results=res, name = output[0], director =output[1],casts = output[2],genre=output[3],country = output[4],year1=output[5],year2 = output[6],mode = output[7])
+        return render_template('advanced.html', title='Search', condition_results=condition_results, search_results=res, name=output[0], director=output[1], casts=output[2], genre=output[3], country=output[4], year1=output[5], year2=output[6], mode=output[7])
     return render_template('advanced.html', title='Search')
 
 
@@ -174,7 +185,8 @@ def register():
         return redirect(url_for('home'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        hashed_password = bcrypt.generate_password_hash(
+            form.password.data).decode('utf-8')
         if USERPROFILES.query.filter_by(username=form.username.data).first():
             flash('The username is already used', category='error')
         elif USERPROFILES.query.filter_by(email=form.email.data).first():
@@ -186,7 +198,8 @@ def register():
                                 email=form.email.data, password=hashed_password)
             db.session.add(user)
             db.session.commit()
-            flash('Your account has been created! You are now able to log in', category='success')
+            flash('Your account has been created! You are now able to log in',
+                  category='success')
         return redirect(url_for('home'))
     return render_template('register.html', title='Register', form=form)
 
@@ -203,7 +216,8 @@ def login():
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('home'))
         else:
-            flash('Login unsccessful! Please check your email and password', category='danger')
+            flash('Login unsccessful! Please check your email and password',
+                  category='danger')
     return render_template('login.html', title='Login', form=form)
 
 
@@ -213,15 +227,79 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route("/account")
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(
+        app.root_path, 'static/profile_pics', picture_fn)
+
+    output_size = (300, 300)
+    img = Image.open(form_picture)
+    img.thumbnail(output_size)
+    img.save(picture_path)
+
+    return picture_fn
+
+
+@app.route("/account", methods=["GET", "POST"])
 @login_required
 def account():
-    return render_template('account.html', title='Account')
+    form = UpdateAccountForm()
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.profile_image = picture_file
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Your account has been updated!', category='success')
+        return redirect(url_for('account'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+    image_file = url_for(
+        'static', filename='profile_pics/' + current_user.profile_image)
+    return render_template('account.html', title='Account', image_file=image_file, form=form)
+
+# @app.route("/account/<string:userid>")
+# @login_required
+# def account(userid):
+#     wishlist = get_wishlist(userid)
+#     blocklist = get_blocklist(userid)
+#     return render_template('account.html', title='Account', wishlist=wishlist, blocklist=blocklist)
+
+
+# @app.route("/account/<string:userid>")
+# def account(userid):
+#     wishlist = get_wishlist(userid)
+#     # blocklist = get_blocklist(userid)
+#     return render_template('account.html', title='Account', wishlist=wishlist)
+
+# @app.route("/account")
+# def account():
+#     return render_template('account.html', title='Account')
 
 
 @app.route("/film/<string:filmid>")
 def film(filmid):
     movie_details = get_movie_details(filmid)
+    recommend_list = ibcf(filmid)
+    # print('recommend list:', recommend_list)
+    # if current_user.is_authenticated:
+    #     print(current_user.get_id())
+    print(current_user.get_id())
     # print(movie_details)
-    return render_template('film.html', movie_details=movie_details)
+    return render_template('film.html', movie_details=movie_details, recommend_list=recommend_list)
+
+
+@app.route("/film/<string:filmid>")
+@login_required
+def add_to_wish_list(filmid):
+    if current_user.is_authenticated():
+        userid = current_user.get_id()
+        response = wishlist_button(filmid, userid)
+        return response
+    else:
+        return flash('You need to login first', category='danger')
 

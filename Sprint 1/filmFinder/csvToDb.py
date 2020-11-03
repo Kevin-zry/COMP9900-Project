@@ -104,7 +104,7 @@ if __name__ == "__main__":
     '''
     tmdb_film_id = np.array(list(set(final_film_df.id.unique().tolist())))
     # print(tmdb_film_id)
-    np.random.seed(0); user_rate_num = np.random.randint(1, 21, size=500).tolist()
+    np.random.seed(0); user_rate_num = np.random.randint(50, 100, size=500).tolist()
     rate_num = sum(user_rate_num)
     np.random.seed(0); user_rating =np.random.randint(1,6,size=rate_num)
     rating_index = np.array(range(1,rate_num+1))
@@ -202,9 +202,8 @@ if __name__ == "__main__":
     c.execute(
         '''
         CREATE TABLE WISHLIST(
-            [id] INTEGER PRIMARY KEY,
-            [idx] integer,
-            [idy] integer
+            [userid] integer NOT NULL,
+            [movieid] integer NOT NULL
         )
         '''
     )
@@ -212,9 +211,8 @@ if __name__ == "__main__":
     c.execute(
         '''
         CREATE TABLE BLOCKING(
-            [id] INTEGER PRIMARY KEY,
-            [idx] integer,
-            [idy] integer
+            [userid] integer NOT NULL,
+            [blockid] integer NOT NULL
         )
         '''
     )
