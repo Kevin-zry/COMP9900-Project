@@ -75,7 +75,8 @@
 							<div class="detail-subtitle">REVIEW</div>
 							<div class="detail-review-content">
 								<div class="detail-review-icon">
-									<div class="review-icon"></div>
+									<div class="review-icon"><img style="height:100px;width:100px;" src="../static/profile_pics/default.jpg">
+									</div>
 								</div>
 								<div class="detail-review-word">
 									<div class="review-name">Review by
@@ -91,7 +92,9 @@
 							<hr />
 							<div class="detail-review-content">
 								<div class="detail-review-icon">
-									<div class="review-icon"></div>
+									<div class="review-icon">
+										<img style="height:100px;width:100px;" src="../static/profile_pics/default.jpg">
+									</div>
 								</div>
 								<div class="detail-review-word">
 									<div class="review-name">Review by
@@ -122,7 +125,7 @@
 							background-color:rgba(240, 255, 255, 0.5);
 							">
 						<div class="detail-recom-title">
-							Recommend for you
+							You may also like
 						</div>
 						{%for movie in recommend_list%}
 						<div class="detail-recom-content">
@@ -130,7 +133,7 @@
 								<div class="recom-movie-img"><img style="height:175px;width:118px;" src="../static/poster_downloads/{{movie.poster_path}}.jpg"></div>
 								<div class="recom-movie-detail">
 									<div class="recom-movie-title">
-										<a href="#">{{movie.title}}</a>
+										<a href="./{{movie.id}}">{{movie.title}}</a>
 									</div>
 									<div class="recom-movie-year">{{movie.release_date}}</div>
 									<div class="recom-movie-year">Directed by {{movie.crew}}</div>

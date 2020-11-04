@@ -92,19 +92,19 @@
         </div>
         <div class="form-check form-check-inline">
           <input class="form-check-input" type="checkbox" id="Thriller" value="Thriller" name = "genre">
-          <label class="form-check-label" for="inlineCheckbox15">Thriller</label>
+          <label class="form-check-label" for="inlineCheckbox16">Thriller</label>
         </div>
         <div class="form-check form-check-inline">
           <input class="form-check-input" type="checkbox" id="TV Movie" value="TV Movie" name = "genre">
-          <label class="form-check-label" for="inlineCheckbox16">TV Movie</label>
+          <label class="form-check-label" for="inlineCheckbox17">TV Movie</label>
         </div>
         <div class="form-check form-check-inline">
           <input class="form-check-input" type="checkbox" id="War" value="War" name = "genre">
-          <label class="form-check-label" for="inlineCheckbox17">War</label>
+          <label class="form-check-label" for="inlineCheckbox18">War</label>
         </div>
         <div class="form-check form-check-inline">
           <input class="form-check-input" type="checkbox" id="Western" value="Western" name = "genre">
-          <label class="form-check-label" for="inlineCheckbox18">Western</label>
+          <label class="form-check-label" for="inlineCheckbox19">Western</label>
         </div>
         
       </div>
@@ -216,62 +216,70 @@
       padding:25px 10px;
       background-color:rgba(240, 255, 255, 0.5);
       " >
-      {% for result in search_results %}
-      <div class="so-result-info search-movie clearfix">
-        <div class="result_ugc result-content">
-        
-        <div class="tele_box">
-        <div class="vari_pho">
-        <a class="vari_p report-click report-action" href="film/{{result.id}}" target="_blank">
-        <img src="../static/poster_downloads/{{result.poster_path}}.jpg">
-        </a>
-        </div>
-        <div class="tele_intro">
-        <div class="tele_hd">
-        
-        <a href="film/{{result.id}}" target="_blank" class="report-click report-action"><b>{{result.title}}</b></a>
-        <a class="year">{{result.release_date}}</a>
-        
-        
-        </div>
-        <div class="tele_line">
-        <div class="info_item">
-        <span class="label">Casts:</span>
-        <span class="cont">
-        <a href="#" target="_blank">xxx</a> <a href="#" target="_blank">yyy</a> <a href="#" target="_blank">zzz</a> <a href="#" target="_blank">ttt</a> 
-        </div>
-        <div class="info_item">
-        <span class="label">Director:</span>
-        <span class="cont">
-        <a href="#" target="_blank">{{result.crew}}</a></span>
-        </div>
-        </div>
-        <div class="tele_line">
-        <div class="info_item">
-        <span class="label">Genre:</span>
-        <span class="cont">
-        {{result.genres}}</span>
-        </div>
-        <div class="info_item">
-        <span class="label">Country:</span>
-        <span class="cont">
-        {{result.production_countries}}</span>
-        </div>
-        </div>
-        <div class="tele_item_des">
-        <span class="label">Details:</span>
-        <span class="desc_text">
-          {{result.overview}}
-            <a class="desc_detail report-click report-action" style="float:right" target="_blank" href="film/{{result.id}}">details:
-        </a>
-        </span>
-        <a style="margin-top:45px;" class="so-result-btn center play report-click report-action" target="_blank" href="film/{{result.id}}"><span><em></em>More details</span></a>
-        </div>
-        </div>
-        </div>
-        </div>
-        </div>
-      {% endfor %}
+       {% for result in search_results %}
+       <div class="so-result-info search-movie clearfix">
+         <div class="result_ugc result-content">
+         
+         <div class="tele_box">
+         <div class="vari_pho">
+         <a class="vari_p report-click report-action" href="film/{{result.id}}" target="_blank">
+         <img src="../static/poster_downloads/{{result.poster_path}}.jpg">
+         </a>
+         </div>
+         <div class="tele_intro">
+         <div class="tele_hd">
+         
+         <a href="film/{{result.id}}" target="_blank" class="report-click report-action"><b>{{result.title}}</b></a>
+         <a class="year">{{result.release_date}}</a>
+         
+         
+         </div>
+         <div class="tele_line">
+         <div class="info_item">
+         <span class="label">Casts:</span>
+         <span class="cont">
+         <!-- <a href="#" target="_blank">xxx</a> <a href="#" target="_blank">yyy</a> <a href="#" target="_blank">zzz</a> <a href="#" target="_blank">ttt</a>  -->
+         {%for cast in result.casts%}
+         <a>{{"|"+cast}}</a>
+         {%endfor%}{{"|"}}
+         <!-- {{result.casts}}</span> -->
+         </div>
+         <div class="info_item">
+         <span class="label">Director:</span>
+         <span class="cont">
+         <a href="#" target="_blank">{{result.crew}}</a></span>
+         </div>
+         </div>
+         <div class="tele_line">
+         <div class="info_item">
+         <span class="label">Genre:</span>
+         <span class="cont">
+         {%for genre in result.genres%}
+         <a>{{"|"+genre}}</a>
+         {%endfor%}{{"|"}}
+         </div>
+         <div class="info_item">
+         <span class="label">Country:</span>
+         <span class="cont">
+         {%for pc in result.production_countries%}
+         <a>{{"|"+pc}}</a>
+         {%endfor%}{{"|"}}
+         </div>
+         </div>
+         <div class="tele_item_des">
+         <span class="label">Details:</span>
+         <span class="desc_text">
+           {{result.overview}}
+             <a class="desc_detail report-click report-action" style="float:right" target="_blank" href="film/{{result.id}}">details:
+         </a>
+         </span>
+         <a style="margin-top:45px;" class="so-result-btn center play report-click report-action" target="_blank" href="film/{{result.id}}"><span><em></em>More details</span></a>
+         </div>
+         </div>
+         </div>
+         </div>
+         </div>
+       {% endfor %}
     </div>
       </form> 
     </div>

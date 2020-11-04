@@ -2,8 +2,14 @@
 {% block content %}
     <h1 class = 'center'>Search Results:</h1>
     <form method="POST">
+  
       <!-- <div align="center"></div> -->
       {{condition_results}}<br><br>
+      <div style="border: 2px solid rgb(5, 5, 5);
+      border-radius: 30px;
+      padding:25px 10px;
+      background-color:rgba(240, 255, 255, 0.5);
+      " >
       {% for result in search_results %}
       <div class="so-result-info search-movie clearfix">
         <div class="result_ugc result-content">
@@ -68,5 +74,6 @@
         </div>
         </div>
       {% endfor %}
+      </div>
       </form> 
 {% endblock content %}
