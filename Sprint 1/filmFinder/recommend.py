@@ -7,6 +7,7 @@ from sqlalchemy import or_
 import numpy as np
 import math
 from filmFinder.models import *
+from filmFinder.filmDetail import re_process
 from sqlalchemy.sql.expression import func
 
 # 无法协同过滤时的应急推荐机制，随机推荐电影
@@ -62,7 +63,7 @@ def collaborative_filtering_user(userid):
 
 
     # get all other users who has been  blocked then remove them from similar_users
-    block_users = set(map(lambda x: x.idy, BLOCKING.query.filter(BLOCKING.idx == userid).all()))
+    block_users = set(map(lambda x: x.blockid, BLOCKING.query.filter(BLOCKING.userid == userid).all()))
 
     # print("block users:",block_users)
 
@@ -197,11 +198,20 @@ def collaborative_filtering_user(userid):
     #print(type(recommend_ids[0]))
     return recommend_ids
 
+# get genres
+def get_movie_genres(id):
+    result = Films.query.filter(Films.id == id).first()
+    if result != None:
+        return set(re_process(result.genres))
+    else:
+        return None
+
+
 
 # 基于物品的协同过滤算法
 '''
     1、将所有评分大于阈值的用户设置为偏好该物品的用户，得到每部电影对应的喜好用户集合
-    2、用交集长度/sqrt(双方长度之积)得到物品的相似度
+    2、对类型有重合的电影，用交集长度/sqrt(双方长度之积)得到物品的相似度
     3、筛选出想要的相似度靠前的电影
 '''
 # collaborative filtering based on item
@@ -216,6 +226,7 @@ def collaborative_filtering_item(movieId):
         return set(map(lambda x: x.userId, search_result))
 
     current_interested_users = get_interested_users(movieId)
+    current_genres = get_movie_genres(movieId)
     if len(current_interested_users) == 0:
         return spare_recommend_method()
 
@@ -226,6 +237,14 @@ def collaborative_filtering_item(movieId):
     similar_movies.remove(movieId)
     if len(similar_movies) == 0:
         return spare_recommend_method()
+
+    # only remain those movies has same genres
+    remove_list = []
+    for similar_id in similar_movies:
+        if len(get_movie_genres(similar_id) & current_genres) == 0:
+            remove_list.append(similar_id)
+    for similar_id in remove_list:
+            similar_movies.remove(similar_id)
 
     # calculate similar weight
     similar_movies = list(similar_movies)
