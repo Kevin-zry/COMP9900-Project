@@ -6,8 +6,8 @@
 from sqlalchemy import or_
 import numpy as np
 import math
+import re
 from filmFinder.models import *
-from filmFinder.filmDetail import re_process
 from sqlalchemy.sql.expression import func
 
 # 无法协同过滤时的应急推荐机制，随机推荐电影
@@ -200,12 +200,14 @@ def collaborative_filtering_user(userid):
 
 # get genres
 def get_movie_genres(id):
-    result = Films.query.filter(Films.id == id).first()
-    if result != None:
-        return set(re_process(result.genres))
+    result = Films.query.filter(Films.id == id).first().genres
+    if result:
+        result = re.findall("'name': '[a-zA-Z ]{1,}'", result)
+        result = [i[9:-1] for i in result]
+        result = set(result)
     else:
-        return None
-
+        result = ['No data.']
+    return result
 
 
 # 基于物品的协同过滤算法
