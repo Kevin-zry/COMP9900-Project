@@ -16,3 +16,26 @@ Week 3
 1. try to set up software architecture
 2. finish the proposal
 3. discuss details about front end 
+
+Week4
+
+1.build up basic front end architecture on the webpage
+2.Due to the change of frontend architecture, we take more time on the froneend part. 
+
+Week5
+
+1.work on the first sprint
+2.design movie detail pagfe and movie homepage.
+3.prepare for the first demo.
+4.search and combine design ideas from other movie websites.
+
+Week6
+
+1.find out what we did well and what we still need improvment from last 5 weeks.
+2.pay more attention on the communication between each group member.
+3.work on the page beautification.
+4.finish retrospective meeting and submit our report.
+
+Week7
+1.work on the second sprint.
+2.finish details on the movie detail page.
