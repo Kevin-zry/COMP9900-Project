@@ -242,9 +242,9 @@ def save_picture(form_picture):
     return picture_fn
 
 
-@app.route("/account", methods=["GET", "POST"])
+@app.route("/account/<string:userid>", methods=["GET", "POST"])
 @login_required
-def account():
+def account(userid):
     form = UpdateAccountForm()
     if form.validate_on_submit():
         if form.picture.data:
@@ -260,46 +260,45 @@ def account():
         form.email.data = current_user.email
     image_file = url_for(
         'static', filename='profile_pics/' + current_user.profile_image)
-    return render_template('account.html', title='Account', image_file=image_file, form=form)
-
-# @app.route("/account/<string:userid>")
-# @login_required
-# def account(userid):
-#     wishlist = get_wishlist(userid)
-#     blocklist = get_blocklist(userid)
-#     return render_template('account.html', title='Account', wishlist=wishlist, blocklist=blocklist)
-
-
-# @app.route("/account/<string:userid>")
-# def account(userid):
-#     wishlist = get_wishlist(userid)
-#     # blocklist = get_blocklist(userid)
-#     return render_template('account.html', title='Account', wishlist=wishlist)
-
-# @app.route("/account")
-# def account():
-#     return render_template('account.html', title='Account')
+    if userid == current_user.get_id():
+        identify = True
+    else:
+        identify = False
+    wishlist = get_wishlist(current_user.get_id())
+    blocklist = get_blocklist(current_user.get_id())
+    
+    return render_template('account.html', title='Account', image_file=image_file, form=form, wishlist=wishlist, blocklist=blocklist, identify=identify)
 
 
-@app.route("/film/<string:filmid>")
+@app.route("/film/<string:filmid>", methods=["GET", "POST"])
 def film(filmid):
     movie_details = get_movie_details(filmid)
     recommend_list = ibcf(filmid)
-    # print('recommend list:', recommend_list)
-    # if current_user.is_authenticated:
-    #     print(current_user.get_id())
-    print(current_user.get_id())
-    # print(movie_details)
-    return render_template('film.html', movie_details=movie_details, recommend_list=recommend_list)
+    response = ''
+    if request.method == "POST":
+        if current_user.is_authenticated:
+            userid = current_user.get_id()
+            response = wishlist_button(filmid, userid)
+        else:
+            response = 'You need to login first'
+    return render_template('film.html', movie_details=movie_details, recommend_list=recommend_list, response=response)
 
 
-@app.route("/film/<string:filmid>")
+@app.route("/wishlist/<string:userid>", methods=["GET", "POST"])
 @login_required
-def add_to_wish_list(filmid):
-    if current_user.is_authenticated():
-        userid = current_user.get_id()
-        response = wishlist_button(filmid, userid)
-        return response
-    else:
-        return flash('You need to login first', category='danger')
+def wishlist(userid):
+    wishlist = get_wishlist(current_user.get_id())
+    if request.method == "POST":
+        movieid = request.form['remove_from_wishlist']
+        remove_from_wishlist(userid, movieid)
+    return render_template('wishlist.html', title='Wishlist', wishlist=wishlist)
 
+
+@app.route("/blocklist/<string:userid>", methods=["GET", "POST"])
+@login_required
+def blocklist(userid):
+    blocklist = get_blocklist(current_user.get_id())
+    if request.method == "POST":
+        blockid = request.form['remove_from_blocklist']
+        remove_from_blocklist(userid, blockid)
+    return render_template('blocklist.html', title='Blocklist', blocklist=blocklist)

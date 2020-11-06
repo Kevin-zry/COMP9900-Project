@@ -53,15 +53,22 @@ class RATINGS(db.Model):
 class FOLLOWING(db.Model):
     __tablename__ = 'FOLLOWING'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    idx = db.Column(db.Integer)
-    idy = db.Column(db.Integer)
+    userid = db.Column(db.Integer)
+    movieid = db.Column(db.Integer)
 
 
 class BLOCKING(db.Model):
     __tablename__ = 'BLOCKING'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    idx = db.Column(db.Integer)
-    idy = db.Column(db.Integer)
+    userid = db.Column(db.Integer)
+    blockid = db.Column(db.Integer)
+
+
+class WISHLIST(db.Model):
+    __tablename__ = 'WISHLIST'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    userid = db.Column(db.Integer)
+    movieid = db.Column(db.Integer)
 
 
 # class Review(db.Model):
