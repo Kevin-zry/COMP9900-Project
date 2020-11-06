@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title> Wishlist </title>
+</head>
+
+<body>
+    {%for movie in wishlist%}
+    <br>
+    {{movie.title}}
+    <img src="../static/poster_downloads/{{movie.poster_path}}.jpg">
+    <br>
+    <form action="../wishlist/{{current_user.id}}" method="POST">
+        <button type="submit" name="remove_from_wishlist" value="{{movie.id}}">Remove</button>
+    </form>
+    {%endfor%}
+</body>
+
+</html>

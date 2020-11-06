@@ -31,7 +31,7 @@
     <!-- top-bar -->
     <div class="social">
       {% if current_user.is_authenticated %}
-      <div class="social-content"><a href="{{ url_for('account') }}">{{ current_user.username }}</a></div>
+      <div class="social-content"><a href="/account/{{ current_user.id }}">{{ current_user.username }}</a></div>
       
       <div class="social-content"><a class="disabled">|</a></div>
       <div class="social-content"><a href="{{ url_for('logout') }}">SIGN OUT</a></div>

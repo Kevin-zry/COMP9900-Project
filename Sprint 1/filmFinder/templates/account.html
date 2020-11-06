@@ -7,8 +7,10 @@
         <div class="media-body">
           <h2 class="account-heading">{{ current_user.username }}</h2>
           <p class="text-secondary">{{ current_user.email }}</p>
-          <a class="btn btn-primary" href="#" role="button">My wishlist</a>
-          <a class="btn btn-primary" href="#" role="button">My blacklist</a>
+          {% if identify == True%}
+          <a class="btn btn-primary" href="../wishlist/{{current_user.id}}" role="button">My wishlist</a>
+          <a class="btn btn-primary" href="../blocklist/{{current_user.id}}" role="button">My blacklist</a>
+          {%endif%}
         </div>
       </div>
         <form method="POST" action="" enctype="multipart/form-data">
@@ -55,6 +57,21 @@
             <div class="form-group">
                 {{ form.submit(class="btn btn-outline-info") }}
             </div>
+            {% if identify == True%}
+            <br>
+            BLOCKLIST:<br>
+            {%for x in blocklist%}
+            {{x.username}}
+            <img src="../static/poster_downloads/{{x.profile_image}}.jpg">
+            {%endfor%}
+            <br>
+            WISHLIST:<br>
+            {%for x in wishlist%}
+            <a class="desc_detail report-click report-action" href="../film/{{x.id}}">{{x.title}}:
+            <img src="../static/poster_downloads/{{x.poster_path}}.jpg">
+            {%endfor%}
+            {%endif%}
+
         </form>
     </div>
 </div>
