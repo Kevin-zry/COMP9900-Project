@@ -48,3 +48,8 @@ I will try to imporve the itemCF performance next week.
 Week 7
 This week I wrote the routes and backend functions about the film detailed page and user profile page.
 I also wrote some simple view models for frontend to connect.
+
+week 8
+this week i finished the wishlist and blocklist part.
+Wishlist part contains add films to wishlist, and view some users' wishlist, and do some modifications on the wishlist, for example, delete.
+Blocklist part is basically the same as wishlist.
