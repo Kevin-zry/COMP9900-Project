@@ -8,18 +8,27 @@
 		<li style = "color: #ec7532;">Users details</li>
 	 </ul>
 </div>
-<div class = "bootstrapiso">
+<div class = "bootstrapiso" style="margin:15px 20% 20px 15%;">
     <div class="content-section">
-      <div class="media">
+      <div class="media" >
         <img class="rounded-circle account-img" src="{{ image_file }}">
-        <div class="media-body">
-          <h2 class="account-heading">{{ current_user.username }}</h2>
-          <p class="text-secondary">{{ current_user.email }}</p>
-          {% if identify == True%}
-          <a class="btn btn-primary" href="../wishlist/{{current_user.id}}" role="button">My wishlist</a>
-          <a class="btn btn-primary" href="../blocklist/{{current_user.id}}" role="button">My blacklist</a>
-          {%endif%}
-        </div>
+            <div class="media-body col-8" >
+                <h2 class="account-heading">{{ current_user.username }}</h2>
+                <p class="text-secondary">{{ current_user.email }}</p>
+            </div>
+            <div class="col-3 topmargin">
+                <div class="list-group">
+                    {% if identify == True%}
+                    <a class="list-group-item list-group-item-action active" href="../wishlist/{{current_user.id}}" role="button">My wishlist</a>
+                    <a class="list-group-item list-group-item-action" href="../blocklist/{{current_user.id}}" role="button">My blacklist</a>
+                    {%endif%}
+                  </div>
+                  <img src="../static/images/like.png"style="height:50px;width:50px;
+                  margin:5% 5% 10% 20%;" >
+                   <span>100</span>
+            </div>
+           
+        
       </div>
         <form method="POST" action="" enctype="multipart/form-data">
             {{ form.hidden_tag() }}

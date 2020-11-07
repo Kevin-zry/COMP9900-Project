@@ -1,23 +1,48 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8">
-    <title> Wishlist </title>
-</head>
+{% extends "layout.html" %}
+{% block content %}
 
 <body>
-    {%for movie in wishlist%}
-    <br>
-    {{movie.title}}
-    <img src="../static/poster_downloads/{{movie.poster_path}}.jpg">
-    <br>
-    <form action="../wishlist/{{current_user.id}}" method="POST">
-
-        <button type="submit" name="remove_from_wishlist" value="{{movie.id}}">Remove</button>
-
-    </form>
-    {%endfor%}
+    <div class="page-top">
+        <h2>My Wishlist</h2>
+        <ul class ="center">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li>/ </li>
+            <li><a href="/account/{{current_user.id}}">User page</a></li>
+            <li>/ </li>
+            <li style = "color: #ec7532;">My wishlist</li>
+         </ul>
+    </div>
+    <div class = "bootstrapiso">
+        <div class="content-section">
+            <div class="media">
+                <img class="rounded-circle account-img" src="../static/profile_pics/{{current_user.profile_image}}">
+                <div class="media-body">
+                    <h2 class="account-heading">{{ current_user.username }}</h2>
+                    <p class="text-secondary">{{ current_user.email }}</p>
+                    {% if identify == True%}
+                    <a class="btn btn-primary" href="../wishlist/{{current_user.id}}" role="button">My wishlist</a>
+                    <a class="btn btn-primary" href="../blocklist/{{current_user.id}}" role="button">My blacklist</a>
+                    {%endif%}
+                </div>   
+            </div>
+            <hr>
+            <br>   
+            <div class="demo">
+                <ul>
+                {%for movie in wishlist%}
+                    <li class="mat20 kk">  
+                        <h6 class="center">{{movie.title}}</h6>
+                        <br>
+                        <img src="../static/poster_downloads/{{movie.poster_path}}.jpg">
+                        <br>
+                        <form action="../wishlist/{{current_user.id}}" method="POST">
+                            <button type="submit" name="remove_from_wishlist" value="{{movie.id}}">Remove</button>
+                        </form>
+                    </li>
+                {%endfor%}              
+                </ul>
+            </div>        
+        </div>
+    </div>
 </body>
-
-</html>
+{% endblock content %}
