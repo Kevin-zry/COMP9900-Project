@@ -22,26 +22,39 @@
 	/*border: 2px solid palevioletred;*/
 }
 
-.movie-recom{
-	
-}
 .movie-recom-title{
 	width: 100%;
 	background: #424242;
+	display:flex;
+	flex-flow: row nowrap;
+	margin: 0px 0px 20px 0px;
 	color: white;
 	font-family: TiemposHeadlineWeb-Bold,Georgia,serif;
 	font-size: xx-large;
-	margin: 0px 0px 20px 0px;
 }
-.movie-recom-content{
-	display: flex;
-	flex-flow: column nowrap;
+   
+.recom-title-content{
+	color: white;
+	font-family: TiemposHeadlineWeb-Bold,Georgia,serif;
+	font-size: xx-large;
+	width: 90%;
+}
+.recom-more{
+	display:flex;
+	flex-flow: row nowrap;
+	width: 10%;
+    justify-content: center;
+}
+.recom-more a{
+	margin-top:10%;
+ color: white;
+ font-family: TiemposHeadlineWeb-Bold,Georgia,serif;
+ font-size:15px;
 }
 .moive-recom {
 	width:100%;
 	display: flex;
 	flex-flow: column nowrap;
-	margin: 0px 0px 30px 0px;
 	/*border: 2px solid palevioletred;*/
 	
 }
