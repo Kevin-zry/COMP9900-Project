@@ -168,3 +168,44 @@
 	font-weight: 600;
 	font-size: large;
 }
+
+.review-name {
+	margin: 0px 0px 10px 0px;
+	font-weight: 200;
+	color: #678;
+	display: flex;
+	flex-flow: row;
+   }
+   
+   .button{
+	margin: 0px 0px 0px 10px;
+   }
+   .button-img{
+	background: url(../static/images/block.png) no-repeat;
+	background-size: contain;
+	background-position: center;
+	height: 25px;
+	width: 25px;
+   }
+   .review-name a{
+	font-weight: 600;
+   }
+   
+   .button-like{
+	margin: 5px 0px 0px 0px;
+	display: flex;
+	flex-flow: row;
+   }
+   .like-word{
+	margin: 0px 0px 0px 5px;
+	font-size: large;
+	color: #E64A19;
+	font-weight: 600;
+   }
+   .like-img{
+	background: url(../static/images/like.png) no-repeat;
+	background-size: cover;
+	background-position: center;
+	height: 20px;
+	width: 20px;
+   }

@@ -1,9 +1,42 @@
 .detail-top {
-	height: 150px;
+	margin: 20px 0;
+	padding: 50px 0;
+	/* height: 150px; */
 	width: 100%;
-	background-color: black;
+	background: url(../static/images/dbk3.jpg) no-repeat scroll 0 0/cover;
+	text-align: center;
 	/*border: 2px solid red;*/
 }
+
+.detail-top h2 {
+	color: #fff;
+	text-transform: capitalize;
+	font-family: 'Roboto Condensed', sans-serif;
+	letter-spacing: 2px;
+	font-size: 38px;
+	font-weight: 400;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, .004);
+	margin:0;
+}
+
+.detail-top ul {
+	text-align: center;
+	margin-top: 15px
+}
+
+.detail-top ul li {
+	display: inline-block;
+	text-transform: capitalize;
+	color: #eee;
+}
+
+.deatil-top ul>li+li:before {
+	content: "/ ";
+	padding: 0 5px;
+	color: #ccc;
+}
+
+
 .detail-middle {
 	width: 100%;
 	background-color: #f0f0f0;
