@@ -101,7 +101,7 @@ def general_search():
             condition_results = 'Your search results for ' + \
                 ', '.join(condition_results) + ' are:'
         return render_template('search_temp.html', title='Search', condition_results=condition_results, search_results=res)
-    return render_template('search_temp.html', title='Search')
+    return render_template('search_temp.html', title='Search', search_results='')
 
 
 @app.route('/advanced_search', methods=["GET", "POST"])
@@ -176,7 +176,7 @@ def advanced_search():
             condition_results = 'Your search results for ' + \
                 ', '.join(condition_results) + ' are:'
         return render_template('advanced.html', title='Search', condition_results=condition_results, search_results=res, name=output[0], director=output[1], casts=output[2], genre=output[3], country=output[4], year1=output[5], year2=output[6], mode=output[7])
-    return render_template('advanced.html', title='Search')
+    return render_template('advanced.html', title='Search', search_results='')
 
 
 @app.route("/register", methods=['GET', 'POST'])
