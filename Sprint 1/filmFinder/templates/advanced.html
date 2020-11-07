@@ -1,17 +1,25 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class = "bootstrapiso">
+<div class="page-top">
+	<h2>Search Page</h2>
+	<ul class ="center">
+		<li><a href="{{ url_for('home') }}">Home</a></li>
+		<li>/ </li>
+		<li style = "color: #ec7532;">Advanced search</li>
+	 </ul>
+</div>
+<div class = "bootstrapiso" style="margin-top:25px;padding:0 50px;">
+  <div class="content-section" style="margin:0 10% 0 10%" >
   <form action="" method="POST">
-        <h5 class = 'center'>----------------------Advanced Search----------------------</h5>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
+            <span class="input-group-text" id="inputGroup-sizing-default">Title:</span>
           </div>
           <input type="text"  name ='title' value="{{name}}" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
         </div>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text" id="inputGroup-sizing-default">Director</span>
+            <span class="input-group-text" id="inputGroup-sizing-default">Director:</span>
           </div>
           <input type="text" name = "director" value="{{director}}" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
         </div>
@@ -202,47 +210,48 @@
       <input style="width:120px;" class="btn btn-outline-success" type="submit" value="search" />
   </div>
   </form>
-  <div class = 'border-bottom'>
-    <br>
 </div>
 
 <br>
-  <form method="POST">
+  
       <!-- <div align="center"></div> -->
+      {%if search_results != ''%}
+     
       <h5 class ='center'>----------------------Search Results----------------------</h5>
       {{condition_results}}<br><br>
-      <div style="border: 2px solid rgb(5, 5, 5);
+      
+     
+      <div style="border: 1px solid #dddddd;
       border-radius: 30px;
       padding:25px 10px;
-      background-color:rgba(240, 255, 255, 0.5);
       " >
+      
        {% for result in search_results %}
-       <div class="so-result-info search-movie clearfix">
+       <div class="so-result-info">
          <div class="result_ugc result-content">
          
          <div class="tele_box">
          <div class="vari_pho">
-         <a class="vari_p report-click report-action" href="film/{{result.id}}" target="_blank">
+         <a class="vari_p" href="film/{{result.id}}" target="_blank">
          <img src="../static/poster_downloads/{{result.poster_path}}.jpg">
          </a>
          </div>
-         <div class="tele_intro">
-         <div class="tele_hd">
-         
-         <a href="film/{{result.id}}" target="_blank" class="report-click report-action"><b>{{result.title}}</b></a>
-         <a class="year">{{result.release_date}}</a>
-         
-         
-         </div>
-         <div class="tele_line">
-         <div class="info_item">
-         <span class="label">Casts:</span>
-         <span class="cont">
-         <!-- <a href="#" target="_blank">xxx</a> <a href="#" target="_blank">yyy</a> <a href="#" target="_blank">zzz</a> <a href="#" target="_blank">ttt</a>  -->
+        <div class="tele_intro">
+          <div class="tele_hd">
+            <a href="film/{{result.id}}" style="font-size:30px;
+                                                margin-right: 10px;
+                                             " target="_blank"><b>{{result.title}}</b></a>
+            <a class="year">{{result.release_date}}</a>
+          </div>
+          <div class="tele_line">
+            <div class="info_item">
+              <span class="label">Casts:</span>
+              <span class="cont">
+      
          {%for cast in result.casts%}
          <a>{{"|"+cast}}</a>
          {%endfor%}{{"|"}}
-         <!-- {{result.casts}}</span> -->
+              </span>
          </div>
          <div class="info_item">
          <span class="label">Director:</span>
@@ -270,17 +279,19 @@
          <span class="label">Details:</span>
          <span class="desc_text">
            {{result.overview}}
-             <a class="desc_detail report-click report-action" style="float:right" target="_blank" href="film/{{result.id}}">details:
+             <a class="desc_detail" style="float:right" target="_blank" href="film/{{result.id}}">details->
          </a>
          </span>
-         <a style="margin-top:45px;" class="so-result-btn center play report-click report-action" target="_blank" href="film/{{result.id}}"><span><em></em>More details</span></a>
+         <a style="margin-top:25px;" class="so-result-btn center play" target="_blank" href="film/{{result.id}}"><span>More details</span></a>
          </div>
          </div>
          </div>
          </div>
          </div>
+         <hr>
        {% endfor %}
     </div>
-      </form> 
+    {%endif%}
+      
     </div>
 {% endblock content %}

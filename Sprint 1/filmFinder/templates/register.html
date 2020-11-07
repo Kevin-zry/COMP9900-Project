@@ -1,6 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class = "bootstrapiso">
+<div class="page-top">
+	<h2>Register Page</h2>
+	<ul class ="center">
+		<li><a href="{{ url_for('home') }}">Home</a></li>
+		<li>/ </li>
+		<li style = "color: #ec7532;">Register</li>
+	 </ul>
+</div>
+<div class = "bootstrapiso" style = "margin:20px 20% 20px 20%; ">
 	<div class="content-section">
 		<form method="POSt" action="">
 			{{ form.hidden_tag() }}

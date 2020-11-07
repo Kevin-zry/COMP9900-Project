@@ -1,7 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<div class="detail-top"></div>
+<div class="page-top">
+	<h2>Film Details Page</h2>
+	<ul class ="center">
+		<li><a href="{{ url_for('home') }}">Home</a></li>
+		<li>/ </li>
+		<li style = "color: #ec7532;">film details</li>
+	 </ul>
+</div>
 			<div class="detail-middle">
 				<div class="middle-background">
 					<div class="detail-col-1">
@@ -97,15 +104,20 @@
 									</div>
 								</div>
 								<div class="detail-review-word">
-									<div class="review-name">Review by
-										<a href=""> Tom</a>
+									<div class="review-name">
+									 <div class="name">Review by <a href=""> Tom</a ></div>
+									 <div class="button"><a href=" "><div class="button-img" title="Block this user"></div></a ></div>
 									</div>
 									<div class="review-content">
-										<p>
-											I'll have to watch the original to see how bad or good this version is. I'm sure the Hitchcock version is better. I know this is a revisit of that movie but I really don't have anything to judge it against. I think the acting was fine
-										</p>
+									 <p>
+									  I'll have to watch the original to see how bad or good this version is. I'm sure the Hitchcock version is better. I know this is a revisit of that movie but I really don't have anything to judge it against. I think the acting was fine
+									 </p >
 									</div>
-								</div>
+									<div class="button-like" title="Like this comment">
+									 <a href=""><div class="like-img"></div></a >
+									 <div class="like-word">like</div>
+									</div>
+								   </div>
 							</div>
 							<hr />
 							<div class="bootstrapiso">
@@ -145,6 +157,7 @@
 								</div>
 							</div>
 						</div>
+						<hr>
 						{%endfor%}
 						</div>
 					</div>

@@ -1,5 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
+<div class="page-top">
+	<h2>User Details Page</h2>
+	<ul class ="center">
+		<li><a href="{{ url_for('home') }}">Home</a></li>
+		<li>/ </li>
+		<li style = "color: #ec7532;">Users details</li>
+	 </ul>
+</div>
 <div class = "bootstrapiso">
     <div class="content-section">
       <div class="media">
@@ -9,12 +17,7 @@
           <p class="text-secondary">{{ current_user.email }}</p>
           {% if identify == True%}
           <a class="btn btn-primary" href="../wishlist/{{current_user.id}}" role="button">My wishlist</a>
-          <a class="btn btn-primary" href="../blocklist/{{current_user.id}}" role="button">My blocklist</a>
-          {%else%}
-          <form action="#" method="POST">
-              <input type="submit" value="Add to blocklist" />
-          </form>
-              {{response}}
+          <a class="btn btn-primary" href="../blocklist/{{current_user.id}}" role="button">My blacklist</a>
           {%endif%}
         </div>
       </div>
@@ -69,14 +72,13 @@
             {{x.username}}
             <img src="../static/poster_downloads/{{x.profile_image}}.jpg">
             {%endfor%}
-            {%endif%}
             <br>
             WISHLIST:<br>
             {%for x in wishlist%}
             <a class="desc_detail report-click report-action" href="../film/{{x.id}}">{{x.title}}:
             <img src="../static/poster_downloads/{{x.poster_path}}.jpg">
             {%endfor%}
-            
+            {%endif%}
 
         </form>
     </div>

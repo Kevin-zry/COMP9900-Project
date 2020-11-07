@@ -13,7 +13,9 @@
     <img src="../static/poster_downloads/{{movie.poster_path}}.jpg">
     <br>
     <form action="../wishlist/{{current_user.id}}" method="POST">
+
         <button type="submit" name="remove_from_wishlist" value="{{movie.id}}">Remove</button>
+
     </form>
     {%endfor%}
 </body>
