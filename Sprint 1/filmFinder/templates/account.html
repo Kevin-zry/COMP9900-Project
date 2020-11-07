@@ -9,7 +9,12 @@
           <p class="text-secondary">{{ current_user.email }}</p>
           {% if identify == True%}
           <a class="btn btn-primary" href="../wishlist/{{current_user.id}}" role="button">My wishlist</a>
-          <a class="btn btn-primary" href="../blocklist/{{current_user.id}}" role="button">My blacklist</a>
+          <a class="btn btn-primary" href="../blocklist/{{current_user.id}}" role="button">My blocklist</a>
+          {%else%}
+          <form action="#" method="POST">
+              <input type="submit" value="Add to blocklist" />
+          </form>
+              {{response}}
           {%endif%}
         </div>
       </div>
@@ -64,13 +69,14 @@
             {{x.username}}
             <img src="../static/poster_downloads/{{x.profile_image}}.jpg">
             {%endfor%}
+            {%endif%}
             <br>
             WISHLIST:<br>
             {%for x in wishlist%}
             <a class="desc_detail report-click report-action" href="../film/{{x.id}}">{{x.title}}:
             <img src="../static/poster_downloads/{{x.poster_path}}.jpg">
             {%endfor%}
-            {%endif%}
+            
 
         </form>
     </div>
