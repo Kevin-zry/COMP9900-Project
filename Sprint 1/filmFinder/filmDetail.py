@@ -55,7 +55,7 @@ def wishlist_button(filmid, userid):
     if not already_added_check:
         c.execute(f"INSERT INTO WISHLIST (userid, movieid) VALUES ({userid}, {filmid})")
         conn.commit()
-        return 'Add to wishlist successfully.'
+        return 'Add to wishlist success.'
     else:
         return 'Already in wishlist.'
 
@@ -98,3 +98,19 @@ def remove_from_blocklist(userid, blockid):
     c.execute(
         f" DELETE FROM BLOCKING WHERE userid = {int(userid)} and blockid = {int(blockid)} ")
     conn.commit()
+
+
+def blocklist_button(userid, blockid):
+    conn = sqlite3.connect('filmFinder/database_files/filmfinder.db')
+    c = conn.cursor()
+    c.execute(
+        f" SELECT userid, blockid FROM BLOCKING WHERE userid = {userid} AND blockid = {blockid} ")
+    exist_check = c.fetchall()
+    if not exist_check:
+        c.execute(
+            f" INSERT INTO BLOCKING (userid, blockid) VALUES ({userid}, {blockid}) ")
+        conn.commit()
+        return "Add to blocklist success."
+    else:
+        return "Already in blocklist"
+    

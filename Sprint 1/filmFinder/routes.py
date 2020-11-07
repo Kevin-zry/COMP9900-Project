@@ -243,29 +243,47 @@ def save_picture(form_picture):
 
 
 @app.route("/account/<string:userid>", methods=["GET", "POST"])
-@login_required
+# @login_required
 def account(userid):
-    form = UpdateAccountForm()
-    if form.validate_on_submit():
-        if form.picture.data:
-            picture_file = save_picture(form.picture.data)
-            current_user.profile_image = picture_file
-        current_user.username = form.username.data
-        current_user.email = form.email.data
-        db.session.commit()
-        flash('Your account has been updated!', category='success')
-        return redirect(url_for('account'))
-    elif request.method == 'GET':
-        form.username.data = current_user.username
-        form.email.data = current_user.email
-    image_file = url_for(
-        'static', filename='profile_pics/' + current_user.profile_image)
     if userid == current_user.get_id():
         identify = True
+        form = UpdateAccountForm()
+        if form.validate_on_submit():
+            if form.picture.data:
+                picture_file = save_picture(form.picture.data)
+                current_user.profile_image = picture_file
+            current_user.username = form.username.data
+            current_user.email = form.email.data
+            db.session.commit()
+            flash('Your account has been updated!', category='success')
+            return redirect(url_for('account'))
+        elif request.method == 'GET':
+            form.username.data = current_user.username
+            form.email.data = current_user.email
+        image_file = url_for(
+            'static', filename='profile_pics/' + current_user.profile_image)
+        
     else:
         identify = False
-    wishlist = get_wishlist(current_user.get_id())
-    blocklist = get_blocklist(current_user.get_id())
+        form = UpdateAccountForm()
+        if form.validate_on_submit():
+            if form.picture.data:
+                picture_file = save_picture(form.picture.data)
+                current_user.profile_image = picture_file
+            current_user.username = form.username.data
+            current_user.email = form.email.data
+            db.session.commit()
+            flash('Your account has been updated!', category='success')
+            return redirect(url_for('account'))
+        elif request.method == 'GET':
+            form.username.data = current_user.username
+            form.email.data = current_user.email
+        image_file = url_for(
+            'static', filename='profile_pics/' + current_user.profile_image)
+        if request.method == "POST":
+            blocklist_button(current_user.get_id(), userid)
+    wishlist = get_wishlist(userid)
+    blocklist = get_blocklist(userid)
     
     return render_template('account.html', title='Account', image_file=image_file, form=form, wishlist=wishlist, blocklist=blocklist, identify=identify)
 
@@ -302,3 +320,4 @@ def blocklist(userid):
         blockid = request.form['remove_from_blocklist']
         remove_from_blocklist(userid, blockid)
     return render_template('blocklist.html', title='Blocklist', blocklist=blocklist)
+
