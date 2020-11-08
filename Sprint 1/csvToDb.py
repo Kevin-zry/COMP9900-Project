@@ -202,6 +202,7 @@ if __name__ == "__main__":
     c.execute(
         '''
         CREATE TABLE WISHLIST(
+            [id] integer PRIMARY KEY NOT NULL,
             [userid] integer NOT NULL,
             [movieid] integer NOT NULL
         )
@@ -211,6 +212,7 @@ if __name__ == "__main__":
     c.execute(
         '''
         CREATE TABLE BLOCKING(
+            [id] integer PRIMARY KEY NOT NULL,
             [userid] integer NOT NULL,
             [blockid] integer NOT NULL
         )
@@ -227,9 +229,6 @@ if __name__ == "__main__":
 
 
     final_film_df.to_sql('FILMS', conn, if_exists='replace', index=False)
-    user_profiles_df.to_sql('USERPROFILES', conn,
-                            if_exists='replace', index=False)
-    rating_df.to_sql('RATINGS', conn, if_exists='replace', index=True)
     credits_df.to_sql('CREDITS', conn, if_exists='replace', index=None)
     print('Loading data to filmfinder.db... success')
     print('Finished!')
