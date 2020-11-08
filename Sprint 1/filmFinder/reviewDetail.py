@@ -4,7 +4,7 @@ from filmFinder.models import *
 # output is a list [review1, review2,...]
 # each element in list is a dict {userId:..., username:...}
 # it does not contain reviews whose owner is in the block list
-def get_review_datails(current_user_id, movieId):
+def get_review_details(current_user_id, movieId):
     block_users = set(map(lambda x: x.blockid, BLOCKING.query.filter(BLOCKING.userid == current_user_id).all()))
     reviews = RATINGS.query.filter(RATINGS.movieId == movieId).all()
     output = []
