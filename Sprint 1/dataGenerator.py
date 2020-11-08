@@ -4,11 +4,8 @@ YOU NEED TO HAVE THE DATABASE GENERATED FIRST.
 
 import pandas as pd
 import numpy as np
-import glob
-import os
-import re
 import sqlite3
-import bcrypt
+from filmFinder import app, db, bcrypt
 
 
 database = 'filmFinder/database_files/filmfinder.db'
@@ -27,7 +24,7 @@ email = [f'{x}@filmfinder.com' for x in userId_list]
 # user_data = {'id': userId_list, 'username': name, 'email': email,
 #              'password': [bcrypt.generate_password_hash('12345678').decode('utf-8')]*len(userId_list), 'profile_image': ''}  # , 'birthday': ['1970-01-01']*len(userId_list)}
 user_data = {'id': userId_list, 'username': name, 'email': email,
-                          'password': ['12345678']*len(userId_list), 'profile_image': ''}
+             'password': [bcrypt.generate_password_hash('12345678').decode('utf-8')]*len(userId_list), 'profile_image': ''}
 user_profiles_df = pd.DataFrame(user_data)
 
 '''
