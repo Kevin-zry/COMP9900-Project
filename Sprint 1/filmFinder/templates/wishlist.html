@@ -35,9 +35,11 @@
                         <br>
                         <img src="../static/poster_downloads/{{movie.poster_path}}.jpg">
                         <br>
+                        {%if identify == True%}
                         <form action="../wishlist/{{current_user.id}}" method="POST">
                             <button type="submit" name="remove_from_wishlist" value="{{movie.id}}">Remove</button>
                         </form>
+                        {%endif%}
                     </li>
                 {%endfor%}              
                 </ul>
