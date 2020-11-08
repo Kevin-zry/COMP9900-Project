@@ -15,12 +15,15 @@
 						<div class="detail-img center"><img src="../static/poster_downloads/{{movie_details.poster_path}}.jpg"></div>
 						<div class="detail-rating-wishlist">
 							<div class="detail-raing">
-								<div class="rating-title">FilmFinder Rating:</div>
+								<div class="rating-star" style="margin-left:35%;margin-top: 2%;"></div>
 								<div class="rating-value">{{movie_details.vote_average}}</div>
 							</div>
 							<div class="wishlist">
 								<form action="#" method="POST">
-									<input type="submit" value="Add to wishlist" />
+									<div class="buttons center">
+										<button class="draw" type="submit">Add to wishlist</button>
+									</div>
+									<!-- <input type="submit" value="Add to wishlist" /> -->
 								</form>
 									{{response}}
 							</div>
@@ -42,7 +45,7 @@
 							</div>
 						</div>
 						<div class="detail-cast">
-							<div class="detail-subtitle">Cast</div>
+							<div class="detail-subtitle">CASTS</div>
 							<div class="detail-cast-content">
 								<p>
 									{%for cast in movie_details.casts%}
@@ -80,71 +83,129 @@
 						</div>
 						<div class="detail-review">
 							<div class="detail-subtitle">REVIEW</div>
-							<div class="detail-review-content">
-								<div class="detail-review-icon">
-									<div class="review-icon">
-										<img style="height:100px;width:100px;margin:100% 0 0 100%" src="../static/profile_pics/default.jpg">
-									</div>
-								</div>
-								<div class="detail-review-word">
-									<div class="review-name">
-										<div class="name">Review by <a href=""> Tom</a ></div>
-										<div class="button">
-											<a href=" ">
-												<div class="button-img" title="Block this user"></div>
-											</a >
+
+								{% for review in reviews %}
+								<div class="detail-review-content">
+									<div class="detail-review-icon">
+										<div class="review-icon">
+											<img style="height:100px;width:100px;margin:10% 0 0 100%" src="../static/profile_pics/default.jpg">
 										</div>
 									</div>
-									<div class="review-content">
-										<p>
-											I'll have to watch the original to see how bad or good this version is. I'm sure the Hitchcock version is better. I know this is a revisit of that movie but I really don't have anything to judge it against. I think the acting was fine
-										</p >
-									</div>
-									<div class="button-like" title="Like this comment">
-										<a href="">
-											<div class="like-img"></div>
-										</a >
-										<div class="like-word">like</div>
-									</div>
-								</div>
-							</div>
-							
-							<hr />
-							<div class="detail-review-content">
-								<div class="detail-review-icon">
-									<div class="review-icon">
-										<img style="height:100px;width:100px;margin:100% 0 0 100%;" src="../static/profile_pics/default.jpg">
-									</div>
-								</div>
-								<div class="detail-review-word">
-									<div class="review-name">
-										<div class="name">Review by <a href=""> Tom</a ></div>
-										<div class="button">
-											<a href=" ">
-												<div class="button-img" title="Block this user"></div>
+									<div class="detail-review-word">
+										<div class="review-name">
+											<div class="name">Review by <a href="">{{review.username}}</a >
+												</div>
+												
+											<div class="button">
+												<a href="#">
+													<div class="button-img" title="Block this user"></div>
+												</a >
+											</div>rating:{{review.rating}}<img src="../static/images/star_{{review.rating}}.png" style="width:105px;height:40px;margin-bottom: 10px;">
+										</div>
+										<div class="review-content bootstrapiso">
+											{% if current_user.id == review['userid'] %}
+											<div>
+											  <p class="article-content">{{ review['review'] }}</p>
+											  <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+											  <!-- Modal -->
+											  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+												<div class="modal-dialog" role="document">
+												  <div class="modal-content">
+													<div class="modal-header">
+													  <!-- <h5 class="modal-title" id="deleteModalLabel">Delete Post?</h5> -->
+													  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													  </button>
+													</div>
+													<div class="modal-body">Delete Your Review Permanently?</div>>
+													<div class="modal-footer">
+													  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+													  <form action="{{ url_for('delete_review', review_id=review['id'], filmid=filmid) }}" method="POST">
+														<input class="btn btn-danger" type="submit" value="Delete">
+													  </form>
+													</div>
+												  </div>
+												</div>
+											  </div>
+											</div>
+										  {% else %}
+										  <p class="article-content">{{ review['review'] }}</p>
+										  {% endif %}
+										</div>
+										<div class="button-like" title="Like this comment">
+											<a href="">
+												<div class="like-img"></div>
 											</a >
+											<div class="like-word">like</div>
 										</div>
 									</div>
-									<div class="review-content">
-										<p>
-											I'll have to watch the original to see how bad or good this version is. I'm sure the Hitchcock version is better. I know this is a revisit of that movie but I really don't have anything to judge it against. I think the acting was fine
-										</p >
-									</div>
-									<div class="button-like" title="Like this comment">
-										<a href="">
-											<div class="like-img"></div>
-										</a >
-										<div class="like-word">like</div>
-									</div>
 								</div>
-							</div>
-							<hr />
-							<div class="bootstrapiso">
-								<form>
-									<div class="form-group">
-										<label for="exampleFormControlTextarea1">Add yor review:</label>
-										<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-									</div>
+								<hr />
+								{%endfor%}
+							<div class="bootstrapiso" style="margin:30px 0;">
+								<form action="" method="POST">
+									<div class="content-section">
+										<label for="exampleFormControlTextarea1"><b style='font-size: large;'>Add yor review:</b></label>
+										<script>
+											function halfStar(x) {
+											var star = document.getElementById('star');
+											var items = star.getElementsByTagName("li");
+											x = parseInt(x) - 1;
+											var tem = -1;
+											for(var i = 0; i < items.length; i++) {
+												if(x > i*2) {
+													items[i].style.background = "url('../static/images/full.png') no-repeat";
+													items[i].style.backgroundSize = "100% 100%";
+												} else {
+													if(tem == -1) {
+														tem = i;
+													} 
+													items[i].style.background = "url('../static/images/empty.png') no-repeat";
+													items[i].style.backgroundSize = "100% 100%";
+												}
+											}
+											if(x == parseInt(tem)*2) {
+												items[tem].style.background = "url('../static/images/half.png') no-repeat";
+												items[tem].style.backgroundSize = "100% 100%";
+											}
+											document.getElementById('getgrade').innerHTML = parseInt(x)+1+'.0';
+										}
+										</script>
+										<div class="setgrade">  
+											<div class="grade">
+												Rating: <span id="getgrade">0.0</span>
+											</div>
+											<div class="star">
+												<ul id="star">
+													<li>
+														<a href="javascript:void(0)" onclick="halfStar(1)"></a>
+														<a href="javascript:void(0)" onclick="halfStar(2)"></a>
+													</li>
+													<li>
+														<a href="javascript:void(0)" onclick="halfStar(3)"></a>
+														<a href="javascript:void(0)" onclick="halfStar(4)"></a>
+													</li>
+													<li>
+														<a href="javascript:void(0)" onclick="halfStar(5)"></a>
+														<a href="javascript:void(0)" onclick="halfStar(6)"></a>
+													</li>
+													<li>
+														<a href="javascript:void(0)" onclick="halfStar(7)"></a>
+														<a href="javascript:void(0)" onclick="halfStar(8)"></a>
+													</li>
+													<li>
+														<a href="javascript:void(0)" onclick="halfStar(9)"></a>
+														<a href="javascript:void(0)" onclick="halfStar(10)"></a>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="form-group">
+										
+											<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+										</div>
+										<button type="submit" class="btn btn-primary">Submit</button>
+								</div>
 								</form>
 							</div>
 						</div>
@@ -181,11 +242,6 @@
 					</div>
 				</div>
 			</div>
-
-
-
-
-
 
 {% endblock content %}
 

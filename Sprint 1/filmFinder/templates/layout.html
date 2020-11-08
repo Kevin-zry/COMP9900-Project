@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="../static/common.css">
     <link rel="stylesheet" href="../static/detail.css">
     <link rel="stylesheet" href="../static/results.css">
+    <link rel="stylesheet" href="../static/button.css">
+    <link rel="stylesheet" href="../static/star_rating.css">
 
 
 	{% if title %}
@@ -29,17 +31,29 @@
 <body>
   <div class="container">
     <!-- top-bar -->
-    <div class="social">
+    <div class="social bootstrapiso">
+    
       {% if current_user.is_authenticated %}
-      <div class="social-content"><a href="/account/{{ current_user.id }}">{{ current_user.username }}</a></div>
+      <div class="dropdown show">
+        <a class="btn btn-link dropdown-toggle" href="#" style="color:#BDBDBD;" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{ current_user.username }}
+        </a>
       
-      <div class="social-content"><a class="disabled">|</a></div>
+        <div class="dropdown-menu social-content" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" href="/account/{{ current_user.id }}">Personal profile</a>
+          <a class="dropdown-item" href="/wishlist/{{ current_user.id }}">My wishlist</a>
+          <a class="dropdown-item" href="/blocklist/{{ current_user.id }}">My blocklist</a>
+        </div>
+      </div>
+      <!-- <div class="social-content"><a href="/account/{{ current_user.id }}">{{ current_user.username }}</a></div> -->
+      
+      <div class="social-content" style="color:white"><a class="disabled">|</a></div>
       <div class="social-content"><a href="{{ url_for('logout') }}">SIGN OUT</a></div>
     
     
       {%else%}
       <div class="social-content"><a href="{{ url_for('login') }}">LOGIN</a></div>
-      <div class="social-content"><a class="disabled">|</a></div>
+      <div class="social-content" style="color:white"><a class="disabled">|</a></div>
       <div class="social-content"><a href="{{ url_for('register') }}">CREATE ACCOUNT</a></div>
       {%endif%}
     </div>
@@ -54,8 +68,8 @@
       <div class="menu-center bootstrapiso">
         
         <form action="/search_temp" method = 'POST'>   
-          <div class="input-group" style="padding:-3px;">
-            <input type="search" name="search" class="form-control" placeholder="Film/Director/Actor">
+          <div class="input-group" style=" margin-top:13px;">
+            <input type="search" name="search" class="form-control" style="height:40px" placeholder="Film/Director/Actor">
             <div class="input-group-append">
               <button class="btn btn-outline-secondary" type="submit" id="button-addon2">
                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

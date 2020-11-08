@@ -11,6 +11,8 @@
 <div class = "bootstrapiso" style="margin-top:25px;padding:0 50px;">
   <div class="content-section" style="margin:0 10% 0 10%" >
   <form action="" method="POST">
+    <h2 class="center">Search what you like</h2>
+    <hr>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text" id="inputGroup-sizing-default">Title:</span>
@@ -211,19 +213,22 @@
   </div>
   </form>
 </div>
+</div>
 
 <br>
   
       <!-- <div align="center"></div> -->
       {%if search_results != ''%}
      
-      <h5 class ='center'>----------------------Search Results----------------------</h5>
-      {{condition_results}}<br><br>
+      <h2 class ='center'>Search Results</h2><hr>
+      <p style="text-indent:2em;"><b>{{condition_results}}</b></p>
+      <br>
       
      
       <div style="border: 1px solid #dddddd;
       border-radius: 30px;
       padding:25px 10px;
+      margin: 0 50px;
       " >
       
        {% for result in search_results %}
@@ -238,9 +243,7 @@
          </div>
         <div class="tele_intro">
           <div class="tele_hd">
-            <a href="film/{{result.id}}" style="font-size:30px;
-                                                margin-right: 10px;
-                                             " target="_blank"><b>{{result.title}}</b></a>
+            <a href="film/{{result.id}}"  target="_blank"><b style="font-size:x-large;">{{result.title}}</b></a>
             <a class="year">{{result.release_date}}</a>
           </div>
           <div class="tele_line">
@@ -279,10 +282,12 @@
          <span class="label">Details:</span>
          <span class="desc_text">
            {{result.overview}}
-             <a class="desc_detail" style="float:right" target="_blank" href="film/{{result.id}}">details->
-         </a>
+            <a class="desc_detail" style="float:right" target="_blank" href="film/{{result.id}}">details>>
+            </a>
          </span>
-         <a style="margin-top:25px;" class="so-result-btn center play" target="_blank" href="film/{{result.id}}"><span>More details</span></a>
+         <div class="buttons center">
+           <button class="draw meet" style="margin-top:45px;margin-right:10%;" onclick="window.location.href='film/{{result.id}}'">More detail</button>
+        </div>
          </div>
          </div>
          </div>
@@ -291,7 +296,8 @@
          <hr>
        {% endfor %}
     </div>
+ 
     {%endif%}
       
-    </div>
+    
 {% endblock content %}
