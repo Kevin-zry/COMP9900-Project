@@ -305,19 +305,30 @@ def film(filmid):
 @app.route("/wishlist/<string:userid>", methods=["GET", "POST"])
 @login_required
 def wishlist(userid):
-    wishlist = get_wishlist(current_user.get_id())
-    if request.method == "POST":
-        movieid = request.form['remove_from_wishlist']
-        remove_from_wishlist(userid, movieid)
-    return render_template('wishlist.html', title='Wishlist', wishlist=wishlist)
+    if userid == current_user.get_id():
+        identify = True
+        wishlist = get_wishlist(current_user.get_id())
+        if request.method == "POST":
+            movieid = request.form['remove_from_wishlist']
+            remove_from_wishlist(userid, movieid)
+    else:
+        wishlist = get_wishlist(int(userid))
+        identify = False
+
+    return render_template('wishlist.html', title='Wishlist', wishlist=wishlist, identify=identify)
 
 
 @app.route("/blocklist/<string:userid>", methods=["GET", "POST"])
 @login_required
 def blocklist(userid):
-    blocklist = get_blocklist(current_user.get_id())
-    if request.method == "POST":
-        blockid = request.form['remove_from_blocklist']
-        remove_from_blocklist(userid, blockid)
-    return render_template('blocklist.html', title='Blocklist', blocklist=blocklist)
+    if userid == current_user.get_id():
+        identify = True
+        blocklist = get_blocklist(current_user.get_id())
+        if request.method == "POST":
+            blockid = request.form['remove_from_blocklist']
+            remove_from_blocklist(userid, blockid)
+    else:
+        blocklist = get_blocklist(int(userid))
+        identify = False
+    return render_template('blocklist.html', title='Blocklist', blocklist=blocklist, identify=identify)
 
