@@ -188,11 +188,9 @@
 	color: #678;
 	display: flex;
 	flex-flow: row;
+	line-height:40px;
    }
    
-   .button{
-	margin: 0px 0px 0px 10px;
-   }
    .button-img{
 	background: url(../static/images/block.png) no-repeat;
 	background-size: contain;
