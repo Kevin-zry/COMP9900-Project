@@ -1,20 +1,21 @@
 import os
 import secrets
 import sqlite3
-
 from filmFinder import recommend
 from flask import Flask, render_template, url_for, flash, redirect, request
 from filmFinder import app, db, bcrypt
 from filmFinder.forms import RegistrationForm, LoginForm, UpdateAccountForm, ReviewForm
 from filmFinder.models import USERPROFILES, RATINGS
 from flask_login import login_user, logout_user, current_user, login_required
-from filmFinder.reviewDetail import get_review_details, add_review, delete_review
+
+
 from filmFinder.mostPopular import *
 from filmFinder.filmDetail import *
+from filmFinder.reviewDetail import *
+from filmFinder.forms import *
 
 from sqlalchemy.sql import func
 from PIL import Image
-
 
 most_popular_movies = most_popular_movies(10)
 highest_rating_movies = highest_rating_movies(10)
@@ -102,7 +103,7 @@ def general_search():
             condition_results = 'Your search results for ' + \
                 ', '.join(condition_results) + ' are:'
         return render_template('search_temp.html', title='Search', condition_results=condition_results, search_results=res)
-    return render_template('search_temp.html', title='Search', search_results='')
+    return render_template('search_temp.html', title='Search')
 
 
 @app.route('/advanced_search', methods=["GET", "POST"])
@@ -199,7 +200,7 @@ def register():
                                 email=form.email.data, password=hashed_password)
             db.session.add(user)
             db.session.commit()
-            flash('Your account has been created! You are now able to log in',
+            flash('Your account has been created! You are now able to log in!',
                   category='success')
         return redirect(url_for('home'))
     return render_template('register.html', title='Register', form=form)
@@ -242,7 +243,6 @@ def save_picture(form_picture):
 
     return picture_fn
 
-
 @app.route("/account/<int:userid>", methods=["GET", "POST"])
 # @login_required
 def account(userid):
@@ -279,17 +279,16 @@ def account(userid):
         print(image_file)
         return render_template('account.html', title='Account', image_file=image_file, user=user, wishlist=wishlist, blocklist=blocklist, identify=identify)
 
+
 @app.route("/film/<int:filmid>", methods=["GET", "POST"])
 def film(filmid):
     if current_user.is_authenticated:
-        reviews = get_review_details(current_user.id, filmid)
+        reviews = get_review_datails(current_user.id, filmid)
     else:
-    	reviews = get_review_details(None, filmid)
-    # need to replace this form later with request.form.get()
+        reviews = get_review_datails(None, filmid)
     form = ReviewForm()
     if form.validate_on_submit():
         add_review(current_user.id, filmid, form.rating.data, form.review.data)
-    
     movie_details = get_movie_details(filmid)
     recommend_list = ibcf(filmid)
     response = ''
@@ -298,10 +297,29 @@ def film(filmid):
             userid = current_user.get_id()
             response = wishlist_button(filmid, userid)
         else:
-            response = 'You need to login first'
-    return render_template('film.html', movie_details=movie_details, recommend_list=recommend_list, response=response)
-
+            response = 'You need to login first!'
+    
+    return render_template('film.html', movie_details=movie_details, recommend_list=recommend_list, response=response,reviews=reviews, filmid=filmid, form=form)
 # Add route for add_review() here
+
+@app.route("/wishlist/<string:userid>", methods=["GET", "POST"])
+@login_required
+def wishlist(userid):
+    wishlist = get_wishlist(current_user.get_id())
+    if request.method == "POST":
+        movieid = request.form['remove_from_wishlist']
+        remove_from_wishlist(userid, movieid)
+    return render_template('wishlist.html', title='Wishlist', wishlist=wishlist)
+
+
+@app.route("/blocklist/<int:userid>", methods=["GET", "POST"])
+@login_required
+def blocklist(userid):
+    blocklist = get_blocklist(current_user.get_id())
+    if request.method == "POST":
+        blockid = request.form['remove_from_blocklist']
+        remove_from_blocklist(userid, blockid)
+    return render_template('blocklist.html', title='Blocklist', blocklist=blocklist)
 
 @app.route("/review/<int:review_id>/delete", methods=['POST'])
 @login_required
@@ -315,34 +333,4 @@ def delete_review(review_id):
     flash('Your review has been deleted!', 'success')
     filmid = request.args.get('filmid')
     return redirect(url_for('film'), filmid=filmid)
-
-@app.route("/wishlist/<int:userid>", methods=["GET", "POST"])
-@login_required
-def wishlist(userid):
-    if userid == current_user.get_id():
-        identify = True
-        wishlist = get_wishlist(current_user.get_id())
-        if request.method == "POST":
-            movieid = request.form['remove_from_wishlist']
-            remove_from_wishlist(userid, movieid)
-    else:
-        wishlist = get_wishlist(int(userid))
-        identify = False
-
-    return render_template('wishlist.html', title='Wishlist', wishlist=wishlist, identify=identify)
-
-
-@app.route("/blocklist/<int:userid>", methods=["GET", "POST"])
-@login_required
-def blocklist(userid):
-    if userid == current_user.get_id():
-        identify = True
-        blocklist = get_blocklist(current_user.get_id())
-        if request.method == "POST":
-            blockid = request.form['remove_from_blocklist']
-            remove_from_blocklist(userid, blockid)
-    else:
-        blocklist = get_blocklist(int(userid))
-        identify = False
-    return render_template('blocklist.html', title='Blocklist', blocklist=blocklist, identify=identify)
 

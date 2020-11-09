@@ -3,6 +3,8 @@ from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms import TextAreaField, IntegerField
+from wtforms.validators import NumberRange
 from filmFinder.models import USERPROFILES
 
 
@@ -55,3 +57,8 @@ class UpdateAccountForm(FlaskForm):
             if user:
                 raise ValidationError(
                     'That email is taken. Please choose a different one.')
+
+class ReviewForm(FlaskForm):
+    rating = IntegerField('Rating', validators=[NumberRange(min=1, max=5)])
+    review = TextAreaField('Review', validators=[DataRequired()])
+    submit = SubmitField('Save')

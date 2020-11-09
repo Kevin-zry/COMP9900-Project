@@ -67,7 +67,8 @@ def get_wishlist(userid):
     # print(wishlist_film_id)
     if wishlist_film_id:
         return [get_movie_details(filmid[0]) for filmid in wishlist_film_id]
-    return ["You have not add any films into your wishlist!"]
+    # return ["You have not add any films into your wishlist!"]
+    return []
 
 def get_blocklist(userid):
     conn = sqlite3.connect('filmFinder/database_files/filmfinder.db')
@@ -82,7 +83,8 @@ def get_blocklist(userid):
             profile = {'id':block_user[0], 'username': block_user[1], 'profile_image': block_user[2]}
             block.append(profile)
         return block
-    return ["You have not add any users into your blocklist!"]
+    # return ["You have not add any users into your blocklist!"]
+    return []
 
 def remove_from_wishlist(userid, movieid):
     conn = sqlite3.connect('filmFinder/database_files/filmfinder.db')
