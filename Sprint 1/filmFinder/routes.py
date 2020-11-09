@@ -256,37 +256,27 @@ def account(userid):
             current_user.email = form.email.data
             db.session.commit()
             flash('Your account has been updated!', category='success')
-            return redirect(url_for('account'))
+            # return redirect(url_for(f'/account/{userid}'))
         elif request.method == 'GET':
             form.username.data = current_user.username
             form.email.data = current_user.email
         image_file = url_for(
             'static', filename='profile_pics/' + current_user.profile_image)
-        
+        wishlist = get_wishlist(userid)
+        blocklist = get_blocklist(userid)
+        return render_template('account.html', title='Account', image_file=image_file, form=form, wishlist=wishlist, blocklist=blocklist, identify=identify)
     else:
         identify = False
-        form = UpdateAccountForm()
-        if form.validate_on_submit():
-            if form.picture.data:
-                picture_file = save_picture(form.picture.data)
-                current_user.profile_image = picture_file
-            current_user.username = form.username.data
-            current_user.email = form.email.data
-            db.session.commit()
-            flash('Your account has been updated!', category='success')
-            return redirect(url_for('account'))
-        elif request.method == 'GET':
-            form.username.data = current_user.username
-            form.email.data = current_user.email
+        user = get_user_detail(userid)
         image_file = url_for(
-            'static', filename='profile_pics/' + current_user.profile_image)
+            'static', filename='profile_pics/' + user['profile_image'])
         if request.method == "POST":
             blocklist_button(current_user.get_id(), userid)
-    wishlist = get_wishlist(userid)
-    blocklist = get_blocklist(userid)
-    
-    return render_template('account.html', title='Account', image_file=image_file, form=form, wishlist=wishlist, blocklist=blocklist, identify=identify)
-
+        wishlist = get_wishlist(userid)
+        blocklist = get_blocklist(userid)
+        print(user)
+        print(image_file)
+        return render_template('account.html', title='Account', image_file=image_file, user=user, wishlist=wishlist, blocklist=blocklist, identify=identify)
 
 @app.route("/film/<string:filmid>", methods=["GET", "POST"])
 def film(filmid):
