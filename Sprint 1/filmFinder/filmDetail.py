@@ -114,3 +114,14 @@ def blocklist_button(userid, blockid):
     else:
         return "Already in blocklist"
     
+def get_user_detail(userid):
+    conn = sqlite3.connect('filmFinder/database_files/filmfinder.db')
+    c = conn.cursor()
+    c.execute(
+        f" SELECT * FROM USERPROFILES WHERE id = {userid} ")
+    user = c.fetchone()
+    if user:
+        user_details = {'id': user[0], 'username': user[1], 'email': user[2], 'profile_image': user[4]}
+        return user_details
+    else:
+        return {}
