@@ -1,19 +1,20 @@
 import os
+import secrets
+import sqlite3
+
 from filmFinder import recommend
 from flask import Flask, render_template, url_for, flash, redirect, request
 from filmFinder import app, db, bcrypt
-from filmFinder.forms import RegistrationForm, LoginForm, UpdateAccountForm
-from filmFinder.models import USERPROFILES
+from filmFinder.forms import RegistrationForm, LoginForm, UpdateAccountForm, ReviewForm
+from filmFinder.models import USERPROFILES, RATINGS
 from flask_login import login_user, logout_user, current_user, login_required
-from sqlalchemy.sql import func
-import secrets
-from PIL import Image
-# from flask.globals import request
-# from flask import g
-import sqlite3
+from filmFinder.reviewDetail import get_review_details, add_review, delete_review
 from filmFinder.mostPopular import *
 from filmFinder.filmDetail import *
-# from flask import jsonify
+
+from sqlalchemy.sql import func
+from PIL import Image
+
 
 most_popular_movies = most_popular_movies(10)
 highest_rating_movies = highest_rating_movies(10)
@@ -242,7 +243,7 @@ def save_picture(form_picture):
     return picture_fn
 
 
-@app.route("/account/<string:userid>", methods=["GET", "POST"])
+@app.route("/account/<int:userid>", methods=["GET", "POST"])
 # @login_required
 def account(userid):
     if userid == current_user.get_id():
@@ -278,8 +279,17 @@ def account(userid):
         print(image_file)
         return render_template('account.html', title='Account', image_file=image_file, user=user, wishlist=wishlist, blocklist=blocklist, identify=identify)
 
-@app.route("/film/<string:filmid>", methods=["GET", "POST"])
+@app.route("/film/<int:filmid>", methods=["GET", "POST"])
 def film(filmid):
+    if current_user.is_authenticated:
+        reviews = get_review_details(current_user.id, filmid)
+    else:
+    	reviews = get_review_details(None, filmid)
+    # need to replace this form later with request.form.get()
+    form = ReviewForm()
+    if form.validate_on_submit():
+        add_review(current_user.id, filmid, form.rating.data, form.review.data)
+    
     movie_details = get_movie_details(filmid)
     recommend_list = ibcf(filmid)
     response = ''
@@ -291,8 +301,22 @@ def film(filmid):
             response = 'You need to login first'
     return render_template('film.html', movie_details=movie_details, recommend_list=recommend_list, response=response)
 
+# Add route for add_review() here
 
-@app.route("/wishlist/<string:userid>", methods=["GET", "POST"])
+@app.route("/review/<int:review_id>/delete", methods=['POST'])
+@login_required
+def delete_review(review_id):
+    review = RATINGS.query.get_or_404(review_id)
+    author = USERPROFILES.query.get(review.userid)
+    if review.author != current_user:
+        abort(403)
+    db.session.delete(review)
+    db.session.commit()
+    flash('Your review has been deleted!', 'success')
+    filmid = request.args.get('filmid')
+    return redirect(url_for('film'), filmid=filmid)
+
+@app.route("/wishlist/<int:userid>", methods=["GET", "POST"])
 @login_required
 def wishlist(userid):
     if userid == current_user.get_id():
@@ -308,7 +332,7 @@ def wishlist(userid):
     return render_template('wishlist.html', title='Wishlist', wishlist=wishlist, identify=identify)
 
 
-@app.route("/blocklist/<string:userid>", methods=["GET", "POST"])
+@app.route("/blocklist/<int:userid>", methods=["GET", "POST"])
 @login_required
 def blocklist(userid):
     if userid == current_user.get_id():
