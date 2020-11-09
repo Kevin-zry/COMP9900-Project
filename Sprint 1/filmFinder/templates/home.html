@@ -20,7 +20,7 @@
 		  </div>
 		</div>
 		<a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-slide="prev">
-		  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		  <span style="z-index:40;background:url(../static/images/la.png)" aria-hidden="true"></span>
 		  <span class="sr-only">Previous</span>
 		</a>
 		<a class="carousel-control-next" href="#carouselExampleFade" role="button" data-slide="next">
@@ -33,12 +33,7 @@
 	
 	<div class="movie-col-1">
 		{% if current_user.is_authenticated %}
-		<div class="movie-recom" 
-		style="border: 2px solid rgb(5, 5, 5);
-				border-radius: 30px;
-				padding:25px 10px;
-				margin-bottom: 30px;
-				" >
+		<div class="movie-recom home-box">
 			<div class="movie-recom-title">
 				<div class="recom-title-content">
 				 Recommend For You
@@ -208,12 +203,7 @@
 			</div>
 		</div>
 		{%endif%}
-		<div class="movie-highest"
-		style="border: 2px solid rgb(5, 5, 5);
-				border-radius: 30px;
-				padding:25px 10px;
-
-				" >
+		<div class="movie-highest home-box">
 			<div class="movie-recom-title">
 				<div class="recom-title-content">
 				Highest rating films
@@ -417,11 +407,7 @@
 			</div>
 		</div>
 	</div>
-	<div style="border: 2px solid rgb(5, 5, 5);
-				border-radius: 30px;
-				padding:25px 10px;
-				" 
-	class="movie-col-2">
+	<div class="movie-col-2 home-box">
 		<div class="detail-recom-title">
 			Popular this week
 		</div>

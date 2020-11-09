@@ -9,6 +9,25 @@
 		<li style = "color: #ec7532;">film details</li>
 	 </ul>
 </div>
+{%if response == 'You need to login first!'%}
+<div class="bootstrapiso">
+	<div class="alert alert-danger" role="alert">
+	{{response}}
+	</div>
+</div>
+{%elif response == 'Add to wishlist successfully.'%}
+<div class="bootstrapiso">
+	<div class="alert alert-success" role="alert">
+	{{response}}
+	</div>
+</div>
+{%elif response == 'Already in wishlist.'%}
+<div class="bootstrapiso">
+	<div class="alert alert-warning" role="alert">
+	{{response}}
+	</div>
+</div>
+{%endif%}
 			<div class="detail-middle">
 				<div class="middle-background">
 					<div class="detail-col-1">
@@ -23,10 +42,11 @@
 									<div class="buttons center">
 										<button class="draw" type="submit">Add to wishlist</button>
 									</div>
-									<!-- <input type="submit" value="Add to wishlist" /> -->
+									
 								</form>
-									{{response}}
 							</div>
+							<br><br><br>
+
 						</div>
 					</div>
 					<div class="detail-col-2">
@@ -88,24 +108,23 @@
 								<div class="detail-review-content">
 									<div class="detail-review-icon">
 										<div class="review-icon">
-											<img style="height:100px;width:100px;margin:10% 0 0 100%" src="../static/profile_pics/default.jpg">
+											<img src="../static/profile_pics/default.jpg">
 										</div>
 									</div>
 									<div class="detail-review-word">
 										<div class="review-name">
 											<div class="name">Review by <a href="">{{review.username}}</a >
-											</div>
-												
-											<div style="margin:2% 5% 0 2%">
+											</div>	
+											<div style="margin:2% 5% 0 10%">
 												<a href="#">
 													<div class="button-img" title="Block this user"></div>
 												</a >
 											</div>
-											
-												<span style="width:60%;"><span style="float:right">rating:{{review.rating}}</span><img src="../static/images/star_{{review.rating}}.png" style="width:105px;float:right"></span>
-											
 										</div> 
+										<span style="margin-top: -6%;max-height: 40px;"><span style=" vertical-align: middle;">rating:{{review.rating}}</span><img src="../static/images/star_{{review.rating}}.png" style="width:105px; vertical-align: middle;"></span>
 										<div class="review-content bootstrapiso">
+	
+
 											{% if current_user.id == review['userId'] %}
 											  <p class="article-content">{{ review['review'] }}</p>
 											  <div style="margin-left: 70%;">
@@ -116,7 +135,6 @@
 												<div class="modal-dialog" role="document">
 												  <div class="modal-content">
 													<div class="modal-header">
-													  <!-- <h5 class="modal-title" id="deleteModalLabel">Delete Post?</h5> -->
 													  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 														<span aria-hidden="true">&times;</span>
 													  </button>
@@ -146,17 +164,18 @@
 								<hr />
 								{%endfor%}
 							<div class="bootstrapiso" style="margin:30px 0;">
-								<form action="{{ url_for('add_review', filmid=filmid, userid=current_user.id) }}" method="POST">
+								<form action="" method="POST">
 									<div class="content-section">
 										<label for="exampleFormControlTextarea1"><b style='font-size: large;'>Add yor review:</b></label>
 										<script>
 											function halfStar(x) {
 											var star = document.getElementById('star');
 											var items = star.getElementsByTagName("li");
-											x = parseInt(x) - 1;
+											x = parseFloat(x) - 0.5;
+											console.log("star:",star,"items",items) 
 											var tem = -1;
 											for(var i = 0; i < items.length; i++) {
-												if(x > i*2) {
+												if(x > i) {
 													items[i].style.background = "url('../static/images/full.png') no-repeat";
 													items[i].style.backgroundSize = "100% 100%";
 												} else {
@@ -167,45 +186,45 @@
 													items[i].style.backgroundSize = "100% 100%";
 												}
 											}
-											if(x == parseInt(tem)*2) {
+											if(x == parseInt(tem)) {
 												items[tem].style.background = "url('../static/images/half.png') no-repeat";
 												items[tem].style.backgroundSize = "100% 100%";
 											}
-											document.getElementById('getgrade').innerHTML = parseInt(x)+1+'.0';
+											document.getElementById('getgrade').innerHTML = parseFloat(x)+0.5;
 										}
 										</script>
 										<div class="setgrade">  
 											<div class="grade">
-												Rating: <span id="getgrade">0.0</span>
+												Rating: <span name="rating" id="getgrade">3.0</span>
 											</div>
 											<div class="star">
 												<ul id="star">
-													<li>
-														<a href="javascript:void(0)" onclick="halfStar(1)"></a>
-														<a href="javascript:void(0)" onclick="halfStar(2)"></a>
+													<li style=" background: url('../static/images/full.png') 0% 0% / 100% 100% no-repeat;">
+														<a href="javascript:void(0)"  onclick="halfStar(0.5)"></a>
+														<a href="javascript:void(0)"  onclick="halfStar(1)"></a>
+													</li>
+													<li style=" background: url('../static/images/full.png') 0% 0% / 100% 100% no-repeat;">
+														<a href="javascript:void(0)"  onclick="halfStar(1.5)"></a>
+														<a href="javascript:void(0)"  onclick="halfStar(2)"></a>
+													</li>
+													<li style=" background: url('../static/images/full.png') 0% 0% / 100% 100% no-repeat;">
+														<a href="javascript:void(0)" onclick="halfStar(2.5)"></a>
+														<a href="javascript:void(0)" onclick="halfStar(3)"></a>
 													</li>
 													<li>
-														<a href="javascript:void(0)" onclick="halfStar(3)"></a>
+														<a href="javascript:void(0)" onclick="halfStar(3.5)"></a>
 														<a href="javascript:void(0)" onclick="halfStar(4)"></a>
 													</li>
 													<li>
+														<a href="javascript:void(0)" onclick="halfStar(4.5)"></a>
 														<a href="javascript:void(0)" onclick="halfStar(5)"></a>
-														<a href="javascript:void(0)" onclick="halfStar(6)"></a>
-													</li>
-													<li>
-														<a href="javascript:void(0)" onclick="halfStar(7)"></a>
-														<a href="javascript:void(0)" onclick="halfStar(8)"></a>
-													</li>
-													<li>
-														<a href="javascript:void(0)" onclick="halfStar(9)"></a>
-														<a href="javascript:void(0)" onclick="halfStar(10)"></a>
 													</li>
 												</ul>
 											</div>
 										</div>
 										<div class="form-group">
 										
-											<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+											<textarea class="form-control" name="review" id="exampleFormControlTextarea1" rows="3"></textarea>
 										</div>
 										<button type="submit" class="btn btn-primary">Submit</button>
 								</div>
@@ -213,11 +232,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="detail-col-3"
-					style="border: 2px solid rgb(5, 5, 5);
-							border-radius: 30px;
-							padding:25px 10px;
-							">
+					<div class="detail-col-3 home-box">
 						<div class="detail-recom-title">
 							You may also like
 						</div>

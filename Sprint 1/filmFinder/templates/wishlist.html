@@ -12,7 +12,7 @@
             <li style = "color: #ec7532;">My wishlist</li>
          </ul>
     </div>
-    <div class = "bootstrapiso">
+    <div class = "bootstrapiso acc-mar">
         <div class="content-section">
             <div class="media">
                 <img class="rounded-circle account-img" src="../static/profile_pics/{{current_user.profile_image}}">
@@ -27,6 +27,9 @@
             </div>
             <hr>
             <br>   
+            {%if wishlist == []%}
+            <h1>You have not add any films into your wishlist!</h1>
+            {%else%}
             <div class="demo">
                 <ul>
                 {%for movie in wishlist%}
@@ -35,15 +38,14 @@
                         <br>
                         <img src="../static/poster_downloads/{{movie.poster_path}}.jpg">
                         <br>
-                        {%if identify == True%}
                         <form action="../wishlist/{{current_user.id}}" method="POST">
                             <button type="submit" name="remove_from_wishlist" value="{{movie.id}}">Remove</button>
                         </form>
-                        {%endif%}
                     </li>
                 {%endfor%}              
                 </ul>
-            </div>        
+            </div>     
+            {%endif%}   
         </div>
     </div>
 </body>

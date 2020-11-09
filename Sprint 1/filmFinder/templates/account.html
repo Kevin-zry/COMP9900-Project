@@ -8,13 +8,29 @@
 		<li style = "color: #ec7532;">Users details</li>
 	 </ul>
 </div>
-<div class = "bootstrapiso" style="margin:15px 20% 20px 15%;">
+<div class = "bootstrapiso acc-mar">
     <div class="content-section">
       <div class="media" >
-        <img class="rounded-circle account-img" src="{{ image_file }}">
+        {% if identify == True%}
+            <img class="rounded-circle account-img" src="../static/profile_pics/{{current_user.profile_image}}">
+        {%else%}
+            <img class="rounded-circle account-img" src="../static/profile_pics/{{user.profile_image}}">
+        {%endif%}
             <div class="media-body col-8" >
-                <h2 class="account-heading">{{ current_user.username }}</h2>
-                <p class="text-secondary">{{ current_user.email }}</p>
+                {% if identify == True%}
+                    <h2 class="account-heading">{{ current_user.username }}</h2>
+                    <p class="text-secondary">{{ current_user.email }}</p>
+                    
+                {%else%}
+                    <h2 class="account-heading">{{ user.username }}</h2>
+                    <p class="text-secondary">{{ user.email }}</p>
+                    <form action="#" method="POST">
+                        <div class="buttons center">
+                            <button class="draw" type="submit">Block</button>
+                        </div>
+                    </form>
+                    {{response}}
+                {%endif%}
             </div>
             <div class="col-3 topmargin">
                 <div class="list-group">
@@ -30,7 +46,8 @@
            
         
       </div>
-        <form method="POST" action="" enctype="multipart/form-data">
+        {% if identify == True%}
+            <form method="POST" action="" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Account Info</legend>
@@ -76,20 +93,41 @@
             </div>
             {% if identify == True%}
             <br>
-            BLOCKLIST:<br>
-            {%for x in blocklist%}
-            {{x.username}}
-            <img src="../static/poster_downloads/{{x.profile_image}}.jpg">
-            {%endfor%}
+                {%if blocklist ==[]%}
+                <h5>Blocklist:</h5>
+                <p>You have not add any users into your blocklist!</p>
+                {%else%}
+                {%for x in blocklist%}
+                    {{x.username}}
+                <img src="../static/profile_pics/{{x.profile_image}}">
+                {%endfor%}
+                {%endif%}
             <br>
-            WISHLIST:<br>
-            {%for x in wishlist%}
-            <a class="desc_detail report-click report-action" href="../film/{{x.id}}">{{x.title}}:
-            <img src="../static/poster_downloads/{{x.poster_path}}.jpg">
-            {%endfor%}
+                {%if wishlist == []%}
+                    <h5>Wishlist:</h5>
+                    <p>You have not add any films into your wishlist!</p>
+                {%else%}
+                    WISHLIST:{{wishlist}}<br>
+                    {%for x in wishlist%}
+                    <a class="desc_detail report-click report-action" href="../film/{{x.id}}">{{x.title}}:
+                    <img src="../static/poster_downloads/{{x.poster_path}}.jpg">
+                    {%endfor%}
+                {%endif%}
             {%endif%}
 
-        </form>
+            </form>
+        {%else%}
+        <br>
+            {%if wishlist == []%}
+            <h5>Wishlist:</h5>
+                    <p>The user have not add any films into wishlist!</p>
+            {%else%}
+            <h5>Wishlist:</h5>
+                {%for x in wishlist%}
+                <p>{{x.title}}</p>
+                {%endfor%}
+            {%endif%}
+        {%endif%}
     </div>
 </div>
 {% endblock content %}
