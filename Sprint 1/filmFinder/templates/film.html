@@ -94,19 +94,23 @@
 									<div class="detail-review-word">
 										<div class="review-name">
 											<div class="name">Review by <a href="">{{review.username}}</a >
-												</div>
+											</div>
 												
-											<div class="button">
+											<div style="margin:2% 5% 0 2%">
 												<a href="#">
 													<div class="button-img" title="Block this user"></div>
 												</a >
-											</div>rating:{{review.rating}}<img src="../static/images/star_{{review.rating}}.png" style="width:105px;height:40px;margin-bottom: 10px;">
-										</div>
+											</div>
+											
+												<span style="width:60%;"><span style="float:right">rating:{{review.rating}}</span><img src="../static/images/star_{{review.rating}}.png" style="width:105px;float:right"></span>
+											
+										</div> 
 										<div class="review-content bootstrapiso">
-											{% if current_user.id == review['userid'] %}
-											<div>
+											{% if current_user.id == review['userId'] %}
 											  <p class="article-content">{{ review['review'] }}</p>
+											  <div style="margin-left: 70%;">
 											  <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+											</div>
 											  <!-- Modal -->
 											  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
 												<div class="modal-dialog" role="document">
@@ -117,7 +121,7 @@
 														<span aria-hidden="true">&times;</span>
 													  </button>
 													</div>
-													<div class="modal-body">Delete Your Review Permanently?</div>>
+													<div class="modal-body">Delete Your Review Permanently?</div>
 													<div class="modal-footer">
 													  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
 													  <form action="{{ url_for('delete_review', review_id=review['id'], filmid=filmid) }}" method="POST">
@@ -126,8 +130,7 @@
 													</div>
 												  </div>
 												</div>
-											  </div>
-											</div>
+											  </div>	
 										  {% else %}
 										  <p class="article-content">{{ review['review'] }}</p>
 										  {% endif %}
@@ -143,7 +146,7 @@
 								<hr />
 								{%endfor%}
 							<div class="bootstrapiso" style="margin:30px 0;">
-								<form action="" method="POST">
+								<form action="{{ url_for('add_review', filmid=filmid, userid=current_user.id) }}" method="POST">
 									<div class="content-section">
 										<label for="exampleFormControlTextarea1"><b style='font-size: large;'>Add yor review:</b></label>
 										<script>
