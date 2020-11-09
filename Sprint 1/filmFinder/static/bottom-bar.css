@@ -43,7 +43,7 @@
 	margin: 0px 0px 10px 0px;
 }
 .bottom-link {
-	margin: 0px 50px 0px 80px;
+	margin: 0px 50px 0px 180px;
 	/*border: 2px solid papayawhip;*/
 	display: flex;
 	flex-flow: column nowrap;

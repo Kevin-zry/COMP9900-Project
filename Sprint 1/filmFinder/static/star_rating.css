@@ -23,13 +23,16 @@
     margin: 0 25%;
 }
 .star ul li {
+    
     width: 20px;
     height: 20px;
     background: url("../static/images/empty.png") 0% 0% / 100% 100% no-repeat;
     display: inline-block;
     /* border: 2px solid rgb(14, 80, 223); */
-    
-    
+}
+
+.aaa{
+    background: url("../static/images/full.png") 0% 0% / 100% 100% no-repeat;
 }
 .star ul li a {
     height: 20px;

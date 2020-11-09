@@ -247,9 +247,9 @@
 	margin: 10px 0px 15px 0px;
 }
 .detail-review-icon {
-	width: 35%;
-	/*border: 2px solid red;*/
-	margin: 0px 10px 0px 0px;
+	width: 22%;
+	/* border: 2px solid red; */
+	/* margin: 0px 0px 0px 0px; */
 }
 .review-icon {
 	width: 45px;
@@ -257,7 +257,12 @@
 	background-size: cover;
 	background-position: center;
 	border-radius: 50%;
-	
+}
+.review-icon img{
+	height:100px;
+	width:100px;
+	margin:30% 0 0 30%;
+	border-radius: 50%;
 }
 .detail-review-word {
 	width: 65%;

@@ -21,8 +21,16 @@
 	width: 27%;
 	/*border: 2px solid palevioletred;*/
 }
+.home-box{
+	border-top: 2px solid rgb(5, 5, 5);
+	border-bottom: 2px solid rgb(5, 5, 5);
+	border-radius: 20px;
+	padding:25px 10px;
+	margin-bottom: 30px;
 
+}
 .movie-recom-title{
+	
 	width: 100%;
 	background: #424242;
 	display:flex;
