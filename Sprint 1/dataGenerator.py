@@ -5,7 +5,8 @@ YOU NEED TO HAVE THE DATABASE GENERATED FIRST.
 import pandas as pd
 import numpy as np
 import sqlite3
-from filmFinder import app, db, bcrypt
+from filmFinder import bcrypt
+import random
 
 
 database = 'filmFinder/database_files/filmfinder.db'
@@ -17,14 +18,12 @@ movieid_list = [movieid[0] for movieid in c.fetchall()]
 '''
 User Detail
 '''
-user_num = 2000
-userId_list = np.array((range(user_num))).tolist()
+user_num = 500
+userId_list = np.array((range(1, user_num+1))).tolist()
 name = [f"user{(7-len(str(x)))*'0'}{x}" for x in userId_list]
 email = [f'{x}@filmfinder.com' for x in userId_list]
-# user_data = {'id': userId_list, 'username': name, 'email': email,
-#              'password': [bcrypt.generate_password_hash('12345678').decode('utf-8')]*len(userId_list), 'profile_image': ''}  # , 'birthday': ['1970-01-01']*len(userId_list)}
 user_data = {'id': userId_list, 'username': name, 'email': email,
-             'password': [bcrypt.generate_password_hash('12345678').decode('utf-8')]*len(userId_list), 'profile_image': ''}
+             'password': [bcrypt.generate_password_hash('12345678').decode('utf-8')]*len(userId_list), 'profile_image': '', 'like': np.zeros((user_num)).astype(int)}
 user_profiles_df = pd.DataFrame(user_data)
 
 '''
@@ -36,7 +35,13 @@ np.random.seed(0)
 user_rate_num = np.random.randint(rating_lb, rating_ub, size=user_num).tolist()
 rate_num = sum(user_rate_num)
 np.random.seed(0)
-user_rating = np.random.randint(1, 6, size=rate_num)
+user_rating = np.random.randint(1, 10, size=rate_num)
+
+
+def half(x): return 0.5*x
+
+
+user_rating = np.array([half(x) for x in user_rating])
 rating_index = np.array(range(1, rate_num+1))
 user_col = []
 wl_user_col = []
@@ -51,16 +56,36 @@ for i in range(user_num):
         movie_col.append(movieid_list[j])
         wl_movie_col.append(movieid_list[j*2])
 
+id_col = np.array(range(1, rate_num+1))
 user_col = np.array(user_col)
 movie_col = np.array(movie_col)
-rating_table = np.append([user_col], [movie_col], axis=0)
+like_col = np.zeros((rate_num)).astype(int)
+rating_table = np.append([id_col], [user_col], axis=0)
+rating_table = np.append(rating_table, [movie_col], axis=0)
 rating_table = np.append(rating_table, [user_rating], axis=0)
+rating_table = np.append(rating_table, [like_col], axis=0)
 rating_table = np.transpose(rating_table)
-rating_table = rating_table.astype(int)
-rating_df = pd.DataFrame(rating_table, columns=['userId', 'movieId', 'rating'])
-rating_df['review'] = ['No review.'] * \
-    len(list(rating_df['rating'].tolist()))
-    
+rating_df = pd.DataFrame(rating_table, columns=['id', 
+                         'userId', 'movieId', 'rating', 'like'])
+rating_df = rating_df.astype(
+    {'userId': 'int32', 'movieId': 'int32', 'rating': 'float', 'like': 'int32'})
+positive_review = ['This movie is so good!', 'Best film I have ever seen.',
+                   'Definately going to watch again.', 'Worth an Oscar!']
+netural_review = ['Casts did well but scripts boring.',
+                  'Just a little above average', 'Below my expection a bit on some points.']
+negative_review = ['Do not want to watch again!!', 'Waste my two hours time watching it', 'This movie is so bad!', 'Not worth watching at all!']
+for i, j in rating_df.iterrows():
+    print(
+        '\r' + f'Generating reviews...{int(100*i/rate_num)+1}%', end="", flush=True)
+    rating = j['rating']
+    if rating >= 3.5:
+        rating_df.loc[i, 'review'] = random.choice(positive_review)
+    elif rating >= 1.5:
+        rating_df.loc[i, 'review'] = random.choice(netural_review)
+    else:
+        rating_df.loc[i, 'review'] = random.choice(negative_review)
+
+
 '''
 Wishlist
 '''
@@ -99,6 +124,6 @@ import to database
 # print(wishlist_df)
 # print(block_df)
 user_profiles_df.to_sql('USERPROFILES', conn, if_exists='replace', index=False)
-rating_df.to_sql('RATINGS', conn, if_exists='replace', index=True)
+rating_df.to_sql('RATINGS', conn, if_exists='replace', index=False)
 wishlist_df.to_sql('WISHLIST', conn, if_exists='replace', index=False)
 block_df.to_sql('BLOCKING', conn, if_exists='replace', index=False)
