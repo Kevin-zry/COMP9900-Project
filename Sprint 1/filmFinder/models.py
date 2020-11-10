@@ -43,7 +43,7 @@ class Credits(db.Model):
 
 class RATINGS(db.Model):
     __tablename__ = 'RATINGS'
-    index = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     userId = db.Column(db.Integer, db.ForeignKey('USERPROFILES.id'))
     movieId = db.Column(db.Integer, db.ForeignKey('FILMS.id'))
     rating = db.Column(db.Float)
