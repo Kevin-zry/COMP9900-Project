@@ -8,6 +8,15 @@
 		<li style = "color: #ec7532;">Register</li>
 	 </ul>
 </div>
+{% with messages = get_flashed_messages(with_categories=true) %}
+		  	{% if messages %}
+          {% for category, message in messages %}
+          <div class="bootstrapiso">
+            <div class="alert  alert-primary alert-{{ category }}" role="alert">{{ message }}</div>
+          </div>
+			  	{% endfor %}
+		  	{% endif %}
+      {% endwith%} 
 <div class = "bootstrapiso" style = "margin:20px 20% 20px 20%; ">
 	<div class="content-section">
 		<form method="POSt" action="">

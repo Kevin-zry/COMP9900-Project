@@ -8,6 +8,15 @@
 		<li style = "color: #ec7532;">Users details</li>
 	 </ul>
 </div>
+{% with messages = get_flashed_messages(with_categories=true) %}
+		  	{% if messages %}
+          {% for category, message in messages %}
+          <div class="bootstrapiso">
+            <div class="alert  alert-primary alert-{{ category }}" role="alert">{{ message }}</div>
+          </div>
+			  	{% endfor %}
+		  	{% endif %}
+      {% endwith%} 
 <div class = "bootstrapiso acc-mar">
     <div class="content-section">
       <div class="media" >
@@ -16,6 +25,7 @@
         {%else%}
             <img class="rounded-circle account-img" src="../static/profile_pics/{{user.profile_image}}">
         {%endif%}
+        {{ current_user.get_id()}}{{current_user.id }}{{current_user.get_id()==current_user.id}}
             <div class="media-body col-8" >
                 {% if identify == True%}
                     <h2 class="account-heading">{{ current_user.username }}</h2>

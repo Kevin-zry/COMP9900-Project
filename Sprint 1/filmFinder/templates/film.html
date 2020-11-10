@@ -9,6 +9,15 @@
 		<li style = "color: #ec7532;">film details</li>
 	 </ul>
 </div>
+{% with messages = get_flashed_messages(with_categories=true) %}
+		  	{% if messages %}
+          {% for category, message in messages %}
+          <div class="bootstrapiso">
+            <div class="alert  alert-primary alert-{{ category }}" role="alert">{{ message }}</div>
+          </div>
+			  	{% endfor %}
+		  	{% endif %}
+      {% endwith%} 
 {%if response == 'You need to login first!'%}
 <div class="bootstrapiso">
 	<div class="alert alert-danger" role="alert">
@@ -85,7 +94,7 @@
 							</div>
 						</div>
 						<div class="detail-detail">
-							<div class="detail-subtitle">DETAIL</div>
+							<div class="detail-subtitle">DETAIL	</div>
 							<div class="detail-detail-content">
 								<div class="detail-content-left">
 									<div class="content-title">Collection:</div>
@@ -102,9 +111,62 @@
 							</div>
 						</div>
 						<div class="detail-review">
-							<div class="detail-subtitle">REVIEW</div>
+							<div class="detail-subtitle">REVIEW{{reviews.0 == None}}</div>
+							{%if reviews.0 != None%}
+							<div class="detail-review-content">
+								<div class="detail-review-icon">
+									<div class="review-icon">
+										<img src="../static/profile_pics/default.jpg">
+									</div>
+								</div>
+								<div class="detail-review-word">
+									<div class="review-name">
+										<div class="name">Review by <a href="">{{reviews.0.username}}</a >
+										</div>	
+										<div style="margin:2% 5% 0 10%">
+											<a href="#">
+												<div class="button-img" title="Block this user"></div>
+											</a >
+										</div>
+									</div> 
+									<span style="margin-top: -6%;max-height: 40px;"><span style=" vertical-align: middle;">rating:{{reviews.0.rating}}</span><img src="../static/images/star_{{review.rating}}.png" style="width:105px; vertical-align: middle;"></span>
+									<div class="review-content bootstrapiso">
+										  <p class="article-content">{{ reviews.0.review }}</p>
+										  <div style="margin-left: 70%;">
+										  <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+										</div>
+										  <!-- Modal -->
+										  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+											<div class="modal-dialog" role="document">
+											  <div class="modal-content">
+												<div class="modal-header">
+												  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												  </button>
+												</div>
+												<div class="modal-body">Delete Your Review Permanently?</div>
+												<div class="modal-footer">
+												  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+												  <form action="{{ url_for('delete_review', review_id=review['id'], filmid=filmid) }}" method="POST">
+													<input class="btn btn-danger" type="submit" value="Delete">
+												  </form>
+												</div>
+											  </div>
+											</div>
+										  </div>	
+									</div>
+									<div class="button-like" title="Like this comment">
+										<a href="">
+											<div class="like-img"></div>
+										</a >
+										<div class="like-word">like</div>
+									</div>
+								</div>
+							</div>
+							{%endif%}
 
-								{% for review in reviews %}
+
+								{% for review in reviews.1 %}
 								<div class="detail-review-content">
 									<div class="detail-review-icon">
 										<div class="review-icon">
@@ -121,12 +183,12 @@
 												</a >
 											</div>
 										</div> 
-										<span style="margin-top: -6%;max-height: 40px;"><span style=" vertical-align: middle;">rating:{{review.rating}}</span><img src="../static/images/star_{{review.rating}}.png" style="width:105px; vertical-align: middle;"></span>
+										<span style="margin-top: -6%;max-height: 40px;"><span style=" vertical-align: middle;">rating:{{review.rating}}</span><img src="../static/images/star_{{review.rating}}.png" style="width:105px; vertical-align: middle;margin-left: 20px;"></span>
 										<div class="review-content bootstrapiso">
 	
 
 											{% if current_user.id == review['userId'] %}
-											  <p class="article-content">{{ review['review'] }}</p>
+											  <p class="article-content">{{ review.review}}</p>
 											  <div style="margin-left: 70%;">
 											  <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
 											</div>
@@ -150,7 +212,7 @@
 												</div>
 											  </div>	
 										  {% else %}
-										  <p class="article-content">{{ review['review'] }}</p>
+										  <p class="article-content">{{ review.review }}</p>
 										  {% endif %}
 										</div>
 										<div class="button-like" title="Like this comment">

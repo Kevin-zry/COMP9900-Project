@@ -8,6 +8,15 @@
 		<li style = "color: #ec7532;">Advanced search</li>
 	 </ul>
 </div>
+{% with messages = get_flashed_messages(with_categories=true) %}
+		  	{% if messages %}
+          {% for category, message in messages %}
+          <div class="bootstrapiso">
+            <div class="alert  alert-primary alert-{{ category }}" role="alert">{{ message }}</div>
+          </div>
+			  	{% endfor %}
+		  	{% endif %}
+      {% endwith%} 
 <div class = "bootstrapiso" style="margin-top:25px;padding:0 50px;">
   <div class="content-section" style="margin:0 10% 0 10%" >
   <form action="" method="POST">

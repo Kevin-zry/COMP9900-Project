@@ -1,5 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+		  	{% if messages %}
+          {% for category, message in messages %}
+          <div class="bootstrapiso">
+            <div class="alert  alert-primary alert-{{ category }}" role="alert">{{ message }}</div>
+          </div>
+			  	{% endfor %}
+		  	{% endif %}
+      {% endwith%} 
 <div class = "bootstrapiso" style="margin-top:20px;">
 	<div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
 		<div class="carousel-inner">
@@ -29,6 +38,7 @@
 		</a>
 	  </div>
 </div>
+
 <div class="index-movive">
 	
 	<div class="movie-col-1">
