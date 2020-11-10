@@ -24,7 +24,7 @@ highest_rating_movies = highest_rating_movies(10)
 @app.route("/home")
 def home():
     if current_user.is_authenticated:
-        userid = current_user.get_id()
+        userid = current_user.id
         recommend_list = ubcf(userid)
     else:
         recommend_list = []
@@ -246,7 +246,7 @@ def save_picture(form_picture):
 @app.route("/account/<int:userid>", methods=["GET", "POST"])
 # @login_required
 def account(userid):
-    if userid == current_user.get_id():
+    if userid == current_user.id
         identify = True
         form = UpdateAccountForm()
         if form.validate_on_submit():
@@ -272,7 +272,7 @@ def account(userid):
         image_file = url_for(
             'static', filename='profile_pics/' + user['profile_image'])
         if request.method == "POST":
-            blocklist_button(current_user.get_id(), userid)
+            blocklist_button(current_user.id, userid)
         wishlist = get_wishlist(userid)
         blocklist = get_blocklist(userid)
         print(user)
@@ -294,7 +294,7 @@ def film(filmid):
     response = ''
     if request.method == "POST":
         if current_user.is_authenticated:
-            userid = current_user.get_id()
+            userid = current_user.id
             response = wishlist_button(filmid, userid)
         else:
             response = 'You need to login first!'
@@ -302,10 +302,10 @@ def film(filmid):
     return render_template('film.html', movie_details=movie_details, recommend_list=recommend_list, response=response,reviews=reviews, filmid=filmid, form=form)
 # Add route for add_review() here
 
-@app.route("/wishlist/<string:userid>", methods=["GET", "POST"])
+@app.route("/wishlist/<int:userid>", methods=["GET", "POST"])
 @login_required
 def wishlist(userid):
-    wishlist = get_wishlist(current_user.get_id())
+    wishlist = get_wishlist(current_user.id)
     if request.method == "POST":
         movieid = request.form['remove_from_wishlist']
         remove_from_wishlist(userid, movieid)
@@ -315,7 +315,7 @@ def wishlist(userid):
 @app.route("/blocklist/<int:userid>", methods=["GET", "POST"])
 @login_required
 def blocklist(userid):
-    blocklist = get_blocklist(current_user.get_id())
+    blocklist = get_blocklist(current_user.id)
     if request.method == "POST":
         blockid = request.form['remove_from_blocklist']
         remove_from_blocklist(userid, blockid)
