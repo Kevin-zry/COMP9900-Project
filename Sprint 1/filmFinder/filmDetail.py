@@ -3,6 +3,7 @@ import re
 from filmFinder.recommend import *
 from flask import flash
 
+
 def re_process(string):
     # print(string)
     if string:
@@ -21,7 +22,7 @@ def get_movie_details(filmid):
         f'SELECT * FROM FILMS WHERE id = {filmid}')
     x = c.fetchone()
     detail = {'id': x[0], 'title': x[1], 'genres': re_process(x[2]), 'belongs_to_collection': re_process(x[3]), 'production_countries': re_process(x[4]),
-                  'release_date':x[5], 'overview':x[6], 'poster_path':x[7], 'vote_average':x[8], 'vote_count':int(x[9])}
+              'release_date': x[5], 'overview': x[6], 'poster_path': x[7], 'vote_average': x[8], 'vote_count': int(x[9])}
     c.execute(f'SELECT crew FROM CREDITS WHERE id = {filmid}')
     x = c.fetchone()
     detail['crew'] = x[0][1:-1]
@@ -31,13 +32,15 @@ def get_movie_details(filmid):
     detail['casts'] = [i for i in cast_process]
     return detail
 
+
 def ibcf(filmid):
-    item_list =  collaborative_filtering_item(int(filmid))
+    item_list = collaborative_filtering_item(int(filmid))
     result_list = []
     if item_list:
         for item in item_list:
             result_list.append(get_movie_details(item))
     return result_list
+
 
 def ubcf(userid):
     item_list = collaborative_filtering_user(int(userid))
@@ -47,17 +50,23 @@ def ubcf(userid):
             result_list.append(get_movie_details(item))
     return result_list
 
+
 def wishlist_button(filmid, userid):
     conn = sqlite3.connect('filmFinder/database_files/filmfinder.db')
     c = conn.cursor()
-    c.execute(f"SELECT userid, movieid FROM WISHLIST WHERE userid = {userid} and movieid = {filmid}")
+    c.execute(
+        f"SELECT userid, movieid FROM WISHLIST WHERE userid = {userid} and movieid = {filmid}")
     already_added_check = c.fetchall()
     if not already_added_check:
-        c.execute(f"INSERT INTO WISHLIST (userid, movieid) VALUES ({userid}, {filmid})")
+        c.execute(f"SELECT max(id) FROM WISHLIST")
+        maxid = c.fetchone()
+        c.execute(
+            f"INSERT INTO WISHLIST (id, userid, movieid) VALUES ({maxid[0]}, {userid}, {filmid})")
         conn.commit()
         return 'Add to wishlist success.'
     else:
         return 'Already in wishlist.'
+
 
 def get_wishlist(userid):
     conn = sqlite3.connect('filmFinder/database_files/filmfinder.db')
@@ -67,8 +76,8 @@ def get_wishlist(userid):
     # print(wishlist_film_id)
     if wishlist_film_id:
         return [get_movie_details(filmid[0]) for filmid in wishlist_film_id]
-    # return ["You have not add any films into your wishlist!"]
     return []
+
 
 def get_blocklist(userid):
     conn = sqlite3.connect('filmFinder/database_files/filmfinder.db')
@@ -80,11 +89,12 @@ def get_blocklist(userid):
     if blocklist_id:
         block = []
         for block_user in blocklist_id:
-            profile = {'id':block_user[0], 'username': block_user[1], 'profile_image': block_user[2]}
+            profile = {
+                'id': block_user[0], 'username': block_user[1], 'profile_image': block_user[2]}
             block.append(profile)
         return block
-    # return ["You have not add any users into your blocklist!"]
     return []
+
 
 def remove_from_wishlist(userid, movieid):
     conn = sqlite3.connect('filmFinder/database_files/filmfinder.db')
@@ -109,13 +119,16 @@ def blocklist_button(userid, blockid):
         f" SELECT userid, blockid FROM BLOCKING WHERE userid = {userid} AND blockid = {blockid} ")
     exist_check = c.fetchall()
     if not exist_check:
+        c.execute(f"SELECT max(id) FROM blocking")
+        maxid = c.fetchone()
         c.execute(
-            f" INSERT INTO BLOCKING (userid, blockid) VALUES ({userid}, {blockid}) ")
+            f" INSERT INTO BLOCKING (id, userid, blockid) VALUES ({maxid[0]+1}, {userid}, {blockid}) ")
         conn.commit()
         return "Add to blocklist success."
     else:
         return "Already in blocklist"
-    
+
+
 def get_user_detail(userid):
     conn = sqlite3.connect('filmFinder/database_files/filmfinder.db')
     c = conn.cursor()
@@ -123,7 +136,8 @@ def get_user_detail(userid):
         f" SELECT * FROM USERPROFILES WHERE id = {userid} ")
     user = c.fetchone()
     if user:
-        user_details = {'id': user[0], 'username': user[1], 'email': user[2], 'profile_image': user[4]}
+        user_details = {'id': user[0], 'username': user[1],
+                        'email': user[2], 'profile_image': user[4]}
         return user_details
     else:
         return {}
