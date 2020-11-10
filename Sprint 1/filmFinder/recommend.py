@@ -19,7 +19,7 @@ from sqlalchemy.sql.expression import func
 '''
 def spare_recommend_method():
     # how many result to return
-    result_num = 10
+    result_num = 30
     return list(map(lambda x: x.movieId, RATINGS.query.order_by(func.random()).limit(result_num).all()))
 
 
@@ -32,22 +32,20 @@ def spare_recommend_method():
     5、第一层过滤器，使用Jaccard系数（交集数/并集数）快速过滤出（first_choose_times*top_user_num）个用户, 双方评分过的所有电影，交集数量/并集数量
     6、第二层过滤器，使用修正余弦相似度（将每个用户减去自身的平均分后求余弦相似度）在第一次的结果中得到top_user_num个相关性最高的用户
     7、按照（相似度*评分）求和的方式对该用户所有还没评分，但是相似用户评分的电影点评进行加权平均
-    8、返回top_movie_num个模拟评分最高的电影
+    8、返回模拟评分最高的电影
 '''
 # collaborative filtering based on user
 def collaborative_filtering_user(userid):
     # only choose these top users
-    top_user_num = 10
+    top_user_num = 20
     # first choose times, means the first filter will choose (first_choose_times * top_user_num) users
     first_choose_times = 3
-    # only recommend these top movies from top users
-    top_movie_num = 10
 
     # get all the film id this user has rated, return map type
     #reviewed_films = np.array(RATINGS.query.filter(RATINGS.userId == userid).with_entities(RATINGS.movieId).all()).flatten()
     rated_films = set(map(lambda x: x.movieId, RATINGS.query.filter(RATINGS.userId == userid).all()))
     #print("movies has been rated:",rated_films)
-    print()
+    #print()
 
     #reviewed_films = [result.movieId for result in RATINGS.query.filter(RATINGS.userId == userid).all()]
     if len(rated_films) == 0:
@@ -190,23 +188,21 @@ def collaborative_filtering_user(userid):
 
     # now the final result is a sorted list contain elements like (movie_id, simu_rate)
     result.sort(key=get_second_element, reverse=True)
-    if len(result) > top_movie_num:
-        result = result[:top_movie_num]
-
-    print("the sorted result is:", result)
+    #print("the sorted result is:", result)
     recommend_ids = list(map(lambda x: x[0], result))
     #print(type(recommend_ids[0]))
     return recommend_ids
 
 # get genres
 def get_movie_genres(id):
-    result = Films.query.filter(Films.id == id).first().genres
-    if result:
+    result = Films.query.filter(Films.id == id).first()
+    if result != None:
+        result = result.genres
         result = re.findall("'name': '[a-zA-Z ]{1,}'", result)
         result = [i[9:-1] for i in result]
         result = set(result)
     else:
-        result = ['No data.']
+        result = set()
     return result
 
 
@@ -220,8 +216,6 @@ def get_movie_genres(id):
 def collaborative_filtering_item(movieId):
     # rate more than threshold will be thought as interested user
     threshold = 3
-    # filter 'result_num' films to return
-    result_num = 10
 
     def get_interested_users(movieId):
         search_result = RATINGS.query.filter(RATINGS.movieId == movieId).filter(RATINGS.rating >= threshold).all()
@@ -258,13 +252,8 @@ def collaborative_filtering_item(movieId):
         record[i] = w
 
     result = []
-    # if there is no enough films to satisfied result_num
-    if result_num >= len(record):
-        stop_num = len(record)
-    else:
-        stop_num = result_num
 
-    while len(result) < stop_num:
+    while len(result) < len(record):
         index = np.argmax(record)
         result.append(similar_movies[index])
         record[index] = 0
