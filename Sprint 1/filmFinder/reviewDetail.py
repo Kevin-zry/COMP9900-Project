@@ -68,5 +68,9 @@ def get_movie_avg_rating(current_user_id, movieId):
         if review.userId not in block_users:
             ratings.append(review.rating)
     # get the avg data
-    return round(np.mean(ratings),1)
+    if len(ratings) != 0:
+        avg_rating = round(np.mean(ratings),1)
+    else:
+        avg_rating = float(0)
+    return avg_rating
 
