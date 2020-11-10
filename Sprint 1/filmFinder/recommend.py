@@ -191,6 +191,12 @@ def collaborative_filtering_user(userid):
     #print("the sorted result is:", result)
     recommend_ids = list(map(lambda x: x[0], result))
     #print(type(recommend_ids[0]))
+
+    # if length smaller than 8, random choose movies until have 8 ids
+    if len(recommend_ids) < 8:
+        recommend_ids = recommend_ids + \
+                        list(map(lambda x: x.movieId, RATINGS.query.order_by(func.random()).limit(8-len(recommend_ids)).all()))
+
     return recommend_ids
 
 # get genres
@@ -239,6 +245,11 @@ def collaborative_filtering_item(movieId):
     for similar_id in similar_movies:
         if len(get_movie_genres(similar_id) & current_genres) == 0:
             remove_list.append(similar_id)
+    if len(similar_movies) - len(remove_list) < 8:
+        if len(similar_movies) < 8:
+            remove_list = []
+        else:
+            remove_list = remove_list[:len(similar_movies)-8]
     for similar_id in remove_list:
             similar_movies.remove(similar_id)
 
@@ -257,6 +268,11 @@ def collaborative_filtering_item(movieId):
         index = np.argmax(record)
         result.append(similar_movies[index])
         record[index] = 0
+
+    # if length smaller than 8, random choose movies until have 8 ids
+    if len(result) < 8:
+        result = result + \
+                 list(map(lambda x: x.movieId,RATINGS.query.order_by(func.random()).limit(8 - len(result)).all()))
 
     return result
 
