@@ -8,6 +8,7 @@ import numpy as np
 # each review in list is a dict {userId:..., username:...}
 # it does not contain reviews whose owner is in the block list
 def get_review_datails(current_user_id, movieId):
+    current_user_id, movieId = int(current_user_id), int(movieId)
     if current_user_id:
         block = BLOCKING.query.filter(BLOCKING.userid == current_user_id).all()
         block_users = set(map(lambda x: x.blockid, block))
@@ -39,6 +40,7 @@ def get_review_datails(current_user_id, movieId):
 # userId, movieId, rate is int
 # review is a string
 def add_review(userId, movieId, rating, review):
+    current_user_id, movieId, rating = int(userId), int(movieId), float(rating)
     if RATINGS.query.filter(RATINGS.userId == userId).filter(RATINGS.movieId == movieId).first() != None:
         flash('You have already written a review. Delete this to add a new one', category='danger')
         # RATINGS.query.filter(RATINGS.userId == userId).filter(RATINGS.movieId == movieId).update({'rating':rating, 'review':review})
@@ -49,6 +51,7 @@ def add_review(userId, movieId, rating, review):
 
 # delete review
 def delete_review(userId, movieId):
+    current_user_id, movieId = int(userId), int(movieId)
     user = RATINGS.query.filter(RATINGS.userId == userId).filter(RATINGS.movieId == movieId).first()
     db.session.delete(user)
     db.session.commit()
@@ -56,6 +59,7 @@ def delete_review(userId, movieId):
 
 # get the avg rating of the movie without ratings in block list
 def get_movie_avg_rating(current_user_id, movieId):
+    current_user_id, movieId = int(current_user_id), int(movieId)
     if current_user_id:
         block = BLOCKING.query.filter(BLOCKING.userid == current_user_id).all()
         block_users = set(map(lambda x: x.blockid, block))
