@@ -26,7 +26,7 @@ def get_review_datails(current_user_id, movieId):
             review_info['profile_image'] = user_info.profile_image
             review_info['rating'] = review.rating
             review_info['review'] = review.review
-            review_info['id'] = review.index
+            review_info['id'] = review.id
             if review.userId != current_user_id:
                 output[1].append(review_info)
             else:
