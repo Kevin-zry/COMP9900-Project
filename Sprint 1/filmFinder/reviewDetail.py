@@ -17,21 +17,20 @@ def get_review_datails(current_user_id, movieId):
     reviews = RATINGS.query.filter(RATINGS.movieId == movieId).all()
     output = [None, []]
     for review in reviews:
-        if review != None:
-            if review.userId not in block_users:
-                review_info = {}
-                user_info = USERPROFILES.query.filter(USERPROFILES.id == review.userId).first()
-                review_info['userId'] = review.userId
-                review_info['username'] = user_info.username
-                review_info['email'] = user_info.email
-                review_info['profile_image'] = user_info.profile_image
-                review_info['rating'] = review.rating
-                review_info['review'] = review.review
-                review_info['id'] = review.index
-                if review.userId != current_user_id:
-                    output[1].append(review_info)
-                else:
-                    output[0] = review_info
+        if review.userId not in block_users:
+            review_info = {}
+            user_info = USERPROFILES.query.filter(USERPROFILES.id == review.userId).first()
+            review_info['userId'] = review.userId
+            review_info['username'] = user_info.username
+            review_info['email'] = user_info.email
+            review_info['profile_image'] = user_info.profile_image
+            review_info['rating'] = review.rating
+            review_info['review'] = review.review
+            review_info['id'] = review.index
+            if review.userId != current_user_id:
+                output[1].append(review_info)
+            else:
+                output[0] = review_info
 
     return output
 
