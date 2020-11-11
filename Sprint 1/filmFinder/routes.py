@@ -244,9 +244,9 @@ def save_picture(form_picture):
     return picture_fn
 
 @app.route("/account/<int:userid>", methods=["GET", "POST"])
-# @login_required
+@login_required
 def account(userid):
-    if userid == current_user.id
+    if userid == current_user.id:
         identify = True
         form = UpdateAccountForm()
         if form.validate_on_submit():
@@ -275,8 +275,6 @@ def account(userid):
             blocklist_button(current_user.id, userid)
         wishlist = get_wishlist(userid)
         blocklist = get_blocklist(userid)
-        print(user)
-        print(image_file)
         return render_template('account.html', title='Account', image_file=image_file, user=user, wishlist=wishlist, blocklist=blocklist, identify=identify)
 
 
@@ -287,18 +285,28 @@ def film(filmid):
     else:
         reviews = get_review_datails(None, filmid)
     form = ReviewForm()
-    if form.validate_on_submit():
-        add_review(current_user.id, filmid, form.rating.data, form.review.data)
     movie_details = get_movie_details(filmid)
     recommend_list = ibcf(filmid)
     response = ''
     if request.method == "POST":
         if current_user.is_authenticated:
-            userid = current_user.id
-            response = wishlist_button(filmid, userid)
-        else:
-            response = 'You need to login first!'
-    
+            if 'add_to_wishlist' in request.form:
+                userid = current_user.id
+                response = wishlist_button(filmid, userid)
+            elif 'block' in request.form:
+                blockid = int(request.form['block'])
+                blocklist_button(current_user.id, blockid)
+            elif 'like' in request.form:
+                ratingid = int(float(request.form['like']))
+                like_increment(ratingid)
+            elif 'review' in request.form:
+                print('---------------review----------------')
+                print(current_user.id, filmid,
+                      form.rating.data, form.review.data)
+                if form.validate_on_submit():
+                    print(current_user.id, filmid,
+                          form.rating.data, form.review.data)
+                    add_review(current_user.id, filmid, form.rating.data, form.review.data)
     return render_template('film.html', movie_details=movie_details, recommend_list=recommend_list, response=response,reviews=reviews, filmid=filmid, form=form)
 # Add route for add_review() here
 

@@ -137,7 +137,14 @@ def get_user_detail(userid):
     user = c.fetchone()
     if user:
         user_details = {'id': user[0], 'username': user[1],
-                        'email': user[2], 'profile_image': user[4]}
+                        'email': user[2], 'profile_image': user[4], 'like':user[5]}
         return user_details
     else:
         return {}
+
+def like_increment(ratingid):
+    conn = sqlite3.connect('filmFinder/database_files/filmfinder.db')
+    c = conn.cursor()
+    c.execute(
+        f" UPDATE RATINGS SET like = (like + 1) WHERE id = {ratingid} ")
+    conn.commit()
