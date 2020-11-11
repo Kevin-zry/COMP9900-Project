@@ -1,4 +1,4 @@
-import pandas as pd 
+import pandas as pd
 import numpy as np
 import glob
 import os
@@ -18,7 +18,7 @@ def change_poster_names():
         prev = poster
         filepath = prev[:35]
         filename = prev[39:]
-        
+
         padding = 11-len(filename)
         after = filepath+'tt'+padding*'0'+filename
         # print(after)
@@ -51,7 +51,7 @@ if __name__ == "__main__":
                        'release_date', 'overview', 'imdb_id', 'vote_average', 'vote_count']]
     film_df = film_df.drop([19730, 29503, 35587])
     imdb_film_id = list(set(film_df.imdb_id.unique().tolist()))
-    
+
     poster_list = change_poster_names()
 
     poster_list = set([i[35:-4] for i in poster_list])
@@ -62,13 +62,15 @@ if __name__ == "__main__":
         if imdb_film_id[i] in poster_list:
             matched_df = film_df.query(f"imdb_id == '{imdb_film_id[i]}'")
             final_film_df = final_film_df.append(matched_df)
-            print('\r'+ f'Generating final film dataframe...{int(100*i/len(imdb_film_id))+1}%',end="", flush=True)
+            print(
+                '\r' + f'Generating final film dataframe...{int(100*i/len(imdb_film_id))+1}%', end="", flush=True)
 
     print()
     print('Generating final film dataframe...success')
-    
+
     row_num, col_num = final_film_df.shape
-    print('Film row number correct.') if row_num == 8196 else print('ERROR:Film row number incorrect! Check file path.')
+    print('Film row number correct.') if row_num == 8196 else print(
+        'ERROR:Film row number incorrect! Check file path.')
     final_film_df = final_film_df.rename(columns={'imdb_id': 'poster_path'})
 
     print('Loading credits data...')
@@ -88,12 +90,10 @@ if __name__ == "__main__":
         if str(j[0]) not in tmdb_film_id:
             credits_df = credits_df.drop([i])
 
-    
     print('Loading&rearranging credits data...success')
     row_num, col_num = credits_df.shape
     print('Credits row number correct.') if row_num == 8196 else print(
         'ERROR:Credits row number incorrect! That is impossible.')
-
 
     # randomize rating and user profile
     '''
@@ -104,16 +104,19 @@ if __name__ == "__main__":
     '''
     tmdb_film_id = np.array(list(set(final_film_df.id.unique().tolist())))
     # print(tmdb_film_id)
-    np.random.seed(0); user_rate_num = np.random.randint(50, 100, size=500).tolist()
+    np.random.seed(0)
+    user_rate_num = np.random.randint(50, 100, size=500).tolist()
     rate_num = sum(user_rate_num)
-    np.random.seed(0); user_rating =np.random.randint(1,6,size=rate_num)
-    rating_index = np.array(range(1,rate_num+1))
+    np.random.seed(0)
+    user_rating = np.random.randint(1, 6, size=rate_num)
+    rating_index = np.array(range(1, rate_num+1))
     user_col = []
     movie_col = []
 
     for i in range(500):
         for j in range(user_rate_num[i]):
-            np.random.seed(i); np.random.shuffle(tmdb_film_id)
+            np.random.seed(i)
+            np.random.shuffle(tmdb_film_id)
             user_col.append(i+1)
             movie_col.append(tmdb_film_id[j])
 
@@ -124,15 +127,16 @@ if __name__ == "__main__":
     rating_table = np.append(rating_table, [user_rating], axis=0)
     rating_table = np.transpose(rating_table)
     rating_table = rating_table.astype(int)
-    rating_df = pd.DataFrame(rating_table, columns=['userId', 'movieId', 'rating'])
+    rating_df = pd.DataFrame(rating_table, columns=[
+                             'userId', 'movieId', 'rating'])
     rating_df['review'] = ['No review.'] * \
         len(list(rating_df['rating'].tolist()))
-    
+
     userId_list = list(set(rating_df['userId'].tolist()))
     name = [f'ID:{x}' for x in userId_list]
     email = [f'{x}@filmfinder.com' for x in userId_list]
     user_data = {'id': userId_list, 'username': name, 'email': email,
-                'password': ['12345678']*len(userId_list), 'profile_image': ''}  # , 'birthday': ['1970-01-01']*len(userId_list)}
+                 'password': ['12345678']*len(userId_list), 'profile_image': ''}  # , 'birthday': ['1970-01-01']*len(userId_list)}
     user_profiles_df = pd.DataFrame(user_data)
 
     # create database
@@ -151,7 +155,7 @@ if __name__ == "__main__":
             [email] varchar(120) NOT NULL,
             [password] varchar(60) NOT NULL,
             [profile_image] VARCHAR(100) NOT NULL,
-            UNIQUE (username),
+            [like] INTEGER default 0,
             UNIQUE (email)
         )
         '''
@@ -188,11 +192,12 @@ if __name__ == "__main__":
     c.execute(
         '''
         CREATE TABLE RATINGS(
-            [index] INTEGER PRIMARY KEY, 
+            [id] INTEGER PRIMARY KEY, 
             [userId] integer, 
             [movieId] integer, 
             [rating] float,
             [review] text,
+            [like] integer default 0, 
             FOREIGN KEY (userId) REFERENCES USERPROFILES (id),
             FOREIGN KEY (movieId) REFERENCES FILMS (id)
         )
@@ -219,14 +224,12 @@ if __name__ == "__main__":
         '''
     )
 
-
     conn.commit()
     print('Database filmfinder.db created...')
     print('Loading data to filmfinder.db...')
     conn = sqlite3.connect(database)
     c = conn.cursor()
     final_film_df['id'] = pd.to_numeric(final_film_df['id'], errors='ignore')
-
 
     final_film_df.to_sql('FILMS', conn, if_exists='replace', index=False)
     credits_df.to_sql('CREDITS', conn, if_exists='replace', index=None)
