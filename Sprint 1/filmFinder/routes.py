@@ -281,9 +281,9 @@ def account(userid):
 @app.route("/film/<int:filmid>", methods=["GET", "POST"])
 def film(filmid):
     if current_user.is_authenticated:
-        reviews = get_review_datails(current_user.id, filmid)
+        reviews = get_review_details(current_user.id, filmid)
     else:
-        reviews = get_review_datails(None, filmid)
+        reviews = get_review_details(None, filmid)
 
     movie_details = get_movie_details(filmid)
     recommend_list = ibcf(filmid)
