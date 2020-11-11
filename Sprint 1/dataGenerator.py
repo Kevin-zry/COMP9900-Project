@@ -19,11 +19,14 @@ movieid_list = [movieid[0] for movieid in c.fetchall()]
 User Detail
 '''
 user_num = 500
+default_profile_list = ['default.jpg', 'default1.jpg', 'default2.jpg', 'default3.jpg', 'default4.jpg', 'default5.jpg', 'default6.jpg',
+                        'default7.jpg', 'default8.jpg', 'default9.jpg', 'default10.jpg', 'default11.jpg', 'default12.jpg', 'default13.jpg', 'default14.jpg']
+profile_img_list = [random.choice(default_profile_list) for i in range(user_num)]
 userId_list = np.array((range(1, user_num+1))).tolist()
 name = [f"user{(7-len(str(x)))*'0'}{x}" for x in userId_list]
 email = [f'{x}@filmfinder.com' for x in userId_list]
 user_data = {'id': userId_list, 'username': name, 'email': email,
-             'password': [bcrypt.generate_password_hash('12345678').decode('utf-8')]*len(userId_list), 'profile_image': '', 'like': np.zeros((user_num)).astype(int)}
+             'password': [bcrypt.generate_password_hash('12345678').decode('utf-8')]*len(userId_list), 'profile_image': profile_img_list, 'like': np.zeros((user_num)).astype(int)}
 user_profiles_df = pd.DataFrame(user_data)
 
 '''
@@ -65,15 +68,16 @@ rating_table = np.append(rating_table, [movie_col], axis=0)
 rating_table = np.append(rating_table, [user_rating], axis=0)
 rating_table = np.append(rating_table, [like_col], axis=0)
 rating_table = np.transpose(rating_table)
-rating_df = pd.DataFrame(rating_table, columns=['id', 
-                         'userId', 'movieId', 'rating', 'like'])
+rating_df = pd.DataFrame(rating_table, columns=['id',
+                                                'userId', 'movieId', 'rating', 'like'])
 rating_df = rating_df.astype(
     {'userId': 'int32', 'movieId': 'int32', 'rating': 'float', 'like': 'int32'})
 positive_review = ['This movie is so good!', 'Best film I have ever seen.',
                    'Definately going to watch again.', 'Worth an Oscar!']
 netural_review = ['Casts did well but scripts boring.',
                   'Just a little above average', 'Below my expection a bit on some points.']
-negative_review = ['Do not want to watch again!!', 'Waste my two hours time watching it', 'This movie is so bad!', 'Not worth watching at all!']
+negative_review = ['Do not want to watch again!!', 'Waste my two hours time watching it',
+                   'This movie is so bad!', 'Not worth watching at all!']
 for i, j in rating_df.iterrows():
     print(
         '\r' + f'Generating reviews...{int(100*i/rate_num)+1}%', end="", flush=True)
