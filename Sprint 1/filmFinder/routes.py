@@ -4,7 +4,7 @@ import sqlite3
 from filmFinder import recommend
 from flask import Flask, render_template, url_for, flash, redirect, request
 from filmFinder import app, db, bcrypt
-from filmFinder.forms import RegistrationForm, LoginForm, UpdateAccountForm, ReviewForm
+from filmFinder.forms import RegistrationForm, LoginForm, UpdateAccountForm
 from filmFinder.models import USERPROFILES, RATINGS
 from flask_login import login_user, logout_user, current_user, login_required
 
@@ -284,7 +284,7 @@ def film(filmid):
         reviews = get_review_datails(current_user.id, filmid)
     else:
         reviews = get_review_datails(None, filmid)
-    form = ReviewForm()
+
     movie_details = get_movie_details(filmid)
     recommend_list = ibcf(filmid)
     response = ''
@@ -300,14 +300,15 @@ def film(filmid):
                 ratingid = int(float(request.form['like']))
                 like_increment(ratingid)
             elif 'review' in request.form:
-                print('---------------review----------------')
-                print(current_user.id, filmid,
-                      form.rating.data, form.review.data)
-                if form.validate_on_submit():
-                    print(current_user.id, filmid,
-                          form.rating.data, form.review.data)
-                    add_review(current_user.id, filmid, form.rating.data, form.review.data)
-    return render_template('film.html', movie_details=movie_details, recommend_list=recommend_list, response=response,reviews=reviews, filmid=filmid, form=form)
+                rating = float(request.form['rating'])
+        		review = request.form['review']
+        		if not review:
+        			response = flash('Review must not be empty', category='danger')
+        		else:
+        			response = flash('Your review has been submitted',
+        			                 category='success')
+                    add_review(current_user.id, filmid, rating, review)
+    return render_template('film.html', movie_details=movie_details, recommend_list=recommend_list, response=response,reviews=reviews, filmid=filmid)
 # Add route for add_review() here
 
 @app.route("/wishlist/<int:userid>", methods=["GET", "POST"])
