@@ -75,4 +75,3 @@ def get_movie_avg_rating(current_user_id, movieId):
     else:
         avg_rating = float(0)
     return avg_rating
-

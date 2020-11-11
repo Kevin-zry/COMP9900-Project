@@ -4,7 +4,7 @@ import sqlite3
 from filmFinder import recommend
 from flask import Flask, render_template, url_for, flash, redirect, request
 from filmFinder import app, db, bcrypt
-from filmFinder.forms import RegistrationForm, LoginForm, UpdateAccountForm
+from filmFinder.forms import RegistrationForm, LoginForm, UpdateAccountForm, ReviewForm
 from filmFinder.models import USERPROFILES, RATINGS
 from flask_login import login_user, logout_user, current_user, login_required
 
@@ -197,7 +197,7 @@ def register():
             maxid = db.session.query(func.max(USERPROFILES.id)).one()[0]
             # print(maxid)
             user = USERPROFILES(id=maxid+1, username=form.username.data,
-                                email=form.email.data, password=hashed_password)
+                                email=form.email.data, password=hashed_password, like=0)
             db.session.add(user)
             db.session.commit()
             flash('Your account has been created! You are now able to log in!',
@@ -263,9 +263,10 @@ def account(userid):
             form.email.data = current_user.email
         image_file = url_for(
             'static', filename='profile_pics/' + current_user.profile_image)
+        like = current_user.like
         wishlist = get_wishlist(userid)
         blocklist = get_blocklist(userid)
-        return render_template('account.html', title='Account', image_file=image_file, form=form, wishlist=wishlist, blocklist=blocklist, identify=identify)
+        return render_template('account.html', title='Account', image_file=image_file, form=form, wishlist=wishlist, blocklist=blocklist, identify=identify, like=like)
     else:
         identify = False
         user = get_user_detail(userid)
@@ -284,7 +285,7 @@ def film(filmid):
         reviews = get_review_details(current_user.id, filmid)
     else:
         reviews = get_review_details(None, filmid)
-
+    form = ReviewForm()
     movie_details = get_movie_details(filmid)
     recommend_list = ibcf(filmid)
     response = ''
@@ -301,12 +302,13 @@ def film(filmid):
                 like_increment(ratingid)
             elif 'review' in request.form:
                 rating = float(request.form['rating'])
-        		review = request.form['review']
-        		if not review:
-        			response = flash('Review must not be empty', category='danger')
-        		else:
-        			response = flash('Your review has been submitted',
-        			                 category='success')
+                review = request.form['review']
+                if not review:
+                    response = flash(
+                        'Review must not be empty', category='danger')
+                else:
+                    response = flash('Your review has been submitted',
+                                     category='success')
                     add_review(current_user.id, filmid, rating, review)
     return render_template('film.html', movie_details=movie_details, recommend_list=recommend_list, response=response,reviews=reviews, filmid=filmid)
 # Add route for add_review() here

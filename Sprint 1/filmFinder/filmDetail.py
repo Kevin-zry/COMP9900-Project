@@ -135,9 +135,11 @@ def get_user_detail(userid):
     c.execute(
         f" SELECT * FROM USERPROFILES WHERE id = {userid} ")
     user = c.fetchone()
+    c.execute(f"SELECT SUM(like) FROM RATINGS WHERE userId = {userid}")
+    like_sum = c.fetchone()
     if user:
         user_details = {'id': user[0], 'username': user[1],
-                        'email': user[2], 'profile_image': user[4], 'like':user[5]}
+                        'email': user[2], 'profile_image': user[4], 'like':like_sum[0]}
         return user_details
     else:
         return {}
