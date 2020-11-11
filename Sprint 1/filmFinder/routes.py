@@ -336,12 +336,11 @@ def blocklist(userid):
 @login_required
 def delete_review(review_id):
     review = RATINGS.query.get_or_404(review_id)
-    author = USERPROFILES.query.get(review.userid)
-    if review.author != current_user:
+    author = USERPROFILES.query.get(review.userId)
+    if author != current_user:
         abort(403)
     db.session.delete(review)
     db.session.commit()
     flash('Your review has been deleted!', 'success')
     filmid = request.args.get('filmid')
-    return redirect(url_for('film'), filmid=filmid)
-
+    return redirect(f'/film/{filmid}')
