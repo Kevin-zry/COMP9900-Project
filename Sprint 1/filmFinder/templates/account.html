@@ -23,9 +23,9 @@
         {% if identify == True%}
             <img class="rounded-circle account-img" src="../static/profile_pics/{{current_user.profile_image}}">
         {%else%}
+            
             <img class="rounded-circle account-img" src="../static/profile_pics/{{user.profile_image}}">
         {%endif%}
-        {{ current_user.get_id()}}{{current_user.id }}{{current_user.get_id()==current_user.id}}
             <div class="media-body col-8" >
                 {% if identify == True%}
                     <h2 class="account-heading">{{ current_user.username }}</h2>
@@ -46,12 +46,20 @@
                 <div class="list-group">
                     {% if identify == True%}
                     <a class="list-group-item list-group-item-action active" href="../wishlist/{{current_user.id}}" role="button">My wishlist</a>
-                    <a class="list-group-item list-group-item-action" href="../blocklist/{{current_user.id}}" role="button">My blacklist</a>
+                    <a class="list-group-item list-group-item-action" href="../blocklist/{{current_user.id}}" role="button">My blocklist</a>
                     {%endif%}
-                  </div>
-                  <img src="../static/images/like.png"style="height:50px;width:50px;
-                  margin:5% 5% 10% 20%;" >
-                   <span>100</span>
+                    {% if identify == True%}
+                    </div>
+                    <img src="../static/images/like.png"style="height:50px;width:50px;
+                    margin:5% 5% 10% 20%;" >
+                    <span>{{like}}</span>
+                    {%else%}
+                    </div>
+                    <img src="../static/images/like.png" style="height:50px;width:50px;
+                                        margin:5% 5% 10% 20%;">
+                    <span>{{user.like}}</span>
+                    {%endif%}
+
             </div>
            
         

@@ -17,7 +17,8 @@
           </div>
 			  	{% endfor %}
 		  	{% endif %}
-      {% endwith%} 
+	  {% endwith%}
+
 {%if response == 'You need to login first!'%}
 <div class="bootstrapiso">
 	<div class="alert alert-danger" role="alert">
@@ -49,7 +50,7 @@
 							<div class="wishlist">
 								<form action="#" method="POST">
 									<div class="buttons center">
-										<button class="draw" type="submit">Add to wishlist</button>
+										<button class="draw" type="submit" name="add_to_wishlist">Add to wishlist</button>
 									</div>
 									
 								</form>
@@ -121,15 +122,13 @@
 								</div>
 								<div class="detail-review-word">
 									<div class="review-name">
-										<div class="name">Review by <a href="">{{reviews.0.username}}</a >
+										<div class="name">Review by <a href="/account/{{reviews.0.userId}}">{{reviews.0.username}}</a >
 										</div>	
 										<div style="margin:2% 5% 0 10%">
-											<a href="#">
-												<div class="button-img" title="Block this user"></div>
-											</a >
+
 										</div>
 									</div> 
-									<span style="margin-top: -6%;max-height: 40px;"><span style=" vertical-align: middle;">rating:{{reviews.0.rating}}</span><img src="../static/images/star_{{review.rating}}.png" style="width:105px; vertical-align: middle;"></span>
+									<span style="margin-top: -6%;max-height: 40px;"><span style=" vertical-align: middle;">rating:{{reviews.0.rating}}</span><img src="../static/images/star_{{reviews.0.rating}}.png" style="width:105px; vertical-align: middle;"></span>
 									<div class="review-content bootstrapiso">
 										  <p class="article-content">{{ reviews.0.review }}</p>
 										  <div style="margin-left: 70%;">
@@ -147,7 +146,7 @@
 												<div class="modal-body">Delete Your Review Permanently?</div>
 												<div class="modal-footer">
 												  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-												  <form action="{{ url_for('delete_review', review_id=review['id'], filmid=filmid) }}" method="POST">
+												  <form action="{{ url_for('delete_review', review_id=reviews.0['id'], filmid=filmid) }}" method="POST">
 													<input class="btn btn-danger" type="submit" value="Delete">
 												  </form>
 												</div>
@@ -175,12 +174,14 @@
 									</div>
 									<div class="detail-review-word">
 										<div class="review-name">
-											<div class="name">Review by <a href="">{{review.username}}</a >
+											<div class="name">Review by <a href="/account/{{review.userId}}">{{review.username}}</a >
 											</div>	
 											<div style="margin:2% 5% 0 10%">
-												<a href="#">
-													<div class="button-img" title="Block this user"></div>
-												</a >
+												<form action="#" method="POST">
+													<button type="submit" name="block" value="{{review.userId}}">block</button>
+
+													<!-- <div class="button-img" title="Block this user"></div> -->
+												</form>
 											</div>
 										</div> 
 										<span style="margin-top: -6%;max-height: 40px;"><span style=" vertical-align: middle;">rating:{{review.rating}}</span><img src="../static/images/star_{{review.rating}}.png" style="width:105px; vertical-align: middle;margin-left: 20px;"></span>
@@ -216,17 +217,28 @@
 										  {% endif %}
 										</div>
 										<div class="button-like" title="Like this comment">
-											<a href="">
-												<div class="like-img"></div>
-											</a >
+											<form action="#" method="POST">
+												<button type="submit" name="like" value="{{review.id}}">like</button>
+												<!-- <div class="like-img"></div> -->
+											</form>
 											<div class="like-word">like</div>
 										</div>
 									</div>
 								</div>
 								<hr />
 								{%endfor%}
-							<div class="bootstrapiso" style="margin:30px 0;">
-								<form action="" method="POST">
+							<script>
+								function checkForm(){
+									if   (subview.review.value == '')   { 
+    									alert("The comment you entered cannot be empty!");
+    									subview.review.focus();
+    									return false;
+										}
+									else{return true;}
+									}
+							</script>
+							<div class="bootstrapiso"  style="margin:30px 0;">
+								<form action="" name="subview" method="POST" onsubmit="return checkForm()">
 									<div class="content-section">
 										<label for="exampleFormControlTextarea1"><b style='font-size: large;'>Add yor review:</b></label>
 										<script>
@@ -257,8 +269,12 @@
 										</script>
 										<div class="setgrade">  
 											<div class="grade">
-												Rating: <span name="rating" id="getgrade">3.0</span>
+												Rating: <span id="getgrade">3.0</span>
 											</div>
+											<input type ="hidden" name="rating" id='r_rat'>
+											<script>
+												document.getElementById("r_rat").value= document.getElementById('getgrade').innerHTML;
+											</script>
 											<div class="star">
 												<ul id="star">
 													<li style=" background: url('../static/images/full.png') 0% 0% / 100% 100% no-repeat;">
