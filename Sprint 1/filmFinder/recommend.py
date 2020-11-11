@@ -199,19 +199,6 @@ def collaborative_filtering_user(userid):
 
     return recommend_ids
 
-# get genres
-def get_movie_genres(id):
-    result = Films.query.filter(Films.id == id).first()
-    if result != None:
-        result = result.genres
-        result = re.findall("'name': '[a-zA-Z ]{1,}'", result)
-        result = [i[9:-1] for i in result]
-        result = set(result)
-    else:
-        result = set()
-    return result
-
-
 # 基于物品的协同过滤算法
 '''
     1、将所有评分大于阈值的用户设置为偏好该物品的用户，得到每部电影对应的喜好用户集合
@@ -228,7 +215,6 @@ def collaborative_filtering_item(movieId):
         return set(map(lambda x: x.userId, search_result))
 
     current_interested_users = get_interested_users(movieId)
-    current_genres = get_movie_genres(movieId)
     if len(current_interested_users) == 0:
         return spare_recommend_method()
 
@@ -239,19 +225,6 @@ def collaborative_filtering_item(movieId):
     similar_movies.remove(movieId)
     if len(similar_movies) == 0:
         return spare_recommend_method()
-
-    # only remain those movies has same genres
-    remove_list = []
-    for similar_id in similar_movies:
-        if len(get_movie_genres(similar_id) & current_genres) == 0:
-            remove_list.append(similar_id)
-    if len(similar_movies) - len(remove_list) < 8:
-        if len(similar_movies) < 8:
-            remove_list = []
-        else:
-            remove_list = remove_list[:len(similar_movies)-8]
-    for similar_id in remove_list:
-            similar_movies.remove(similar_id)
 
     # calculate similar weight
     similar_movies = list(similar_movies)
@@ -269,19 +242,97 @@ def collaborative_filtering_item(movieId):
         result.append(similar_movies[index])
         record[index] = 0
 
-    # if length smaller than 8, random choose movies until have 8 ids
-    if len(result) < 8:
-        result = result + \
-                 list(map(lambda x: x.movieId,RATINGS.query.order_by(func.random()).limit(8 - len(result)).all()))
-
     return result
 
+# filter result based on the result of collaborative filtering based on items
+# movieId is the current movie Id
+# recommend_ids is the result of collaborative filtering based on items
+# filtertype is '', 'genres', 'crew', 'production_countries', 'release_date'.
+def item_based_result_filter(movieId, recommend_ids, filtertype):
+
+    # split string to get names
+    def split_names(input):
+        result = re.findall("'name': '[a-zA-Z ]{1,}'", input)
+        result = set([i[9:-1] for i in result])
+        return result
+
+    # get genres
+    def get_movie_genres(id):
+        result = Films.query.filter(Films.id == id).first()
+        if result != None:
+            result = result.genres
+            result = split_names(result)
+        else:
+            result = set()
+        return result
+
+    # get crew
+    def get_movie_crew(id):
+        result = Credits.query.filter(Credits.id == id).first()
+        if result != None:
+            result = result.crew
+        else:
+            result = set()
+        return result
+
+    # get_movie_country
+    def get_movie_countries(id):
+        result = Films.query.filter(Films.id == id).first()
+        if result != None:
+            result = result.production_countries
+            result = split_names(result)
+        else:
+            result = set()
+        return result
+
+    # get release_date
+    def get_movie_date(id):
+        result = Films.query.filter(Films.id == id).first()
+        if result != None:
+            result = result.release_date
+        else:
+            result = None
+        return result
 
 
-# 根据电影id获取电影名，用于测试
-def get_movie_name(id):
-    result = Films.query.filter(Films.id == id).first()
-    if result != None:
-        return result.title
-    else:
-        return None
+    # start to remove
+    remove_list = []
+
+    # filter depend on the filtertype
+    if filtertype == '':
+        pass
+
+    elif filtertype == 'genres':
+        for similar_id in recommend_ids:
+            current_genres = get_movie_genres(movieId)
+            if len(get_movie_genres(similar_id) & current_genres) == 0:
+                remove_list.append(similar_id)
+
+    elif filtertype == 'crew':
+        for similar_id in recommend_ids:
+            current_crew = get_movie_crew(movieId)
+            if get_movie_crew(similar_id) != current_crew:
+                remove_list.append(similar_id)
+
+    elif filtertype == 'production_countries':
+        for similar_id in recommend_ids:
+            current_countries = get_movie_countries(movieId)
+            if len(get_movie_countries(similar_id) & current_countries) == 0:
+                remove_list.append(similar_id)
+
+    # remove all the movies' release_date difference more than 10 years
+    elif filtertype == 'release_date':
+        for similar_id in recommend_ids:
+            current_date = get_movie_date(movieId)
+            compare_date = get_movie_date(similar_id)
+            if compare_date == None:
+                remove_list.append(similar_id)
+            else:
+                if abs(getattr((compare_date - current_date), 'days')) > 3650:
+                    remove_list.append(similar_id)
+    # end filter
+
+    for similar_id in remove_list:
+        recommend_ids.remove(similar_id)
+
+    return recommend_ids
