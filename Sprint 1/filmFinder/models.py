@@ -14,6 +14,7 @@ class USERPROFILES(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
     profile_image = db.Column(db.String(100), nullable=False, default='default.jpg')
+    like = db.Column(db.Integer, default=0)
     # reviews = db.relationship('Review', backref='author', lazy=True)
 
     def __repr__(self):
