@@ -44,7 +44,7 @@ def add_review(userId, movieId, rating, review):
         flash('You have already written a review. Delete this to add a new one', category='danger')
         # RATINGS.query.filter(RATINGS.userId == userId).filter(RATINGS.movieId == movieId).update({'rating':rating, 'review':review})
     else:
-        maxindex = db.session.query(func.max(RATINGS.index)).one()[0]
+        maxindex = db.session.query(func.max(RATINGS.id)).one()[0]
         db.session.add(RATINGS(index= maxindex+1,userId=userId, movieId=movieId, rating=rating, review=review))
         db.session.commit()
 
