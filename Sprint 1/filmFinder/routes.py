@@ -314,7 +314,7 @@ def film(filmid):
     if request.method == "POST":
         if 'filtertype' in request.form:
             recommend_list = item_based_result_filter(filmid, recommend_list, request.form['filtertype'])
-        if current_user.is_authenticated:
+        elif current_user.is_authenticated:
             if 'add_to_wishlist' in request.form:
                 userid = current_user.id
                 response = wishlist_button(filmid, userid)
