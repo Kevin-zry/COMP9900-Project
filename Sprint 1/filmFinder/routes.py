@@ -344,3 +344,13 @@ def delete_review(review_id):
     flash('Your review has been deleted!', 'success')
     filmid = request.args.get('filmid')
     return redirect(f'/film/{filmid}')
+
+@app.route("/results")
+def results():
+    flag = int(request.args.get('flag'))
+    if flag == 1:
+        movies = highest_rating_movies
+    else:
+        movies = ubcf(current_user.id)
+    
+    return render_template('results.html', title='Films list', movies=movies, flag = flag)
