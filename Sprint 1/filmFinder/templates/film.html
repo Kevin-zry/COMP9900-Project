@@ -48,7 +48,7 @@
 								<div class="rating-value">{{movie_details.vote_average}}</div>
 							</div>
 							<div class="wishlist">
-								<form action="#" method="POST">
+								<form action="" method="POST">
 									<div class="buttons center">
 										<button class="draw" type="submit" name="add_to_wishlist">Add to wishlist</button>
 									</div>
@@ -124,14 +124,11 @@
 									<div class="review-name">
 										<div class="name">Review by <a href="/account/{{reviews.0.userId}}">{{reviews.0.username}}</a >
 										</div>	
-										<div style="margin:2% 5% 0 10%">
-
-										</div>
 									</div> 
-									<span style="margin-top: -6%;max-height: 40px;"><span style=" vertical-align: middle;">rating:{{reviews.0.rating}}</span><img src="../static/images/star_{{reviews.0.rating}}.png" style="width:105px; vertical-align: middle;"></span>
+									<span style="margin-top: -4%;max-height: 40px;"><span style=" vertical-align: middle;">rating:{{reviews.0.rating}}</span><img src="../static/images/star_{{reviews.0.rating}}.png" style="width:105px; vertical-align: middle;"></span>
 									<div class="review-content bootstrapiso">
 										  <p class="article-content">{{ reviews.0.review }}</p>
-										  <div style="margin-left: 70%;">
+										  <div style="margin-left: 100%;">
 										  <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
 										</div>
 										  <!-- Modal -->
@@ -154,14 +151,9 @@
 											</div>
 										  </div>	
 									</div>
-									<div class="button-like" title="Like this comment">
-										<a href="">
-											<div class="like-img"></div>
-										</a >
-										<div class="like-word">like</div>
-									</div>
 								</div>
 							</div>
+							<hr>
 							{%endif%}
 
 
@@ -176,11 +168,9 @@
 										<div class="review-name">
 											<div class="name">Review by <a href="/account/{{review.userId}}">{{review.username}}</a >
 											</div>	
-											<div style="margin:2% 5% 0 10%">
-												<form action="#" method="POST">
-													<button type="submit" name="block" value="{{review.userId}}">block</button>
-
-													<!-- <div class="button-img" title="Block this user"></div> -->
+											<div style="margin:1% 5% 0 5%">
+												<form action="" method="POST">
+													<button class="button-img" title="Block this user" type="submit" name="block" value="{{review.userId}}"></button>
 												</form>
 											</div>
 										</div> 
@@ -218,8 +208,7 @@
 										</div>
 										<div class="button-like" title="Like this comment">
 											<form action="#" method="POST">
-												<button type="submit" name="like" value="{{review.id}}">like</button>
-												<!-- <div class="like-img"></div> -->
+												<button class="like-img" type="submit" name="like" value="{{review.id}}"></button>
 											</form>
 											<div class="like-word">like</div>
 										</div>

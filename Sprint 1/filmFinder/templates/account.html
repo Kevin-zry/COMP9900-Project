@@ -64,6 +64,7 @@
            
         
       </div>
+      
         {% if identify == True%}
             <form method="POST" action="" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
@@ -109,43 +110,51 @@
             <div class="form-group">
                 {{ form.submit(class="btn btn-outline-info") }}
             </div>
+        
             {% if identify == True%}
             <br>
-                {%if blocklist ==[]%}
-                <h5>Blocklist:</h5>
-                <p>You have not add any users into your blocklist!</p>
-                {%else%}
-                {%for x in blocklist%}
-                    {{x.username}}
-                <img src="../static/profile_pics/{{x.profile_image}}">
-                {%endfor%}
-                {%endif%}
-            <br>
                 {%if wishlist == []%}
-                    <h5>Wishlist:</h5>
+                <h5>WISHLIST:</h5>
+                <hr>
                     <p>You have not add any films into your wishlist!</p>
                 {%else%}
-                    WISHLIST:{{wishlist}}<br>
-                    {%for x in wishlist%}
-                    <a class="desc_detail report-click report-action" href="../film/{{x.id}}">{{x.title}}:
-                    <img src="../static/poster_downloads/{{x.poster_path}}.jpg">
-                    {%endfor%}
+                    <div class="demo">
+                        <h5>WISHLIST:</h5>
+                        <hr>
+                        <ul>
+                        {%for movie in wishlist%}
+                            <li class="mat20 kk row no-gutters">
+                                <div class="col-5"><img src="../static/poster_downloads/{{movie.poster_path}}.jpg"></div>
+                                <div class="col-7" style="margin-top:5%;"><h6>{{movie.title}}</h6></div>
+                            </li>
+                        {%endfor%}              
+                        </ul>
+                    </div>     
                 {%endif%}
-            {%endif%}
+                {%endif%}
 
             </form>
         {%else%}
         <br>
             {%if wishlist == []%}
-            <h5>Wishlist:</h5>
+            <h5>WISHLIST:</h5>
+            <hr>
                     <p>The user have not add any films into wishlist!</p>
             {%else%}
-            <h5>Wishlist:</h5>
-                {%for x in wishlist%}
-                <p>{{x.title}}</p>
-                {%endfor%}
+            <h5>WISHLIST:</h5>
+            <hr>
+            <div class="demo">
+                 <ul>
+                 {%for movie in wishlist%}
+                     <li class="mat20 kk row no-gutters">
+                         <div class="col-5"><img src="../static/poster_downloads/{{movie.poster_path}}.jpg"></div>
+                         <div class="col-7" style="margin-top:5%;"><h6>{{movie.title}}</h6></div>
+                     </li>
+                 {%endfor%}              
+                 </ul>
+             </div>     
             {%endif%}
         {%endif%}
     </div>
-</div>
+
 {% endblock content %}

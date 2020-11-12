@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="page-top">
+    {%if flag == 1%}
+    <h2>Highest Rating Films</h2>
+    {%else%}
+    <h2>Exclusive Recommended Movies</h2>
+    {%endif%}
+	<ul class ="center">
+		<li><a href="{{ url_for('home') }}">Home</a></li>
+		<li>/ </li>
+		<li style = "color: #ec7532;">Films list</li>
+	 </ul>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+		  	{% if messages %}
+          {% for category, message in messages %}
+          <div class="bootstrapiso">
+            <div class="alert  alert-primary alert-{{ category }}" role="alert">{{ message }}</div>
+          </div>
+			  	{% endfor %}
+		  	{% endif %}
+      {% endwith%} 
+
+
+      {% for result in movies %}
+        <div class="so-result-info">
+          <div class="result_ugc result-content">
+            <div class="tele_box">
+              <div class="vari_pho">
+                <a class="vari_p" href="film/{{result.id}}" target="_blank">
+                {%if flag == 0%}
+                        <img src="../static/poster_downloads/{{result.poster_path}}.jpg">   
+                    {%else%}
+                        <img src="../static/poster_downloads/{{result.poster}}.jpg">   
+                    {%endif%}
+                </a>
+              </div>
+              <div class="tele_intro">
+                <div class="tele_hd">
+                  <a href="film/{{result.id}}" target="_blank"><b style="font-size: x-large;">{{result.title}}</b></a>
+                  <a class="year">{{result.release_date}}</a>
+                </div>
+                <div class="tele_line">
+                  <div class="info_item">
+                  <span class="label">Casts:</span>
+                  <span class="cont">
+                  {%for cast in result.casts%}
+                    <a>{{"|"+cast}}</a>
+                  {%endfor%}{{"|"}}    </span> 
+                  </div>
+                  <div class="info_item">
+                    <span class="label">Director:</span>
+                    <span class="cont">
+                      <a href="#" target="_blank">{{result.crew}}</a></span>
+                  </div>
+                </div>
+                <div class="tele_line">
+                  <div class="info_item">
+                    <span class="label">Genre:</span>
+                    <span class="cont">
+                    {%for genre in result.genres%}
+                      <a>{{"|"+genre}}</a>
+                    {%endfor%}{{"|"}}
+                  </div>
+                <div class="info_item">
+                  <span class="label">Country:</span>
+                  <span class="cont">
+                  {%for pc in result.production_countries%}
+                    <a>{{"|"+pc}}</a>
+                    {%endfor%}{{"|"}}
+                </div>
+              </div>
+              <div class="tele_item_des">
+                <span class="label">Details:</span>
+                <span class="desc_text">
+                {{result.overview}}
+                  <a class="desc_detail" style="float:right" target="_blank" href="film/{{result.id}}">details>>
+                  </a>
+                </span>
+                <div class="buttons center">
+                  <button class="draw meet" type="button" style="margin-top:45px;margin-right:10%;" onclick="window.location.href='film/{{result.id}}'">More detail</button>
+               </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+  
+
+{% endblock content %}
