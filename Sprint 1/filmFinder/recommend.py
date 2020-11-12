@@ -256,26 +256,26 @@ def item_based_result_filter(movieId, recommend_ids, filtertype):
     elif filtertype == 'genres':
         for similar_id in recommend_ids:
             current_genres = get_movie_genres(movieId)
-            if len(get_movie_genres(similar_id) & current_genres) == 0:
+            if len(get_movie_genres(similar_id['id']) & current_genres) == 0:
                 remove_list.append(similar_id)
 
     elif filtertype == 'crew':
         for similar_id in recommend_ids:
             current_crew = get_movie_crew(movieId)
-            if get_movie_crew(similar_id) != current_crew:
+            if get_movie_crew(similar_id['id']) != current_crew:
                 remove_list.append(similar_id)
 
     elif filtertype == 'production_countries':
         for similar_id in recommend_ids:
             current_countries = get_movie_countries(movieId)
-            if len(get_movie_countries(similar_id) & current_countries) == 0:
+            if len(get_movie_countries(similar_id['id']) & current_countries) == 0:
                 remove_list.append(similar_id)
 
     # remove all the movies' release_date difference more than 10 years
     elif filtertype == 'release_date':
         for similar_id in recommend_ids:
             current_date = get_movie_date(movieId)
-            compare_date = get_movie_date(similar_id)
+            compare_date = get_movie_date(similar_id['id'])
             if compare_date == None:
                 remove_list.append(similar_id)
             else:
