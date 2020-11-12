@@ -148,7 +148,8 @@
 	width: 100%;
 }
 .detail-word-content {
-	width: 60%;
+	width: 100%;
+	text-indent: 2em;
 }
 .detail-title {
 	margin: 0px 0px 13px 0px;
