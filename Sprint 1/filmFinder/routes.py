@@ -332,8 +332,8 @@ def film(filmid):
                     response = flash('Your review has been submitted',
                                      category='success')
                     add_review(current_user.id, filmid, rating, review)
-            elif 'filtertype' in request.form:
-                recommend_list = item_based_result_filter(filmid, recommend_list, request.form['filtertype'])
+        elif 'filtertype' in request.form:
+            recommend_list = item_based_result_filter(filmid, recommend_list, request.form['filtertype'])
         else:
         	flash('You need to login in first')
         	return redirect(url_for('login'))
