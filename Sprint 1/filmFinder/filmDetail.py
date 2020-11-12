@@ -2,6 +2,7 @@ import sqlite3
 import re
 from filmFinder.recommend import *
 from flask import flash
+from filmFinder.reviewDetail import get_movie_avg_rating
 
 
 def re_process(string):
@@ -14,7 +15,7 @@ def re_process(string):
         return ['No data.']
 
 
-def get_movie_details(filmid):
+def get_movie_details(userid, filmid):
     conn = sqlite3.connect('filmFinder/database_files/filmfinder.db')
     c = conn.cursor()
     filmid = int(filmid)
@@ -22,7 +23,7 @@ def get_movie_details(filmid):
         f'SELECT * FROM FILMS WHERE id = {filmid}')
     x = c.fetchone()
     detail = {'id': x[0], 'title': x[1], 'genres': re_process(x[2]), 'belongs_to_collection': re_process(x[3]), 'production_countries': re_process(x[4]),
-              'release_date': x[5], 'overview': x[6], 'poster_path': x[7], 'vote_average': x[8], 'vote_count': int(x[9])}
+              'release_date': x[5], 'overview': x[6], 'poster_path': x[7], 'vote_average': get_movie_avg_rating(userid, filmid), 'vote_count': int(x[9])}
     c.execute(f'SELECT crew FROM CREDITS WHERE id = {filmid}')
     x = c.fetchone()
     detail['crew'] = x[0][1:-1]
@@ -33,12 +34,12 @@ def get_movie_details(filmid):
     return detail
 
 
-def ibcf(filmid):
+def ibcf(userid, filmid):
     item_list = collaborative_filtering_item(int(filmid))
     result_list = []
     if item_list:
         for item in item_list:
-            result_list.append(get_movie_details(item))
+            result_list.append(get_movie_details(userid, item))
     return result_list
 
 
@@ -47,7 +48,7 @@ def ubcf(userid):
     result_list = []
     if item_list:
         for item in item_list:
-            result_list.append(get_movie_details(item))
+            result_list.append(get_movie_details(userid, item))
     return result_list
 
 
