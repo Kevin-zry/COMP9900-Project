@@ -203,6 +203,8 @@
 	background: url(../static/images/block.png) no-repeat;
 	background-size: contain;
 	background-position: center;
+	border:none;
+	cursor: pointer;
 	height: 25px;
 	width: 25px;
    }
@@ -211,7 +213,7 @@
    }
    
    .button-like{
-	margin: 5px 0px 0px 0px;
+	margin: 0 0px 0px 0px;
 	display: flex;
 	flex-flow: row;
    }
@@ -223,8 +225,10 @@
    }
    .like-img{
 	background: url(../static/images/like.png) no-repeat;
-	background-size: cover;
+	background-size: contain;
 	background-position: center;
+	border:none;
+	cursor: pointer;
 	height: 20px;
 	width: 20px;
    }
@@ -235,27 +239,33 @@
 .kk{
 
 	float:left;
-	width:27.3%;
-	height:400px;
+	width:33.3%;
+	height:202px;
 	border: 1px solid #dddddd;
 	list-style: none;
-	margin-left: 3%;
-	margin-right:3%;
-	margin-bottom: 3%;
-	border-radius: 30px;
+	margin-left:0;
+
+	/* border: 2px solid palevioletred; */
 	
 }
+
 .demo ul li img{
-	width: 50%;
-	margin: 0 25% 0 25%;
-	height:70%;
+	height:200px;
 	/* border: 2px solid palevioletred; */
+}
+.demo ul li h6{
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	height: 20%;
+	font-size: large;
+	text-align: center;
+	margin: 0 auto;
+	/*border: 2px solid red;*/
 }
 
 .demo ul li form{
+	margin-top:45%;
 	text-align: center;
-	width: 50%;
-	margin: 5% 25% -5% 25%;
-	height:65%;
 	/* border: 2px solid palevioletred; */
 }
