@@ -18,7 +18,6 @@ from PIL import Image
 # paginate extension for flask [pip install -U flask-paginate]
 from flask_paginate import Pagination
 
-
 most_popular_movies = most_popular_movies(10)
 highest_rating_movies = highest_rating_movies(10)
 
@@ -31,10 +30,10 @@ def home():
         recommend_list = ubcf(userid)
     else:
         recommend_list = []
-    return render_template('home.html', 
-        movies=most_popular_movies, # 改成前后一致
-        recommend_list=recommend_list, 
-        highest_rating_movies=highest_rating_movies)
+    return render_template('home.html',
+                           movies=most_popular_movies,  # 改成前后一致
+                           recommend_list=recommend_list,
+                           highest_rating_movies=highest_rating_movies)
 
 
 @app.route("/about")
@@ -104,8 +103,9 @@ def general_search():
             condition_results = 'You did not enter any value.\n There are 10 most popular movies below:'
         else:
             condition_results = 'Your search results for ' + \
-                ', '.join(condition_results) + ' are:'
-        return render_template('search_temp.html', title='Search', condition_results=condition_results, search_results=res)
+                                ', '.join(condition_results) + ' are:'
+        return render_template('search_temp.html', title='Search', condition_results=condition_results,
+                               search_results=res)
     return render_template('search_temp.html', title='Search')
 
 
@@ -179,8 +179,10 @@ def advanced_search():
             condition_results = 'You did not enter any value. There are 10 most popular movies below: '
         else:
             condition_results = 'Your search results for ' + \
-                ', '.join(condition_results) + ' are:'
-        return render_template('advanced.html', title='Search', condition_results=condition_results, search_results=res, name=output[0], director=output[1], casts=output[2], genre=output[3], country=output[4], year1=output[5], year2=output[6], mode=output[7])
+                                ', '.join(condition_results) + ' are:'
+        return render_template('advanced.html', title='Search', condition_results=condition_results, search_results=res,
+                               name=output[0], director=output[1], casts=output[2], genre=output[3], country=output[4],
+                               year1=output[5], year2=output[6], mode=output[7])
     return render_template('advanced.html', title='Search', search_results='')
 
 
@@ -199,7 +201,7 @@ def register():
         else:
             maxid = db.session.query(func.max(USERPROFILES.id)).one()[0]
             # print(maxid)
-            user = USERPROFILES(id=maxid+1, username=form.username.data,
+            user = USERPROFILES(id=maxid + 1, username=form.username.data,
                                 email=form.email.data, password=hashed_password, like=0)
             db.session.add(user)
             db.session.commit()
@@ -246,6 +248,7 @@ def save_picture(form_picture):
 
     return picture_fn
 
+
 @app.route("/account/<int:userid>", methods=["GET", "POST"])
 @login_required
 def account(userid):
@@ -269,7 +272,8 @@ def account(userid):
         like = current_user.like
         wishlist = get_wishlist(userid)
         blocklist = get_blocklist(userid)
-        return render_template('account.html', title='Account', image_file=image_file, form=form, wishlist=wishlist, blocklist=blocklist, identify=identify, like=like)
+        return render_template('account.html', title='Account', image_file=image_file, form=form, wishlist=wishlist,
+                               blocklist=blocklist, identify=identify, like=like)
     else:
         identify = False
         user = get_user_detail(userid)
@@ -279,7 +283,8 @@ def account(userid):
             blocklist_button(current_user.id, userid)
         wishlist = get_wishlist(userid)
         blocklist = get_blocklist(userid)
-        return render_template('account.html', title='Account', image_file=image_file, user=user, wishlist=wishlist, blocklist=blocklist, identify=identify)
+        return render_template('account.html', title='Account', image_file=image_file, user=user, wishlist=wishlist,
+                               blocklist=blocklist, identify=identify)
 
 
 @app.route("/film/<int:filmid>", methods=["GET", "POST"])
@@ -287,12 +292,12 @@ def film(filmid):
     if current_user.is_authenticated:
         reviews = get_review_details(current_user.id, filmid)
         movie_details = get_movie_details(current_user.id, filmid)
-        recommend_list = ibcf(current_user.id,filmid)
+        recommend_list = ibcf(current_user.id, filmid)
     else:
         reviews = get_review_details(None, filmid)
         movie_details = get_movie_details(None, filmid)
         recommend_list = ibcf(None, filmid)
-    
+
     # paginate reviews
     my_review, reviews = reviews[0], reviews[1]
     per_page = 3
@@ -300,8 +305,11 @@ def film(filmid):
     start = (page - 1) * per_page
     end = page * per_page if len(reviews) > page * per_page else len(reviews)
     paginated_reviews = reviews[start: end]
-    pagination = Pagination(page=page, per_page=per_page, total=len(reviews), record_name='reviews', inner_window=3, css_framework='bootstrap4')
-    
+    pagination = Pagination(page=page, per_page=per_page, total=len(
+        reviews), record_name='reviews', inner_window=3, css_framework='bootstrap4')
+    # print('page', 'per_page', 'offset')
+    # print(page, per_page, offset)
+
     response = ''
     if request.method == "POST":
         if current_user.is_authenticated:
@@ -321,10 +329,14 @@ def film(filmid):
                     response = flash(
                         'Review must not be empty', category='danger')
                 else:
-                    response = flash('Your review has been submitted', category='success')
+                    response = flash('Your review has been submitted',
+                                     category='success')
                     add_review(current_user.id, filmid, rating, review)
+            elif 'filtertype' in request.form:
+                recommend_list = item_based_result_filter(filmid, recommend_list, request.form['filtertype'])
     return render_template('film.html', movie_details=movie_details, recommend_list=recommend_list, response=response, filmid=filmid,
                            my_review=my_review, reviews=paginated_reviews, page=page, per_page=per_page, pagination=pagination)
+
 
 
 @app.route("/wishlist/<int:userid>", methods=["GET", "POST"])
@@ -346,6 +358,7 @@ def blocklist(userid):
         remove_from_blocklist(userid, blockid)
     return render_template('blocklist.html', title='Blocklist', blocklist=blocklist)
 
+
 @app.route("/review/<int:review_id>/delete", methods=['POST'])
 @login_required
 def delete_review(review_id):
@@ -359,6 +372,7 @@ def delete_review(review_id):
     filmid = request.args.get('filmid')
     return redirect(f'/film/{filmid}')
 
+
 @app.route("/results")
 def results():
     flag = int(request.args.get('flag'))
@@ -366,5 +380,5 @@ def results():
         movies = highest_rating_movies
     else:
         movies = ubcf(current_user.id)
-    
-    return render_template('results.html', title='Films list', movies=movies, flag = flag)
+
+    return render_template('results.html', title='Films list', movies=movies, flag=flag)
