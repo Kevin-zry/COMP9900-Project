@@ -334,6 +334,10 @@ def film(filmid):
                     add_review(current_user.id, filmid, rating, review)
             elif 'filtertype' in request.form:
                 recommend_list = item_based_result_filter(filmid, recommend_list, request.form['filtertype'])
+        else:
+        	flash('You need to login in first')
+        	return redirect('login')
+    
     return render_template('film.html', movie_details=movie_details, recommend_list=recommend_list, response=response, filmid=filmid,
                            my_review=my_review, reviews=paginated_reviews, page=page, per_page=per_page, pagination=pagination)
 
