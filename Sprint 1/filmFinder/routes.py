@@ -300,7 +300,7 @@ def film(filmid):
     start = (page - 1) * per_page
     end = page * per_page if len(reviews) > page * per_page else len(reviews)
     paginated_reviews = reviews[start: end]
-    pagination = Pagination(page=page, per_page=per_page, total=len(reviews), record_name='reviews', inner_window=3)
+    pagination = Pagination(page=page, per_page=per_page, total=len(reviews), record_name='reviews', inner_window=3, css_framework='bootstrap', bs_version=4)
     
     response = ''
     if request.method == "POST":
