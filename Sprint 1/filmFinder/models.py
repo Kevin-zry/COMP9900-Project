@@ -38,7 +38,7 @@ class Films(db.Model):
 class Credits(db.Model):
     __tablename__ = 'CREDITS'
     id = db.Column(db.Integer, db.ForeignKey('FILMS.id'), primary_key=True)
-    cast = db.Column(db.Text(collation='NOCASE'))
+    casts = db.Column(db.Text(collation='NOCASE'))
     crew = db.Column(db.Text(collation='NOCASE'))
 
 
