@@ -12,6 +12,10 @@ import random
 database = 'filmFinder/database_files/filmfinder.db'
 conn = sqlite3.connect(database)
 c = conn.cursor()
+c.execute(f" DELETE FROM FILMS WHERE id IN (SELECT id FROM CREDITS WHERE length(crew) > 30) ")
+conn.commit()
+c.execute(f" DELETE FROM CREDITS WHERE length(crew) > 30 ")
+conn.commit()
 c.execute(f"SELECT id FROM FILMS")
 movieid_list = [movieid[0] for movieid in c.fetchall()]
 
