@@ -4,18 +4,20 @@ import sqlite3
 from filmFinder import recommend
 from flask import Flask, render_template, url_for, flash, redirect, request
 from filmFinder import app, db, bcrypt
-from filmFinder.forms import RegistrationForm, LoginForm, UpdateAccountForm, ReviewForm
+from filmFinder.forms import RegistrationForm, LoginForm, UpdateAccountForm
 from filmFinder.models import USERPROFILES, RATINGS
 from flask_login import login_user, logout_user, current_user, login_required
-
 
 from filmFinder.mostPopular import *
 from filmFinder.filmDetail import *
 from filmFinder.reviewDetail import *
 from filmFinder.forms import *
-
 from sqlalchemy.sql import func
 from PIL import Image
+
+# paginate extension for flask [pip install -U flask-paginate]
+from flask_paginate import Pagination
+
 
 most_popular_movies = most_popular_movies(10)
 highest_rating_movies = highest_rating_movies(10)
@@ -290,7 +292,16 @@ def film(filmid):
         reviews = get_review_details(None, filmid)
         movie_details = get_movie_details(None, filmid)
         recommend_list = ibcf(None, filmid)
-    form = ReviewForm()
+    
+    # paginate reviews
+    my_review, reviews = reviews[0], reviews[1]
+    per_page = 3
+    page = request.args.get("page", 1, type=int)
+    start = (page - 1) * per_page
+    end = page * per_page if len(reviews) > page * per_page else len(reviews)
+    paginated_reviews = reviews[start: end]
+    pagination = Pagination(page=page, per_page=per_page, total=len(reviews), record_name='reviews', inner_window=3)
+    
     response = ''
     if request.method == "POST":
         if current_user.is_authenticated:
@@ -310,11 +321,11 @@ def film(filmid):
                     response = flash(
                         'Review must not be empty', category='danger')
                 else:
-                    response = flash('Your review has been submitted',
-                                     category='success')
+                    response = flash('Your review has been submitted', category='success')
                     add_review(current_user.id, filmid, rating, review)
-    return render_template('film.html', movie_details=movie_details, recommend_list=recommend_list, response=response,reviews=reviews, filmid=filmid)
-# Add route for add_review() here
+    return render_template('film.html', movie_details=movie_details, recommend_list=recommend_list, response=response, filmid=filmid,
+                           my_review=my_review, reviews=paginated_reviews, page=page, per_page=per_page, pagination=pagination)
+
 
 @app.route("/wishlist/<int:userid>", methods=["GET", "POST"])
 @login_required
