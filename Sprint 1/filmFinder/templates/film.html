@@ -63,15 +63,16 @@
 						<div class="detail-col-2-1">
 							<div class="detail-name">{{movie_details.title}}</div>
 							<div class="detail-year">
-								<a href="#">{{movie_details.release_date}}</a>
+								{{movie_details.release_date}}
 							</div>
 						</div>
 						<div class="detail-director">Directed by
-							<a href="#">{{movie_details.crew}}</a>
+							<b>{{movie_details.crew}}</b>
+
 						</div>
 						<div class="detail-word">
 							<div class="detail-word-content">
-								<div class="detail-title">{{movie_details.overview}}</div>
+								<p class="detail-title">{{movie_details.overview}}</p>
 							</div>
 						</div>
 						<div class="detail-cast">
@@ -112,8 +113,8 @@
 							</div>
 						</div>
 						<div class="detail-review">
-							<div class="detail-subtitle">REVIEW{{reviews.0 == None}}</div>
-							{%if reviews.0 != None%}
+							<div class="detail-subtitle">REVIEW{{my_review == None}}</div>
+							{%if my_review != None%}
 							<div class="detail-review-content">
 								<div class="detail-review-icon">
 									<div class="review-icon">
@@ -122,12 +123,12 @@
 								</div>
 								<div class="detail-review-word">
 									<div class="review-name">
-										<div class="name">Review by <a href="/account/{{reviews.0.userId}}">{{reviews.0.username}}</a >
+										<div class="name">Review by <a href="/account/{{my_review.userId}}">{{my_review.username}}</a >
 										</div>	
 									</div> 
-									<span style="margin-top: -4%;max-height: 40px;"><span style=" vertical-align: middle;">rating:{{reviews.0.rating}}</span><img src="../static/images/star_{{reviews.0.rating}}.png" style="width:105px; vertical-align: middle;"></span>
+									<span style="margin-top: -4%;max-height: 40px;"><span style=" vertical-align: middle;">rating:{{my_review.rating}}</span><img src="../static/images/star_{{my_review.rating}}.png" style="width:105px; vertical-align: middle;"></span>
 									<div class="review-content bootstrapiso">
-										  <p class="article-content">{{ reviews.0.review }}</p>
+										  <p class="article-content">{{ my_review.review }}</p>
 										  <div style="margin-left: 100%;">
 										  <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
 										</div>
@@ -143,7 +144,7 @@
 												<div class="modal-body">Delete Your Review Permanently?</div>
 												<div class="modal-footer">
 												  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-												  <form action="{{ url_for('delete_review', review_id=reviews.0['id'], filmid=filmid) }}" method="POST">
+												  <form action="{{ url_for('delete_review', review_id=my_review['id'], filmid=filmid) }}" method="POST">
 													<input class="btn btn-danger" type="submit" value="Delete">
 												  </form>
 												</div>
@@ -155,9 +156,16 @@
 							</div>
 							<hr>
 							{%endif%}
+							<div class="bootstrapiso">
+								<nav aria-label="Page navigation example">
+								{{pagination.info}}
+								</nav>
+							</div>
+							
+							
 
 
-								{% for review in reviews.1 %}
+								{% for review in reviews %}
 								<div class="detail-review-content">
 									<div class="detail-review-icon">
 										<div class="review-icon">
@@ -216,6 +224,11 @@
 								</div>
 								<hr />
 								{%endfor%}
+								<div class="bootstrapiso">
+									<div style="display: flex;flex-flow: row nowrap;justify-content: center;">		
+								{{pagination.links}}							
+								</div>
+							</div>
 							<script>
 								function checkForm(){
 									if   (subview.review.value == '')   { 
