@@ -20,6 +20,7 @@ from PIL import Image
 most_popular_movies = most_popular_movies(10)
 highest_rating_movies = highest_rating_movies(10)
 
+
 @app.route("/")
 @app.route("/home")
 def home():
@@ -283,11 +284,13 @@ def account(userid):
 def film(filmid):
     if current_user.is_authenticated:
         reviews = get_review_details(current_user.id, filmid)
+        movie_details = get_movie_details(current_user.id, filmid)
+        recommend_list = ibcf(current_user.id,filmid)
     else:
         reviews = get_review_details(None, filmid)
+        movie_details = get_movie_details(None, filmid)
+        recommend_list = ibcf(None, filmid)
     form = ReviewForm()
-    movie_details = get_movie_details(filmid)
-    recommend_list = ibcf(filmid)
     response = ''
     if request.method == "POST":
         if current_user.is_authenticated:
