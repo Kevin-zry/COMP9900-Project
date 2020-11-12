@@ -312,6 +312,8 @@ def film(filmid):
 
     response = ''
     if request.method == "POST":
+        if 'filtertype' in request.form:
+            recommend_list = item_based_result_filter(filmid, recommend_list, request.form['filtertype'])
         if current_user.is_authenticated:
             if 'add_to_wishlist' in request.form:
                 userid = current_user.id
@@ -332,8 +334,6 @@ def film(filmid):
                     response = flash('Your review has been submitted',
                                      category='success')
                     add_review(current_user.id, filmid, rating, review)
-        elif 'filtertype' in request.form:
-            recommend_list = item_based_result_filter(filmid, recommend_list, request.form['filtertype'])
         else:
         	flash('You need to login in first')
         	return redirect(url_for('login'))
@@ -385,4 +385,11 @@ def results():
     else:
         movies = ubcf(current_user.id)
 
-    return render_template('results.html', title='Films list', movies=movies, flag=flag)
+    per_page = 10
+    page = request.args.get("page", 1, type=int)
+    start = (page - 1) * per_page
+    end = page * per_page if len(movies) > page * per_page else len(movies)
+    paginated_movies = movies[start: end]
+    pagination = Pagination(page=page, per_page=per_page, total=len(movies), record_name='movies', inner_window=3, css_framework='bootstrap4')
+    
+    return render_template('results.html', title='Films list', movies=paginated_movies, page=page, per_page=per_page, pagination=pagination, flag=flag)
