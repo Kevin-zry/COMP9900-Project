@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="../static/button.css">
     <link rel="stylesheet" href="../static/star_rating.css">
 
+   
+
 	{% if title %}
 		<title>FilmFinder - {{ title }}</title>
 	{% else %}
@@ -64,9 +66,10 @@
       </div>
       <div class="menu-center bootstrapiso">
         
-        <form action="/search_temp" method = 'POST'>   
+        <form action="/search_temp" method = 'POST' id="generalForm">   
           <div class="input-group" style=" margin-top:13px;">
-            <input type="search" name="search" class="form-control" style="height:40px" placeholder="Film/Director/Actor">
+            <input type="hidden" name="page" value="1" id="hpage" />
+            <input type="text" name="search" class="form-control" style="height:40px" placeholder="Film/Director/Actor" value={{name}}>
             <div class="input-group-append">
               <button class="btn btn-outline-secondary" type="submit" id="button-addon2">
                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -105,7 +108,7 @@
 		    			<div class="link-title">Quick Links</div>
 		    			<div class="link-word"><a href="/">Home</a></div>
 		    			<div class="link-word"><a href="{{ url_for('about') }}">About</a></div>
-		    			<div class="link-word"><a href="{{ url_for('advanced_search') }}">Search</a></div>
+		    			<div class="link-word"><a href="{{ url_for('advanced_search')}}">Search</a></div>
             </div>
             {% if current_user.is_authenticated %}
             <div class="bottom-link">
@@ -136,5 +139,8 @@
     <script src="../static/jquery-3.2.1.slim.min.js"></script>
     <script src="../static/popper.min.js"></script>
     <script src="../static/bootstrap.min.js"></script>
+    <script>function submitSelect(a) {								
+      $(a).submit();}
+    </script>
 </body>
 </html>

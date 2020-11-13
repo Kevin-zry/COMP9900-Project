@@ -23,7 +23,7 @@
 		  	{% endif %}
       {% endwith%} 
 
-
+      {{pagination.info}}
       {% for result in movies %}
         <div class="so-result-info">
           <div class="result_ugc result-content">
@@ -73,7 +73,7 @@
                 </div>
               </div>
               <div class="tele_item_des">
-                <span class="label">Details:</span>
+                <span class="label">Description:</span>
                 <span class="desc_text">
                 {{result.overview}}
                   <a class="desc_detail" style="float:right" target="_blank" href="film/{{result.id}}">details>>
@@ -88,6 +88,11 @@
           </div>
         </div>
       {% endfor %}
+      <div class="bootstrapiso">
+        <div style="display: flex;flex-flow: row nowrap;justify-content: center;">		
+      {{pagination.links}}							
+        </div>
+      </div>
   
 
 {% endblock content %}

@@ -28,6 +28,7 @@
       padding:25px 10px;
       margin: 0 50px;
       " >
+      {{pagination.info}}
       {% for result in search_results %}
         <div class="so-result-info">
           <div class="result_ugc result-content">
@@ -73,7 +74,7 @@
                 </div>
               </div>
               <div class="tele_item_des">
-                <span class="label">Details:</span>
+                <span class="label">Description:</span>
                 <span class="desc_text">
                 {{result.overview}}
                   <a class="desc_detail" style="float:right" target="_blank" href="film/{{result.id}}">details>>
@@ -88,6 +89,62 @@
           </div>
         </div>
       {% endfor %}
+      <script>
+        function changePages(a,b) {
+       console.log(a);
+       $("#hpage").attr("value",a);
+       $(b).submit();
+     }
+      </script>
+      <div class="bootstrapiso">
+        <div style="display: flex;flex-flow: row nowrap;justify-content: center;">		
+          {%if pagination.total != 0%}
+          <div class="bootstrapiso">
+           <div style="display: flex;flex-flow: row nowrap;justify-content: center;">		
+             <nav aria-label="Page navigation">
+               <ul class="pagination">
+                 {% if pagination.has_prev %}
+                 <li class="page-item">
+                   <a class="page-link" href="javascript:void(0)" onclick='changePages({{pagination.page}}-1,"#generalForm")'>
+                     <span aria-hidden="true">&laquo;</span>
+                   </a>
+                 </li>
+                 {%else%}
+                 <li class="page-item disabled">
+                   <a class="page-link" href="javascript:void(0)" onclick='changePages({{pagination.page}}-1,"#generalForm")'>
+                     <span aria-hidden="true">&laquo;</span>
+                   </a>
+                 </li>
+                 {%endif%}
+                 {% for page_num in pagination.pages%}
+                   {% if page_num == pagination.page %}
+                   <li class="page-item active"> <span class="page-link">{{page_num}}</span></li>
+                   {%elif page_num == None%}
+                   <li class="page-item disabled"><a class="page-link" href="javascript:void(0)" onclick='changePages({{page_num}},"#generalForm")'>...</a></li>
+                   {%else%}
+                   <li class="page-item"><a class="page-link" href="javascript:void(0)" onclick='changePages({{page_num}},"#generalForm")'>{{page_num}}</a></li>
+                   {%endif%}
+                 {%endfor%}
+                 {% if pagination.has_next %}
+                 <li class="page-item">
+                   <a class="page-link" href="javascript:void(0)" onclick='changePages({{pagination.page}}+1,"#generalForm")'>
+                     <span aria-hidden="true">&raquo;</span>
+                   </a>
+                 </li>
+                 {%else%}
+                 <li class="page-item disabled">
+                   <a class="page-link" href="javascript:void(0)" onclick='changePages({{pagination.page}}+1,"#generalForm")'>
+                     <span aria-hidden="true">&raquo;</span>
+                   </a>
+                 </li>
+                 {%endif%}
+               </ul>
+             </nav>	
+           </div>
+         </div>          
+         {%endif%}						
+        </div>
+      </div>
       </div>
   
     </form> 

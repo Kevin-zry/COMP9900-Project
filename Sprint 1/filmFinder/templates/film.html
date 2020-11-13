@@ -38,308 +38,325 @@
 	</div>
 </div>
 {%endif%}
-<div class="detail-middle">
-	<div class="middle-background">
-		<div class="detail-col-1">
-			<div class="detail-img center"><img src="../static/poster_downloads/{{movie_details.poster_path}}.jpg"></div>
-			<div class="detail-rating-wishlist">
-				<div class="detail-raing">
-					<div class="rating-star" style="margin-left:35%;margin-top: 2%;"></div>
-					<div class="rating-value">{{movie_details.vote_average}}</div>
-				</div>
-				<div class="wishlist">
-					<form action="" method="POST">
-						<div class="buttons center">
-							<button class="draw" type="submit" name="add_to_wishlist">Add to wishlist</button>
-						</div>
-
-					</form>
-				</div>
-				<br><br><br>
-
-			</div>
-		</div>
-		<div class="detail-col-2">
-			<div class="detail-col-2-1">
-				<div class="detail-name">{{movie_details.title}}</div>
-				<div class="detail-year">
-					{{movie_details.release_date}}
-				</div>
-			</div>
-			<div class="detail-director">Directed by
-				<b>{{movie_details.crew}}</b>
-
-			</div>
-			<div class="detail-word">
-				<div class="detail-word-content">
-					<p class="detail-title">{{movie_details.overview}}</p>
-				</div>
-			</div>
-			<div class="detail-cast">
-				<div class="detail-subtitle">CASTS</div>
-				<div class="detail-cast-content">
-					<p>
-						{%for cast in movie_details.casts%}
-						<a>{{cast}}</a>
-						{%endfor%}
-					</p>
-				</div>
-			</div>
-			<div class="detail-genre">
-				<div class="detail-subtitle">GENRES</div>
-				<div class="detail-genre-content">
-					<p>
-						{%for genre in movie_details.genres%}
-						<a>{{genre}}</a>
-						{%endfor%}
-					</p>
-				</div>
-			</div>
-			<div class="detail-detail">
-				<div class="detail-subtitle">DETAIL	</div>
-				<div class="detail-detail-content">
-					<div class="detail-content-left">
-						<div class="content-title">Collection:</div>
-						{%for co in movie_details.belongs_to_collection%}
-						<div class="content-word">{{co}}</div>
-						{%endfor%}
-					</div>
-					<div class="detail-content-left">
-						<div class="content-title">Countries:</div>
-						{%for con in movie_details.production_countries%}
-						<div>{{con}}</div>&nbsp;&nbsp;&nbsp;
-						{%endfor%}
-					</div>
-				</div>
-			</div>
-			<div class="detail-review">
-				<div class="detail-subtitle">REVIEW{{my_review == None}}</div>
-				{%if my_review != None%}
-				<div class="detail-review-content">
-					<div class="detail-review-icon">
-						<div class="review-icon">
-							<img src="../static/profile_pics/default.jpg">
-						</div>
-					</div>
-					<div class="detail-review-word">
-						<div class="review-name">
-							<div class="name">Review by <a href="/account/{{my_review.userId}}">{{my_review.username}}</a >
-							</div>	
-						</div> 
-						<span style="margin-top: -4%;max-height: 40px;"><span style=" vertical-align: middle;">rating:{{my_review.rating}}</span><img src="../static/images/star_{{my_review.rating}}.png" style="width:105px; vertical-align: middle;"></span>
-						<div class="review-content bootstrapiso">
-							  <p class="article-content">{{ my_review.review }}</p>
-							  <div style="margin-left: 100%;">
-							  <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+			<div class="detail-middle">
+				<div class="middle-background">
+					<div class="detail-col-1">
+						<div class="detail-img center"><img src="../static/poster_downloads/{{movie_details.poster_path}}.jpg"></div>
+						<div class="detail-rating-wishlist">
+							<div class="detail-raing">
+								<div class="rating-star" style="margin-left:35%;margin-top: 2%;"></div>
+								<div class="rating-value">{{movie_details.vote_average}}</div>
 							</div>
-							  <!-- Modal -->
-							  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-								<div class="modal-dialog" role="document">
-								  <div class="modal-content">
-									<div class="modal-header">
-									  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									  </button>
+							<div class="wishlist">
+								<form action="" method="POST">
+									<div class="buttons center">
+										<button class="draw" type="submit" name="add_to_wishlist">Add to wishlist</button>
 									</div>
-									<div class="modal-body">Delete Your Review Permanently?</div>
-									<div class="modal-footer">
-									  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-									  <form action="{{ url_for('delete_review', review_id=my_review['id'], filmid=filmid) }}" method="POST">
-										<input class="btn btn-danger" type="submit" value="Delete">
-									  </form>
-									</div>
-								  </div>
-								</div>
-							  </div>	
-						</div>
-					</div>
-				</div>
-				<hr>
-				{%endif%}
-				<div class="bootstrapiso">
-					<nav aria-label="Page navigation example">
-					{{pagination.info}}
-					</nav>
-				</div>
-
-
-
-
-					{% for review in reviews %}
-					<div class="detail-review-content">
-						<div class="detail-review-icon">
-							<div class="review-icon">
-								<img src="../static/profile_pics/default.jpg">
-							</div>
-						</div>
-						<div class="detail-review-word">
-							<div class="review-name">
-								<div class="name">Review by <a href="/account/{{review.userId}}">{{review.username}}</a >
-								</div>	
-								<div style="margin:1% 5% 0 5%">
-									<form action="" method="POST">
-										<button class="button-img" title="Block this user" type="submit" name="block" value="{{review.userId}}"></button>
-									</form>
-								</div>
-							</div> 
-							<span style="margin-top: -6%;max-height: 40px;"><span style=" vertical-align: middle;">rating:{{review.rating}}</span><img src="../static/images/star_{{review.rating}}.png" style="width:105px; vertical-align: middle;margin-left: 20px;"></span>
-							<div class="review-content bootstrapiso">
-
-
-								{% if current_user.id == review['userId'] %}
-								  <p class="article-content">{{ review.review}}</p>
-								  <div style="margin-left: 70%;">
-								  <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
-								</div>
-								  <!-- Modal -->
-								  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-									<div class="modal-dialog" role="document">
-									  <div class="modal-content">
-										<div class="modal-header">
-										  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										  </button>
-										</div>
-										<div class="modal-body">Delete Your Review Permanently?</div>
-										<div class="modal-footer">
-										  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-										  <form action="{{ url_for('delete_review', review_id=review['id'], filmid=filmid) }}" method="POST">
-											<input class="btn btn-danger" type="submit" value="Delete">
-										  </form>
-										</div>
-									  </div>
-									</div>
-								  </div>	
-							  {% else %}
-							  <p class="article-content">{{ review.review }}</p>
-							  {% endif %}
-							</div>
-							<div class="button-like" title="Like this comment">
-								<form action="#" method="POST">
-									<button class="like-img" type="submit" name="like" value="{{review.id}}"></button>
+									
 								</form>
-								<div class="like-word">like</div>
 							</div>
-						</div>
-					</div>
-					<hr />
-					{%endfor%}
-					<div class="bootstrapiso">
-						<div style="display: flex;flex-flow: row nowrap;justify-content: center;">		
-					{{pagination.links}}							
-					</div>
-				</div>
-				<script>
-					function checkForm(){
-						if   (subview.review.value == '')   { 
-						alert("The comment you entered cannot be empty!");
-						subview.review.focus();
-						return false;
-							}
-						else{return true;}
-						}
-				</script>
-				<div class="bootstrapiso"  style="margin:30px 0;">
-					<form action="" name="subview" method="POST" onsubmit="return checkForm()">
-						<div class="content-section">
-							<label for="exampleFormControlTextarea1"><b style='font-size: large;'>Add yor review:</b></label>
-							<script>
-								function halfStar(x) {
-								var star = document.getElementById('star');
-								var items = star.getElementsByTagName("li");
-								x = parseFloat(x) - 0.5;
-								console.log("star:",star,"items",items) 
-								var tem = -1;
-								for(var i = 0; i < items.length; i++) {
-									if(x > i) {
-										items[i].style.background = "url('../static/images/full.png') no-repeat";
-										items[i].style.backgroundSize = "100% 100%";
-									} else {
-										if(tem == -1) {
-											tem = i;
-										} 
-										items[i].style.background = "url('../static/images/empty.png') no-repeat";
-										items[i].style.backgroundSize = "100% 100%";
-									}
-								}
-								if(x == parseInt(tem)) {
-									items[tem].style.background = "url('../static/images/half.png') no-repeat";
-									items[tem].style.backgroundSize = "100% 100%";
-								}
-								document.getElementById('getgrade').innerHTML = parseFloat(x)+0.5;
-							}
-							</script>
-							<div class="setgrade">  
-								<div class="grade">
-									Rating: <span id="getgrade">3.0</span>
-								</div>
-								<input type ="hidden" name="rating" id='r_rat'>
-								<script>
-									document.getElementById("r_rat").value= document.getElementById('getgrade').innerHTML;
-								</script>
-								<div class="star">
-									<ul id="star">
-										<li style=" background: url('../static/images/full.png') 0% 0% / 100% 100% no-repeat;">
-											<a href="javascript:void(0)"  onclick="halfStar(0.5)"></a>
-											<a href="javascript:void(0)"  onclick="halfStar(1)"></a>
-										</li>
-										<li style=" background: url('../static/images/full.png') 0% 0% / 100% 100% no-repeat;">
-											<a href="javascript:void(0)"  onclick="halfStar(1.5)"></a>
-											<a href="javascript:void(0)"  onclick="halfStar(2)"></a>
-										</li>
-										<li style=" background: url('../static/images/full.png') 0% 0% / 100% 100% no-repeat;">
-											<a href="javascript:void(0)" onclick="halfStar(2.5)"></a>
-											<a href="javascript:void(0)" onclick="halfStar(3)"></a>
-										</li>
-										<li>
-											<a href="javascript:void(0)" onclick="halfStar(3.5)"></a>
-											<a href="javascript:void(0)" onclick="halfStar(4)"></a>
-										</li>
-										<li>
-											<a href="javascript:void(0)" onclick="halfStar(4.5)"></a>
-											<a href="javascript:void(0)" onclick="halfStar(5)"></a>
-										</li>
-									</ul>
-								</div>
-							</div>
-							<div class="form-group">
+							<br><br><br>
 
-								<textarea class="form-control" name="review" id="exampleFormControlTextarea1" rows="3"></textarea>
+						</div>
+					</div>
+					<div class="detail-col-2">
+						<div class="detail-col-2-1">
+							<div class="detail-name">{{movie_details.title}}</div>
+							<div class="detail-year">
+								{{movie_details.release_date}}
 							</div>
-							<button type="submit" class="btn btn-primary">Submit</button>
+						</div>
+						<div class="detail-director">Directed by
+							<b>{{movie_details.crew}}</b>
+
+						</div>
+						<div class="detail-word">
+							<div class="detail-word-content">
+								<p class="detail-title">{{movie_details.overview}}</p>
+							</div>
+						</div>
+						<div class="detail-cast">
+							<div class="detail-subtitle">CASTS</div>
+							<div class="detail-cast-content">
+								<p>
+									{%for cast in movie_details.casts%}
+									<a>{{cast}}</a>
+									{%endfor%}
+								</p>
+							</div>
+						</div>
+						<div class="detail-genre">
+							<div class="detail-subtitle">GENRES</div>
+							<div class="detail-genre-content">
+								<p>
+									{%for genre in movie_details.genres%}
+									<a>{{genre}}</a>
+									{%endfor%}
+								</p>
+							</div>
+						</div>
+						<div class="detail-detail">
+							<div class="detail-subtitle">DETAIL	</div>
+							<div class="detail-detail-content">
+								<div class="detail-content-left">
+									<div class="content-title">Collection:</div>
+									{%for co in movie_details.belongs_to_collection%}
+									<div class="content-word">{{co}}</div>
+									{%endfor%}
+								</div>
+								<div class="detail-content-left">
+									<div class="content-title">Countries:</div>
+									{%for con in movie_details.production_countries%}
+									<div>{{con}}</div>&nbsp;&nbsp;&nbsp;
+									{%endfor%}
+								</div>
+							</div>
+						</div>
+						<div class="detail-review">
+							<div class="detail-subtitle">REVIEW{{my_review == None}}</div>
+							{%if my_review != None%}
+							<div class="detail-review-content">
+								<div class="detail-review-icon">
+									<div class="review-icon">
+										<img src="../static/profile_pics/default.jpg">
+									</div>
+								</div>
+								<div class="detail-review-word">
+									<div class="review-name">
+										<div class="name">Review by <a href="/account/{{my_review.userId}}">{{my_review.username}}</a >
+										</div>	
+									</div> 
+									<span style="margin-top: -4%;max-height: 40px;"><span style=" vertical-align: middle;">rating:{{my_review.rating}}</span><img src="../static/images/star_{{my_review.rating}}.png" style="width:105px; vertical-align: middle;"></span>
+									<div class="review-content bootstrapiso">
+										  <p class="article-content">{{ my_review.review }}</p>
+										  <div style="margin-left: 100%;">
+										  <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+										</div>
+										  <!-- Modal -->
+										  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+											<div class="modal-dialog" role="document">
+											  <div class="modal-content">
+												<div class="modal-header">
+												  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												  </button>
+												</div>
+												<div class="modal-body">Delete Your Review Permanently?</div>
+												<div class="modal-footer">
+												  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+												  <form action="{{ url_for('delete_review', review_id=my_review['id'], filmid=filmid) }}" method="POST">
+													<input class="btn btn-danger" type="submit" value="Delete">
+												  </form>
+												</div>
+											  </div>
+											</div>
+										  </div>	
+									</div>
+								</div>
+							</div>
+							<hr>
+							{%endif%}
+							<div class="bootstrapiso">
+								<nav aria-label="Page navigation example">
+								{{pagination.info}}
+								</nav>
+							</div>
+							
+							
+
+
+								{% for review in reviews %}
+								<div class="detail-review-content">
+									<div class="detail-review-icon">
+										<div class="review-icon">
+											<img src="../static/profile_pics/default.jpg">
+										</div>
+									</div>
+									<div class="detail-review-word">
+										<div class="review-name">
+											<div class="name">Review by <a href="/account/{{review.userId}}">{{review.username}}</a >
+											</div>	
+											<div style="margin:1% 5% 0 5%">
+												<form action="" method="POST">
+													<button class="button-img" title="Block this user" type="submit" name="block" value="{{review.userId}}"></button>
+												</form>
+											</div>
+										</div> 
+										<span style="margin-top: -6%;max-height: 40px;"><span style=" vertical-align: middle;">rating:{{review.rating}}</span><img src="../static/images/star_{{review.rating}}.png" style="width:105px; vertical-align: middle;margin-left: 20px;"></span>
+										<div class="review-content bootstrapiso">
+	
+
+											{% if current_user.id == review['userId'] %}
+											  <p class="article-content">{{ review.review}}</p>
+											  <div style="margin-left: 70%;">
+											  <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+											</div>
+											  <!-- Modal -->
+											  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+												<div class="modal-dialog" role="document">
+												  <div class="modal-content">
+													<div class="modal-header">
+													  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													  </button>
+													</div>
+													<div class="modal-body">Delete Your Review Permanently?</div>
+													<div class="modal-footer">
+													  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+													  <form action="{{ url_for('delete_review', review_id=review['id'], filmid=filmid) }}" method="POST">
+														<input class="btn btn-danger" type="submit" value="Delete">
+													  </form>
+													</div>
+												  </div>
+												</div>
+											  </div>	
+										  {% else %}
+										  <p class="article-content">{{ review.review }}</p>
+										  {% endif %}
+										</div>
+										<div class="button-like" title="Like this comment">
+											<form action="#" method="POST">
+												<button class="like-img" type="submit" name="like" value="{{review.id}}"></button>
+											</form>
+											<div class="like-word">like</div>
+										</div>
+									</div>
+								</div>
+								<hr />
+								{%endfor%}
+								<div class="bootstrapiso">
+									<div style="display: flex;flex-flow: row nowrap;justify-content: center;">		
+								{{pagination.links}}							
+									</div>
+								</div>
+							<script>
+								function checkForm(){
+									if   (subview.review.value == '')   { 
+    									alert("The comment you entered cannot be empty!");
+    									subview.review.focus();
+    									return false;
+										}
+									else{return true;}
+									}
+							</script>
+							<div class="bootstrapiso"  style="margin:30px 0;">
+								<form action="" name="subview" method="POST" onsubmit="return checkForm()">
+									<div class="content-section">
+										<label for="exampleFormControlTextarea1"><b style='font-size: large;'>Add yor review:</b></label>
+										<script>
+											function halfStar(x) {
+											var star = document.getElementById('star');
+											var items = star.getElementsByTagName("li");
+											x = parseFloat(x) - 0.5;
+											console.log("star:",star,"items",items) 
+											var tem = -1;
+											for(var i = 0; i < items.length; i++) {
+												if(x > i) {
+													items[i].style.background = "url('../static/images/full.png') no-repeat";
+													items[i].style.backgroundSize = "100% 100%";
+												} else {
+													if(tem == -1) {
+														tem = i;
+													} 
+													items[i].style.background = "url('../static/images/empty.png') no-repeat";
+													items[i].style.backgroundSize = "100% 100%";
+												}
+											}
+											if(x == parseInt(tem)) {
+												items[tem].style.background = "url('../static/images/half.png') no-repeat";
+												items[tem].style.backgroundSize = "100% 100%";
+											}
+											document.getElementById('getgrade').innerHTML = parseFloat(x)+0.5;
+										}
+										</script>
+										<div class="setgrade">  
+											<div class="grade">
+												Rating: <span id="getgrade">3.0</span>
+											</div>
+											<input type ="hidden" name="rating" id='r_rat'>
+											<script>
+												document.getElementById("r_rat").value= document.getElementById('getgrade').innerHTML;
+											</script>
+											<div class="star">
+												<ul id="star">
+													<li style=" background: url('../static/images/full.png') 0% 0% / 100% 100% no-repeat;">
+														<a href="javascript:void(0)"  onclick="halfStar(0.5)"></a>
+														<a href="javascript:void(0)"  onclick="halfStar(1)"></a>
+													</li>
+													<li style=" background: url('../static/images/full.png') 0% 0% / 100% 100% no-repeat;">
+														<a href="javascript:void(0)"  onclick="halfStar(1.5)"></a>
+														<a href="javascript:void(0)"  onclick="halfStar(2)"></a>
+													</li>
+													<li style=" background: url('../static/images/full.png') 0% 0% / 100% 100% no-repeat;">
+														<a href="javascript:void(0)" onclick="halfStar(2.5)"></a>
+														<a href="javascript:void(0)" onclick="halfStar(3)"></a>
+													</li>
+													<li>
+														<a href="javascript:void(0)" onclick="halfStar(3.5)"></a>
+														<a href="javascript:void(0)" onclick="halfStar(4)"></a>
+													</li>
+													<li>
+														<a href="javascript:void(0)" onclick="halfStar(4.5)"></a>
+														<a href="javascript:void(0)" onclick="halfStar(5)"></a>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="form-group">
+										
+											<textarea class="form-control" name="review" id="exampleFormControlTextarea1" rows="3"></textarea>
+										</div>
+										<button type="submit" class="btn btn-primary">Submit</button>
+								</div>
+								</form>
+							</div>
+						</div>
 					</div>
-					</form>
+					<div class="detail-col-3 home-box">
+						<div class="detail-recom-title">
+							You may also like
+						</div>
+						<div class="bootstrapiso">
+						<form action="" method="POST" id="selectForm">
+							<div class="input-group input-group-sm mb-3">
+								<div class="input-group-prepend">
+								  <label class="input-group-text" for="inputGroupSelect01">Filter By</label>
+								</div>
+								<select class="custom-select" name="filtertype" onchange='submitSelect("#selectForm")' id="re_filter">
+									<option value="{{type}}">{{type}}</option>
+									<option value=""></option>
+									<option value="genres">genres</option>
+									<option value="crew">crew</option>
+									<option value="production_countries">production_countries</option>
+									<option value="release_date">release_date</option>
+								</select>
+							  </div>
+							</form>
+						</div>
+						{%for movie in recommend_list%}
+						<div class="detail-recom-content">
+							<div class="recom-content">
+								<div class="recom-movie-img"><img style="height:175px;width:118px;" src="../static/poster_downloads/{{movie.poster_path}}.jpg"></div>
+								<div class="recom-movie-detail">
+									<div class="recom-movie-title">
+										<a href="./{{movie.id}}">{{movie.title}}</a>
+									</div>
+									<div class="recom-movie-year">{{movie.release_date}}</div>
+									<div class="recom-movie-year">Directed by {{movie.crew}}</div>
+									<div class="recom-movie-genre">
+										{%for genre in movie.genres%}
+										<a>{{genre}}</a>
+										{%endfor%}
+									</div>
+								</div>
+							</div>
+						</div>
+						<hr>
+						{%endfor%}
+						</div>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="detail-col-3 home-box">
-			<div class="detail-recom-title">
-				You may also like
-			</div>
-			{%for movie in recommend_list%}
-			<div class="detail-recom-content">
-				<div class="recom-content">
-					<div class="recom-movie-img"><img style="height:175px;width:118px;" src="../static/poster_downloads/{{movie.poster_path}}.jpg"></div>
-					<div class="recom-movie-detail">
-						<div class="recom-movie-title">
-							<a href="./{{movie.id}}">{{movie.title}}</a>
-						</div>
-						<div class="recom-movie-year">{{movie.release_date}}</div>
-						<div class="recom-movie-year">Directed by {{movie.crew}}</div>
-						<div class="recom-movie-genre">
-							{%for genre in movie.genres%}
-							<a>{{genre}}</a>
-							{%endfor%}
-						</div>
-					</div>
-				</div>
-			</div>
-			<hr>
-			{%endfor%}
-			</div>
-		</div>
-	</div>
-</div>
 
 {% endblock content %}
 
