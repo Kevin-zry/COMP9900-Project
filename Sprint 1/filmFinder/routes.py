@@ -54,25 +54,20 @@ def about():
 @app.route('/search_temp', methods=["GET", "POST"])
 def general_search():
     if request.method == "POST":
-        page = 1
-
         name = request.form.get('search')
         genre = request.form.getlist('genre')
         country = request.form.get('country')
         year1 = request.form.get('year1')
         year2 = request.form.get('year2')
-        # rating = request.form.get('rating')
+        
         rating = 0
         mode = request.form.get('mode')
-
-        offset = (page - 1) * 10
-
+        title=name
         if name == '':
             name = None
         if genre == '' or genre == None:
             genre = []
-        # else:
-        #     genre = genre.split()
+        
         if country == '':
             country = None
         if year1 == '' or year1 == None:
@@ -93,7 +88,7 @@ def general_search():
         else:
             mode = int(mode)
         
-        search_results = genenal_search(conditions, mode, offset)
+        search_results = genenal_search(conditions, mode, 0)
 
         res = []
         if current_user.is_authenticated:
@@ -103,9 +98,8 @@ def general_search():
             for i in search_results:
                 res.append(get_movie_details(None, int(i[0])))
 
-        paginated_res, page, per_page, pagination = paginate(res, 10, 'search results')
-        
         condition_results = []
+        paginated_res, page, per_page, pagination = paginate(res, 10, 'search results')
         for con in conditions:
             if con == None or con == [] or con == 0.0:
                 continue
@@ -115,17 +109,15 @@ def general_search():
             condition_results = 'You did not enter any value.\n There are 10 most popular movies below:'
         else:
             condition_results = 'Your search results for ' + \
-                                ', '.join(condition_results) + ' are:'
+                ', '.join(condition_results) + ' are:'
         return render_template('search_temp.html', title='Search', condition_results=condition_results,
-                               search_results=paginated_res, page=page, per_page=per_page, pagination=pagination)
+                               search_results=paginated_res, page=page, per_page=per_page, pagination=pagination,name=title)
     return render_template('search_temp.html', title='Search')
 
 
 @app.route('/advanced_search', methods=["GET", "POST"])
 def advanced_search():
     if request.method == "POST":
-        page = 1
-
         title = request.form.get('title')
         director = request.form.get('director')
         casts = request.form.get('casts')
@@ -138,9 +130,6 @@ def advanced_search():
         mode = request.form.get('mode')
 
         output = [title, director, casts, genre, country, year1, year2, mode]
-
-        offset = (page - 1) * 10
-
         if title == '':
             title = None
         if director == '':
@@ -172,7 +161,7 @@ def advanced_search():
         else:
             mode = int(mode)
         
-        search_results = advanced_search1(conditions, mode, offset)
+        search_results = advanced_search1(conditions, mode, 0)
         res = []
         if current_user.is_authenticated:
             for i in search_results:
@@ -194,6 +183,7 @@ def advanced_search():
         else:
             condition_results = 'Your search results for ' + \
                                 ', '.join(condition_results) + ' are:'
+
         return render_template('advanced.html', title='Search', condition_results=condition_results, search_results=paginated_res,
                                page=page, per_page=per_page, pagination=pagination, name=output[0], director=output[1], casts=output[2],
                                genre=output[3], country=output[4], year1=output[5], year2=output[6], mode=output[7])
