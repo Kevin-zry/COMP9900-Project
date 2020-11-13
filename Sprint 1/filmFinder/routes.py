@@ -22,6 +22,16 @@ most_popular_movies = most_popular_movies(10)
 highest_rating_movies = highest_rating_movies(10)
 
 
+def paginate(data, per_page, name):
+    page = request.args.get("page", 1, type=int)
+    start = (page - 1) * per_page
+    end = page * per_page if len(data) > page * per_page else len(data)
+    paginated_data = data[start: end]
+    pagination = Pagination(page=page, per_page=per_page, total=len(
+        data), record_name=name, inner_window=3, css_framework='bootstrap4')
+
+    return paginated_data, page, per_page, pagination
+
 @app.route("/")
 @app.route("/home")
 def home():
@@ -82,10 +92,7 @@ def general_search():
             mode = 0
         else:
             mode = int(mode)
-        # print(conditions)
-        # conn = sqlite3.connect(
-        #     'filmFinder/database_files/filmfinder.db', check_same_thread=False)
-        # c = conn.cursor()
+        
         search_results = genenal_search(conditions, mode, offset)
 
         res = []
@@ -96,7 +103,8 @@ def general_search():
             for i in search_results:
                 res.append(get_movie_details(None, int(i[0])))
 
-        # return jsonify(search_results)
+        paginated_res, page, per_page, pagination = paginate(res, 10, 'search results')
+        
         condition_results = []
         for con in conditions:
             if con == None or con == [] or con == 0.0:
@@ -109,7 +117,7 @@ def general_search():
             condition_results = 'Your search results for ' + \
                                 ', '.join(condition_results) + ' are:'
         return render_template('search_temp.html', title='Search', condition_results=condition_results,
-                               search_results=res)
+                               search_results=paginated_res, page=page, per_page=per_page, pagination=pagination)
     return render_template('search_temp.html', title='Search')
 
 
@@ -163,10 +171,7 @@ def advanced_search():
             mode = 0
         else:
             mode = int(mode)
-        # print(conditions)
-        # conn = sqlite3.connect(
-        #     'filmFinder/database_files/filmfinder.db', check_same_thread=False)
-        # c = conn.cursor()
+        
         search_results = advanced_search1(conditions, mode, offset)
         res = []
         if current_user.is_authenticated:
@@ -176,7 +181,8 @@ def advanced_search():
             for i in search_results:
                 res.append(get_movie_details(None, int(i[0])))
 
-        # return jsonify(search_results)
+        paginated_res, page, per_page, pagination = paginate(res, 10, 'search results')
+        
         condition_results = []
         for con in conditions:
             if con == None or con == [] or con == 0.0:
@@ -188,9 +194,9 @@ def advanced_search():
         else:
             condition_results = 'Your search results for ' + \
                                 ', '.join(condition_results) + ' are:'
-        return render_template('advanced.html', title='Search', condition_results=condition_results, search_results=res,
-                               name=output[0], director=output[1], casts=output[2], genre=output[3], country=output[4],
-                               year1=output[5], year2=output[6], mode=output[7])
+        return render_template('advanced.html', title='Search', condition_results=condition_results, search_results=paginated_res,
+                               page=page, per_page=per_page, pagination=pagination, name=output[0], director=output[1], casts=output[2],
+                               genre=output[3], country=output[4], year1=output[5], year2=output[6], mode=output[7])
     return render_template('advanced.html', title='Search', search_results='')
 
 
