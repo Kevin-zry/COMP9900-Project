@@ -3,7 +3,7 @@
 	padding: 50px 0;
 	/* height: 150px; */
 	width: 100%;
-	background: url(../static/images/dbk3.jpg) no-repeat scroll 0 0/cover;
+	background: url(../static/images/dbk4.jpg) no-repeat scroll 0 0/cover;
 	text-align: center;
 	/*border: 2px solid red;*/
 }
@@ -341,4 +341,96 @@
 	margin: 10px 10px 10px 10px;
 }
 
+
+.notfound-box {
+	text-align: center;
+}
+
+.notfound-box h1 {
+	font-size: 150px;
+	color: #333;
+}
+
+.notfound-box h1 span {
+	color: #ec7532;
+	margin: 0 5px;
+	background: url(../static/images/404.png) no-repeat scroll 0 0/cover;
+}
+
+.notfound-box h3 {
+	font-size: 20px;
+	color: #333;
+	text-transform: capitalize;
+	margin-top: 20px;
+}
+
+.notfound-box a {
+	margin-top: 40px
+}
+
+.notfound-box a {
+	border: 1px solid #ddd;
+	color: #111;
+	font-family: 'Roboto Condensed', sans-serif;
+	font-weight: 400;
+	font-size: 15px;
+	text-align: center;
+	position: relative;
+	z-index: 9;
+	display: inline-block;
+	padding: 10px 20px;
+	text-transform: capitalize;
+	letter-spacing: 2px;
+	border-radius: 25px;
+	-webkit-transition: all 0.0s ease 0s;
+	transition: all 0.0s ease 0s;
+}
+
+.notfound-box a:hover {
+	background-image: -webkit-linear-gradient(left, #fbbd61, #ec7532);
+	background-image: linear-gradient(to right, #fbbd61, #ec7532);
+	color: #fff
+}
+
+.notfound-box form {
+	position: relative;
+	width: 45%;
+	margin: 30px auto 0;
+	background: #eaeaea none repeat scroll 0 0;
+	height: 40px;
+	border-radius: 20px;
+}
+
+.notfound-box form input {
+	background: transparent none repeat scroll 0 0;
+	position: absolute;
+	left: -2px;
+	top: 0;
+	border-radius: 20px;
+	border: medium none;
+	height: 100%;
+	color: #111;
+	font-size: 14px;
+	width: 100%;
+	padding: 5px 120px 5px 20px;
+}
+
+.notfound-box form button {
+	background-image: -webkit-linear-gradient(left, #fbbd61, #ec7532);
+	background-image: linear-gradient(to right, #fbbd61, #ec7532);
+	font-family: 'Roboto Condensed', sans-serif;
+	font-weight: 400;
+	font-size: 16px;
+	color: #fff;
+	position: absolute;
+	right: -2px;
+	border: medium none;
+	border-radius: 0 20px 20px 0;
+	height: 100%;
+	letter-spacing: 2px;
+	top: 0;
+	width: auto;
+	padding: 5px 20px;
+	cursor: pointer;
+}
 
