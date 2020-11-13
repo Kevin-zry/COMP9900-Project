@@ -408,3 +408,7 @@ def results():
     pagination = Pagination(page=page, per_page=per_page, total=len(movies), record_name='movies', inner_window=3, css_framework='bootstrap4')
     
     return render_template('results.html', title='Films list', movies=paginated_movies, page=page, per_page=per_page, pagination=pagination, flag=flag)
+
+@app.route("/404", methods=["GET", "POST"])
+def not_found():
+    return render_template('404.html')
