@@ -27,3 +27,8 @@ Fix some bug in recommend algorithm based on users, use 2 different filter to im
 
 Week 7
 Write the recommend algorithm based on items, also write random recommend algorithm, if the collaborative filtering cannot continue by no enough data, skip to the random algorithm.
+
+Week 8
+Write the code about operations of reviews, including add review, delete review and get all the review of one film except reviews whose writer is in the blocking list.
+Write the mean rating calculate operation for each movies which do not calculate the rating in blocking list.
+Add the filter to the recommend list based on items so user can filter the recommend list by different feactures.
