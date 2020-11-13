@@ -345,7 +345,8 @@ def film(filmid):
         else:
         	flash('You need to login in first')
         	return redirect(url_for('login'))
-    
+    if len(recommend_list) > 10:
+        recommend_list = recommend_list[:10]
     return render_template('film.html', movie_details=movie_details, recommend_list=recommend_list, response=response, filmid=filmid,
                            my_review=my_review, reviews=paginated_reviews, page=page, per_page=per_page, pagination=pagination)
 
