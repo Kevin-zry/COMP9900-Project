@@ -53,3 +53,9 @@ week 8
 this week i finished the wishlist and blocklist part.
 Wishlist part contains add films to wishlist, and view some users' wishlist, and do some modifications on the wishlist, for example, delete.
 Blocklist part is basically the same as wishlist.
+
+Week 9 
+This week is mainly about debuging and polishing the web app.
+I did some modifications on the functions that I wrote in previous weeks.
+I also finished the 'like' function.
+I wrote part of the report, about the architecture, my part of the functions and how to setup the app.
