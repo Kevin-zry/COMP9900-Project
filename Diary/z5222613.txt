@@ -31,7 +31,6 @@ Week 5
 First sprint phrase and first demo.
 1. Using html to build Multiple filtering, search pages, login/register.
 2. Using bootstrap to Beautify the basic pages in first demo.
-3. 
 
 Week 6
 Mid-term week, retrospective
@@ -41,8 +40,27 @@ Mid-term week, retrospective
 4. Applying bootsrap to beauity UI.
 
 Week 7
-Sencond sprint and sencond demo phrase.
+Second sprint and second demo phrase.
 1. Organized internal meetings and determined the respective division of each frondend members
+2. The account page is completed, including adjusting the user name and password, and buttons like wishlist, 
+blacklist and like are added to the page.
+3. The main page plus the movie carousel picture increases the attractiveness of the page to users.
+4. Use JS to complete the challenge of retaining search results.
 to be continue...
 
-Week 7
+Week 8
+Second sprint and second demo phrase.
+1. Make various styles of comment pages, including rating submission system (rating stars + rating form), 
+black and follow buttons, comment delete buttons, etc.
+2. Completed the wishlist and blocklist pages. The wishlist uses a movie tiled display, and the blocklist 
+uses a table. The docking completes the addition of data on these two pages.
+3. Edit and modify some parts of retrospective B meeting.
+4. Complete all front-end and back-end handover interfaces to ensure the normal operation of the application.
+
+Week 9
+Final report and demo phrase.
+1. Complete the new page:result page.
+2. Re-modified and adjusted the style of wishlist page to solve the problem of excessively large pictures.
+3.The recommendation system of the movie page has added the filter function.
+4. Added the front-end interface and button of this function to ensure successful implementation
+5.Completed all remaining front-end and back-end handover interfaces to ensure the normal operation of the application.
