@@ -89,8 +89,12 @@ def general_search():
         search_results = genenal_search(conditions, mode, offset)
 
         res = []
-        for i in search_results:
-            res.append(get_movie_details(int(i[0])))
+        if current_user.is_authenticated:
+            for i in search_results:
+                res.append(get_movie_details(current_user.id, int(i[0])))
+        else:
+            for i in search_results:
+                res.append(get_movie_details(None, int(i[0])))
 
         # return jsonify(search_results)
         condition_results = []
@@ -165,8 +169,12 @@ def advanced_search():
         # c = conn.cursor()
         search_results = advanced_search1(conditions, mode, offset)
         res = []
-        for i in search_results:
-            res.append(get_movie_details(int(i[0])))
+        if current_user.is_authenticated:
+            for i in search_results:
+                res.append(get_movie_details(current_user.id, int(i[0])))
+        else:
+            for i in search_results:
+                res.append(get_movie_details(None, int(i[0])))
 
         # return jsonify(search_results)
         condition_results = []
