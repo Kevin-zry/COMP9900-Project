@@ -76,7 +76,7 @@ def get_wishlist(userid):
     wishlist_film_id = c.fetchall()
     # print(wishlist_film_id)
     if wishlist_film_id:
-        return [get_movie_details(filmid[0]) for filmid in wishlist_film_id]
+        return [get_movie_details(userid, filmid[0]) for filmid in wishlist_film_id]
     return []
 
 
