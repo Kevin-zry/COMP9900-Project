@@ -31,4 +31,4 @@ Write the recommend algorithm based on items, also write random recommend algori
 Week 8
 Write the code about operations of reviews, including add review, delete review and get all the review of one film except reviews whose writer is in the blocking list.
 Write the mean rating calculate operation for each movies which do not calculate the rating in blocking list.
-Add the filter to the recommend list based on items so user can filter the recommend list by different feactures.
+Add the filter to the recommend list based on items so user can filter the recommend list by different features.
