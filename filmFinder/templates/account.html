@@ -1,0 +1,160 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="page-top">
+	<h2>User Details Page</h2>
+	<ul class ="center">
+		<li><a style="color: #829ff0;" href="{{ url_for('home') }}">Home</a></li>
+		<li>/ </li>
+		<li style = "color: #ec7532;">Users details</li>
+	 </ul>
+</div>
+{% with messages = get_flashed_messages(with_categories=true) %}
+		  	{% if messages %}
+          {% for category, message in messages %}
+          <div class="bootstrapiso">
+            <div class="alert  alert-primary alert-{{ category }}" role="alert">{{ message }}</div>
+          </div>
+			  	{% endfor %}
+		  	{% endif %}
+      {% endwith%} 
+<div class = "bootstrapiso acc-mar">
+    <div class="content-section">
+      <div class="media" >
+        {% if identify == True%}
+            <img class="rounded-circle account-img" src="../static/profile_pics/{{current_user.profile_image}}">
+        {%else%}
+            
+            <img class="rounded-circle account-img" src="../static/profile_pics/{{user.profile_image}}">
+        {%endif%}
+            <div class="media-body col-8" >
+                {% if identify == True%}
+                    <h2 class="account-heading">{{ current_user.username }}</h2>
+                    <p class="text-secondary">{{ current_user.email }}</p>
+                    
+                {%else%}
+                    <h2 class="account-heading">{{ user.username }}</h2>
+                    <p class="text-secondary">{{ user.email }}</p>
+                    <form action="#" method="POST">
+                        <div class="buttons center">
+                            <button class="draw" type="submit">Block</button>
+                        </div>
+                    </form>
+                    {{response}}
+                {%endif%}
+            </div>
+            <div class="col-3 topmargin">
+                <div class="list-group">
+                    {% if identify == True%}
+                    <a class="list-group-item list-group-item-action active" href="../wishlist/{{current_user.id}}" role="button">My wishlist</a>
+                    <a class="list-group-item list-group-item-action" href="../blocklist/{{current_user.id}}" role="button">My blocklist</a>
+                    {%endif%}
+                    {% if identify == True%}
+                    </div>
+                    <img src="../static/images/like.png"style="height:50px;width:50px;
+                    margin:5% 5% 10% 20%;" >
+                    <span>{{like}}</span>
+                    {%else%}
+                    </div>
+                    <img src="../static/images/like.png" style="height:50px;width:50px;
+                                        margin:5% 5% 10% 20%;">
+                    <span>{{user.like}}</span>
+                    {%endif%}
+
+            </div>
+           
+        
+      </div>
+      
+        {% if identify == True%}
+            <form method="POST" action="" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Account Info</legend>
+                <div class="form-group">
+                    {{ form.username.label(class="form-control-label") }}
+
+                    {% if form.username.errors %}
+                        {{ form.username(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.username.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.username(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label") }}
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.picture.label() }}
+                    {{ form.picture(class="form-control-file") }}
+                    {% if form.picture.errors %}
+                        {% for error in form.picture.errors %}
+                            <span class="text-danger">{{ error }}</span></br>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        
+            {% if identify == True%}
+            <br>
+                {%if wishlist == []%}
+                <h5>WISHLIST:</h5>
+                <hr>
+                    <p>You have not add any films into your wishlist!</p>
+                {%else%}
+                    <div class="demo">
+                        <h5>WISHLIST:</h5>
+                        <hr>
+                        <ul>
+                        {%for movie in wishlist%}
+                            <li class="mat20 kk row no-gutters">
+                                <div class="col-5"><img src="../static/poster_downloads/{{movie.poster_path}}.jpg"></div>
+                                <div class="col-7" style="margin-top:5%;"><h6>{{movie.title}}</h6></div>
+                            </li>
+                        {%endfor%}              
+                        </ul>
+                    </div>     
+                {%endif%}
+                {%endif%}
+
+            </form>
+        {%else%}
+        <br>
+            {%if wishlist == []%}
+            <h5>WISHLIST:</h5>
+            <hr>
+                    <p>The user have not add any films into wishlist!</p>
+            {%else%}
+            <h5>WISHLIST:</h5>
+            <hr>
+            <div class="demo">
+                 <ul>
+                 {%for movie in wishlist%}
+                     <li class="mat20 kk row no-gutters">
+                         <div class="col-5"><img src="../static/poster_downloads/{{movie.poster_path}}.jpg"></div>
+                         <div class="col-7" style="margin-top:5%;"><h6>{{movie.title}}</h6></div>
+                     </li>
+                 {%endfor%}              
+                 </ul>
+             </div>     
+            {%endif%}
+        {%endif%}
+    </div>
+
+{% endblock content %}

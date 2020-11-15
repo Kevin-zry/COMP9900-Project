@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<body>
+    <div class="page-top">
+        <h2>My Wishlist</h2>
+        <ul class ="center">
+            <li><a style="color: #829ff0;" href="{{ url_for('home') }}">Home</a></li>
+            <li>/ </li>
+            <li><a style="color: #829ff0;"href="/account/{{current_user.id}}">User page</a></li>
+            <li>/ </li>
+            <li style = "color: #ec7532;">My wishlist</li>
+         </ul>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+		  	{% if messages %}
+          {% for category, message in messages %}
+          <div class="bootstrapiso">
+            <div class="alert  alert-primary alert-{{ category }}" role="alert">{{ message }}</div>
+          </div>
+			  	{% endfor %}
+		  	{% endif %}
+      {% endwith%} 
+    <div class = "bootstrapiso acc-mar">
+        <div class="content-section">
+            <div class="media">
+                <img class="rounded-circle account-img" src="../static/profile_pics/{{current_user.profile_image}}">
+                <div class="media-body">
+                    <h2 class="account-heading">{{ current_user.username }}</h2>
+                    <p class="text-secondary">{{ current_user.email }}</p>
+                    {% if identify == True%}
+                    <a class="btn btn-primary" href="../wishlist/{{current_user.id}}" role="button">My wishlist</a>
+                    <a class="btn btn-primary" href="../blocklist/{{current_user.id}}" role="button">My blacklist</a>
+                    {%endif%}
+                </div>   
+            </div>
+        </div>
+            <hr>
+            <h3 class="center">My wishlist</h3>
+            {%if wishlist == []%}
+            <h1>You have not add any films into your wishlist!</h1>
+            {%else%}
+            <div class="demo bootstrapiso">
+                <ul>
+                {%for movie in wishlist%}
+                    <li class="mat20 kk row no-gutters">
+                        <div class="col-5"><a href="/film/{{movie.id}}"><img src="../static/poster_downloads/{{movie.poster_path}}.jpg"></a></div>
+                        <div class="col-7" style="margin-top:5%;"><h6><a href="/film/{{movie.id}}">{{movie.title}}</a></h6>
+                        <p><form action="../wishlist/{{current_user.id}}" method="POST">
+                            <div class="buttons">
+                            <button class="draw meet" style="font-size: 10px;"type="submit" name="remove_from_wishlist" value="{{movie.id}}">Remove</button>
+                            </div>
+                        </form></p></div>
+                    </li>
+                {%endfor%}              
+                </ul>
+
+            </div> 
+            
+            {%endif%}   
+        </div>
+    
+</body>
+{% endblock content %}
