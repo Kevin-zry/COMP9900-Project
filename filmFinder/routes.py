@@ -325,7 +325,7 @@ def film(filmid):
                 response = wishlist_button(filmid, userid)
             elif 'block' in request.form:
                 blockid = int(request.form['block'])
-                blocklist_button(current_user.id, blockid)
+                response = blocklist_button(current_user.id, blockid)
             elif 'like' in request.form:
                 ratingid = int(float(request.form['like']))
                 like_increment(ratingid)
