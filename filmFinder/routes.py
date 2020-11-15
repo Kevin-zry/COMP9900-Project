@@ -333,11 +333,8 @@ def film(filmid):
                 rating = float(request.form['rating'])
                 review = request.form['review']
                 if not review:
-                    response = flash(
-                        'Review must not be empty', category='danger')
+                    flash('Review must not be empty', category='danger')
                 else:
-                    response = flash('Your review has been submitted',
-                                     category='success')
                     add_review(current_user.id, filmid, rating, review)
         else:
         	flash('You need to login in first')
