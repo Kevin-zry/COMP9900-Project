@@ -1,5 +1,6 @@
-from filmFinder.models import *
 import numpy as np
+from flask import flash
+from filmFinder.models import *
 from sqlalchemy.sql import func
 
 
@@ -41,12 +42,12 @@ def get_review_details(current_user_id, movieId):
 # review is a string
 def add_review(userId, movieId, rating, review):
     if RATINGS.query.filter(RATINGS.userId == userId).filter(RATINGS.movieId == movieId).first() != None:
-        flash('You have already written a review. Delete this to add a new one', category='danger')
-        # RATINGS.query.filter(RATINGS.userId == userId).filter(RATINGS.movieId == movieId).update({'rating':rating, 'review':review})
+        flash('You have already written a review. Delete it to add a new one', category='danger')
     else:
         maxindex = db.session.query(func.max(RATINGS.id)).one()[0]
         db.session.add(RATINGS(id= maxindex+1,userId=userId, movieId=movieId, rating=rating, review=review))
         db.session.commit()
+        flash('Your review has been submitted', category='success')
 
 
 # delete review
