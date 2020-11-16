@@ -9,58 +9,28 @@
 	 </ul>
 </div>
 <article style="margin:0 5% 0 5%">
-	<h1>About Page</h1>
-	<p style="text-indent:2em;">People these days are more likely to find movies to watch online instead of 
-    going to the cinema. There are lots of websites that can feed costumers with 
-    functions like searching movies, rating, and commenting them. This project
-    (FilmFinder)'s aim is to create a web application which can accomplish some 
-    functions that other film-critics websites have and some they do not.</p>
-    <ul>FilmFinder web app contains functions that are listed below:
-      <li>Login and logout.</li>
-      <li>Basic search for certain movies and advanced search that can let user filter out results.
+    <h1>About Page</h1>
+    <p style="font-size: 20px;">People these days are more likely to find movies to watch online instead of going to the 
+    cinema. There are many websites that can feed costumers with functions like searching movies, rating, and commenting 
+    them. FilmFinder is a web platform for finding movies you like with the aid of our recommendation system and it comes 
+    with additional features that other sites lack.</p>
+    <ul style="font-size:20px;">Below is the full list of FilmFinder features:
+      <br><br>
+      <li style="font-size:20px;">User authentication.</li>
+      <li style="font-size:20px;">Basic search for certain movies and advanced search that can let user filter out results.
       </li>
-      <li>Recommend movies based on user’s rating history(both User-Based Collaborate Filtering and Item-Based Collaborate Filtering). 
+      <li style="font-size:20px;">Recommend movies based on user’s rating history (User-Based Collaborate Filtering and Item-Based Collaborate Filtering). 
       </li>
-      <li>Wishlist and Blocklist.
+      <li style="font-size:20px;">Wishlist and Blocklist.
       </li>
-      <li>Leave comments and rate movies.
+      <li style="font-size:20px;">Leave comments and rate movies.
       </li>
-      <li>'Like' a review.
+      <li style="font-size:20px;">'Like' a review.
       </li>
-      <li>Real time movie rating for every user.
+      <li style="font-size:20px;">Real time movie rating for every user.
       </li>
-      <li>User profile information management.
+      <li style="font-size:20px;">User profile information management.
       </li>
-      <p style="text-indent:2em;">The system architecture can be divided into 3 layers: the presentation, 
-        business, and data layers. 
-        </p>
-        <p style="text-indent:2em;">The presentation layer is presented by serval html pages where user 
-          can interact with, to achieve some functions like searching for movies, 
-          getting recommendation info, leaving comments, adding movies to wish list, 
-          and blocking some other users. 
-        </p>
-        <p style="text-indent:2em;">
-          The business logic layer is the bound between presentation layer and the 
-          database. This layer receives data from the frontend, the presentation 
-          layer via http requests and send data back to presentation layer or to 
-          the database, determined by different functions. For example, if user 
-          search for a certain movie, then the business layer will get the data 
-          like genre or director in the form of http post, and then change it 
-          to SQL query form and then query in the database. Finally, the business 
-          layer will get the result in a dictionary and send back to presentation 
-          layer. 
-        </p>
-        <p style="text-indent:2em;">
-          The data access layer contains a database called 'filmfinder.db', a poster 
-          images folder, and a user profile image folder. The operations in the 
-          presentation layer will be transferred to operations in the data layer 
-          by the business layer. Also, presentation layer can directly get posters 
-          from poster images folder without any help from the business layer. The 
-          filmfinder database is generated from 2 csv files downloaded from 
-          Kaggle.com. The poster images are also downloaded from Kaggle.com. 
-
-        </p>
-
     </ul>
 </article>
 

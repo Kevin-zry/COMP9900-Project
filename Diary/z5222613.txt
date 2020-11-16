@@ -64,3 +64,7 @@ Final report and demo phrase.
 3.The recommendation system of the movie page has added the filter function.
 4. Added the front-end interface and button of this function to ensure successful implementation
 5.Completed all remaining front-end and back-end handover interfaces to ensure the normal operation of the application.
+
+Week 10
+1. Improve the final report and codes
+2. Assign the task of the final demo

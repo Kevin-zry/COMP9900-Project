@@ -32,3 +32,12 @@ Week 8
 Write the code about operations of reviews, including add review, delete review and get all the review of one film except reviews whose writer is in the blocking list.
 Write the mean rating calculate operation for each movies which do not calculate the rating in blocking list.
 Add the filter to the recommend list based on items so user can filter the recommend list by different features.
+
+Week 9
+Optimize the recommend arithmetric to improve the time cost. Test better config value for the database in recommend system.
+It makes the recommend list not too short, for example only get 2 or 3 films, and not too long to include films whose similarity value too low.
+A balance should be found between these 2 situaction to make the recommend system perform better.
+
+Week 10
+Use all ratings to minus the usrs' own average value instead of set a middle value like 3. This makes the system performs better on users who have different rating styles.
+Write the report about recommend system and review system. Fix some bugs in the code and test the website on vlab.
