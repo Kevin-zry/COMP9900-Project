@@ -9,8 +9,8 @@
 	 </ul>
 </div>
 <article style="margin:0 5% 0 5%">
-	<h1>About Page</h1>
-	<p style="text-indent:2em;">People these days are more likely to find movies to watch online instead of 
+    <h1>About Page</h1>
+    <p style="text-indent:2em;">People these days are more likely to find movies to watch online instead of 
     going to the cinema. here are many websites that can feed costumers with functions like searching movies, 
     rating, and commenting them. FilmFinder is a web platform for finding movies you like with the aid of our 
     recommendation system and it comes with additional features that other sites lack.</p>
@@ -31,36 +31,6 @@
       </li>
       <li>User profile information management.
       </li>
-      <p style="text-indent:2em;">The system architecture can be divided into 3 layers: the presentation, 
-        business, and data layers. 
-        </p>
-        <p style="text-indent:2em;">The presentation layer is presented by serval html pages where user 
-          can interact with, to achieve some functions like searching for movies, 
-          getting recommendation info, leaving comments, adding movies to wish list, 
-          and blocking some other users. 
-        </p>
-        <p style="text-indent:2em;">
-          The business logic layer is the bound between presentation layer and the 
-          database. This layer receives data from the frontend, the presentation 
-          layer via http requests and send data back to presentation layer or to 
-          the database, determined by different functions. For example, if user 
-          search for a certain movie, then the business layer will get the data 
-          like genre or director in the form of http post, and then change it 
-          to SQL query form and then query in the database. Finally, the business 
-          layer will get the result in a dictionary and send back to presentation 
-          layer. 
-        </p>
-        <p style="text-indent:2em;">
-          The data access layer contains a database called 'filmfinder.db', a poster 
-          images folder, and a user profile image folder. The operations in the 
-          presentation layer will be transferred to operations in the data layer 
-          by the business layer. Also, presentation layer can directly get posters 
-          from poster images folder without any help from the business layer. The 
-          filmfinder database is generated from 2 csv files downloaded from 
-          Kaggle.com. The poster images are also downloaded from Kaggle.com. 
-
-        </p>
-
     </ul>
 </article>
 
