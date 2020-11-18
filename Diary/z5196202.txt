@@ -39,3 +39,18 @@ Week6
 Week7
 1.work on the second sprint.
 2.finish details on the movie detail page.
+
+Week8
+
+1.adjust front end web pages details including color,font size and background image.
+2.design and finish frontend part of wishlist web page.
+
+Week9
+
+1.web pages front end modification
+2.write report about front end work
+
+Week10
+
+1.Group demo and debug
+2.prepare own part of presentation
